@@ -39,8 +39,8 @@ class Ui_InverseInWindow(object):
         for i in range(self.matrix.columnCount()):
             for j in range(self.matrix.rowCount()):
                 self.matrix.setItem(j, i, QtWidgets.QTableWidgetItem('0'))
-        validator = Validator(self.matrix)
-        self.matrix.itemChanged.connect(partial(validator.validate)) #################################
+        self.validator = Validator(self.matrix)
+        self.matrix.itemChanged.connect(self.validator.validate) #################################
         self.gridLayout.addWidget(self.matrix, 2, 1, 1, 1)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem, 2, 2, 1, 1)

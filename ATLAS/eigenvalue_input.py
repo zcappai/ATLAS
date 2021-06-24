@@ -48,8 +48,8 @@ class Ui_EigenvalueInWindow(object):
         for i in range(self.matrix.columnCount()):
             for j in range(self.matrix.rowCount()):
                 self.matrix.setItem(j, i, QtWidgets.QTableWidgetItem('0'))
-        validator = Validator(self.matrix)
-        self.matrix.itemChanged.connect(partial(validator.validate)) ######################
+        self.validator = Validator(self.matrix)
+        self.matrix.itemChanged.connect(self.validator.validate) ######################
         # self.matrix.itemChanged.connect(self.validation) ######################
         self.gridLayout.addWidget(self.matrix, 2, 1, 1, 1)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)

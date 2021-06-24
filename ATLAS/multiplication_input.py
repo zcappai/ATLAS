@@ -60,10 +60,10 @@ class Ui_MultInWindow(object):
         for i in range(self.matrixright.columnCount()):
             for j in range(self.matrixright.rowCount()):
                 self.matrixright.setItem(j, i, QtWidgets.QTableWidgetItem('0'))
-        validator_left = Validator(self.matrixleft)
-        validator_right = Validator(self.matrixright)
-        self.matrixleft.itemChanged.connect(partial(validator_left.validate)) #################################
-        self.matrixright.itemChanged.connect(partial(validator_right.validate)) #################################
+        self.validator_left = Validator(self.matrixleft)
+        self.validator_right = Validator(self.matrixright)
+        self.matrixleft.itemChanged.connect(self.validator_left.validate) #################################
+        self.matrixright.itemChanged.connect(self.validator_right.validate) #################################
         # self.matrixright.itemChanged.connect(self.validation_right) #################################
         self.matrix_info = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()

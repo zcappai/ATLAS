@@ -37,16 +37,16 @@ class Ui_MultSingleWindow(object):
         self.prev = QtWidgets.QPushButton(self.centralwidget)
         self.prev.setObjectName("prev")
         self.gridLayout.addWidget(self.prev, 2, 0, 1, 1)
-        image = Changer(self.scene, self.graphicsView)
-        self.next.clicked.connect(partial(image.next_image)) #######################
-        self.prev.clicked.connect(partial(image.prev_image)) #######################        
+        self.image = Changer(self.scene, self.graphicsView)
+        self.next.clicked.connect(self.image.next_image) #######################
+        self.prev.clicked.connect(self.image.prev_image) #######################        
         # self.next.clicked.connect(self.next_image) #######################
         # self.prev.clicked.connect(self.prev_image) #######################
         font = QtGui.QFont()
         font.setPointSize(30)
         self.showOriginalMatrices = QtWidgets.QPushButton(self.centralwidget)
         self.showOriginalMatrices.setObjectName("showOriginalMatrices")
-        self.showOriginalMatrices.clicked.connect(partial(image.show_matrix)) ###############
+        self.showOriginalMatrices.clicked.connect(self.image.show_matrix) ###############
         # self.showOriginalMatrices.clicked.connect(self.show_matrices) ###############
         self.gridLayout.addWidget(self.showOriginalMatrices, 3, 0, 1, 2)
         MainWindow.setCentralWidget(self.centralwidget)

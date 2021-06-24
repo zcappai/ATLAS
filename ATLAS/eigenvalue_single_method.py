@@ -41,9 +41,9 @@ class Ui_EigenvalueSingleWindow(object):
         self.prev.setObjectName("prev")
         # self.next.clicked.connect(self.next_image) #######################
         # self.prev.clicked.connect(self.prev_image) #######################
-        image = Changer(self.scene, self.graphicsView)
-        self.next.clicked.connect(partial(image.next_image)) #######################
-        self.prev.clicked.connect(partial(image.prev_image)) #######################
+        self.image = Changer(self.scene, self.graphicsView)
+        self.next.clicked.connect(self.image.next_image) #######################
+        self.prev.clicked.connect(self.image.prev_image) #######################
         self.gridLayout.addWidget(self.prev, 2, 0, 1, 1)
         self.answer = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
@@ -54,7 +54,7 @@ class Ui_EigenvalueSingleWindow(object):
         self.showOriginalMatrix = QtWidgets.QPushButton(self.centralwidget)
         self.showOriginalMatrix.setObjectName("showOriginalMatrix")
         # self.showOriginalMatrix.clicked.connect(self.show_matrices) ###############
-        self.showOriginalMatrix.clicked.connect(partial(image.show_matrix)) ###############
+        self.showOriginalMatrix.clicked.connect(self.image.show_matrix) ###############
         self.gridLayout.addWidget(self.showOriginalMatrix, 3, 0, 1, 2)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)

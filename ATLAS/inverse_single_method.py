@@ -33,15 +33,15 @@ class Ui_InverseSingleWindow(object):
         # self.images = sorted(self.images, key=self.getint)
         # self.cursor = 0
         # self.scene.addPixmap(QtGui.QPixmap.fromImage(QtGui.QImage("images/"+self.images[self.cursor]))) ###################
-        image = Changer(self.scene, self.graphicsView)
+        self.image = Changer(self.scene, self.graphicsView)
         self.gridLayout.addWidget(self.graphicsView, 1, 0, 1, 2)
         self.next = QtWidgets.QPushButton(self.centralwidget)
         self.next.setObjectName("next")
         self.gridLayout.addWidget(self.next, 2, 1, 1, 1)
         self.prev = QtWidgets.QPushButton(self.centralwidget)
         self.prev.setObjectName("prev")
-        self.next.clicked.connect(partial(image.next_image)) #######################
-        self.prev.clicked.connect(partial(image.prev_image)) #######################
+        self.next.clicked.connect(self.image.next_image) #######################
+        self.prev.clicked.connect(self.image.prev_image) #######################
         # self.next.clicked.connect(self.next_image) #######################
         # self.prev.clicked.connect(self.prev_image) #######################
         self.gridLayout.addWidget(self.prev, 2, 0, 1, 1)
@@ -54,7 +54,7 @@ class Ui_InverseSingleWindow(object):
         self.showOriginalMatrix = QtWidgets.QPushButton(self.centralwidget)
         self.showOriginalMatrix.setObjectName("showOriginalMatrix")
         # self.showOriginalMatrix.clicked.connect(self.show_matrix) ###############
-        self.showOriginalMatrix.clicked.connect(partial(image.show_matrix)) #######################
+        self.showOriginalMatrix.clicked.connect(self.image.show_matrix) #######################
         self.gridLayout.addWidget(self.showOriginalMatrix, 3, 0, 1, 2)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)

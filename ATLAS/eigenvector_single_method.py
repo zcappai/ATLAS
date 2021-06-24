@@ -39,9 +39,9 @@ class Ui_EigenvectorSingleWindow(object):
         self.gridLayout.addWidget(self.next, 2, 1, 1, 1)
         self.prev = QtWidgets.QPushButton(self.centralwidget)
         self.prev.setObjectName("prev")
-        image = Changer(self.scene, self.graphicsView)
-        self.next.clicked.connect(partial(image.next_image)) #######################
-        self.prev.clicked.connect(partial(image.prev_image)) #######################
+        self.image = Changer(self.scene, self.graphicsView)
+        self.next.clicked.connect(self.image.next_image) #######################
+        self.prev.clicked.connect(self.image.prev_image) #######################
         # self.next.clicked.connect(self.next_image) #######################
         # self.prev.clicked.connect(self.prev_image) #######################
         self.gridLayout.addWidget(self.prev, 2, 0, 1, 1)
@@ -53,7 +53,7 @@ class Ui_EigenvectorSingleWindow(object):
         self.gridLayout.addWidget(self.answer, 0, 0, 1, 1)
         self.showOriginalMatrix = QtWidgets.QPushButton(self.centralwidget)
         self.showOriginalMatrix.setObjectName("showOriginalMatrix")
-        self.showOriginalMatrix.clicked.connect(partial(image.show_matrix)) #######################
+        self.showOriginalMatrix.clicked.connect(self.image.show_matrix) #######################
         # self.showOriginalMatrix.clicked.connect(self.show_matrix) ###############
         self.gridLayout.addWidget(self.showOriginalMatrix, 3, 0, 1, 2)
         MainWindow.setCentralWidget(self.centralwidget)
