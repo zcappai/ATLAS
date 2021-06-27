@@ -10,7 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from multiplication_input import Ui_MultInWindow
-
+from closeWindow import QMainWindow
 
 class Ui_MultSizeWindow(object):
     def setupUi(self, MainWindow):
@@ -130,7 +130,7 @@ class Ui_MultSizeWindow(object):
         self.leftmatrixdim_label.setText(_translate("MainWindow", "m"))
 
     def sendSizes(self):
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
         self.ui = Ui_MultInWindow(self.leftmatrixdim.value(), self.shareddim.value(), self.rightmatrixdim.value())
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
@@ -140,7 +140,7 @@ class Ui_MultSizeWindow(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
+    MainWindow = QMainWindow()
     ui = Ui_MultSizeWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()

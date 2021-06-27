@@ -15,6 +15,7 @@ from eigenvector import Eigenvector
 from eigenvector_single_method import Ui_EigenvectorSingleWindow
 from validator import Validator
 from emptyimg import empty
+from closeWindow import QMainWindow
 
 
 class Ui_EigenvectorInWindow(object):
@@ -107,7 +108,7 @@ class Ui_EigenvectorInWindow(object):
         solutions = e_vec.calc()
         e_vec.latex2img()
 
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
         self.ui = Ui_EigenvectorSingleWindow(solutions)
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
@@ -117,7 +118,7 @@ class Ui_EigenvectorInWindow(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
+    MainWindow = QMainWindow()
     ui = Ui_EigenvectorInWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()

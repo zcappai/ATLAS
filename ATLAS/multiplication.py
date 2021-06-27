@@ -1,85 +1,298 @@
 import sympy as sp
-# from latex2image import formula_as_file
 from emptyimg import empty
-from text2image import toImage, formula_as_file
+import text2image
+import compare_text2image
+
+saved = []
+text = []
+names = 0
 
 class naiveMultiplication:
-    def __init__(self, leftdim, rightdim, shareddim, leftmatrix, rightmatrix):
+    def __init__(self, leftmatrix, rightmatrix):
         self.leftmatrix = leftmatrix
         self.rightmatrix = rightmatrix
-        self.leftdim = leftdim
-        self.rightdim = rightdim
-        self.shareddim = shareddim
-        self.saved = []
-        self.text = []
+        self.leftdim = leftmatrix.rows
+        self.rightdim = rightmatrix.cols
+        self.shareddim = leftmatrix.cols
     
     def calc(self):
+        global names
+        original = "L="+sp.latex(sp.Matrix(self.leftmatrix))+" * "+"R="+sp.latex(sp.Matrix(self.rightmatrix))
+        saved.append((names, original))
+        names += 1
         res = sp.Matrix([[0 for x in range(self.rightdim)] for y in range (self.leftdim)])
-        names = 1
+        # names = 1
         for i in range(self.leftdim):
             for j in range(self.rightdim):
                 res[i, j] = 0
                 for x in range(self.shareddim):
-                    self.text.append((names, "The resultant matrix so far is"))
+                    text.append((names, "The resultant matrix so far is"))
                     names += 1
-                    self.saved.append((names, sp.latex(sp.Matrix(res))))
+                    saved.append((names, sp.latex(sp.Matrix(res))))
                     names += 1
-                    self.text.append((names, "L({},{}) * R({},{}) is".format(i,x,x,j)))
+                    text.append((names, "L({},{}) * R({},{}) is".format(i,x,x,j)))
                     names += 1
                     res[i, j] += (self.leftmatrix.row(i).col(x)[0] * self.rightmatrix.row(x).col(j)[0])
-                    self.saved.append((names, sp.latex(self.leftmatrix.row(i).col(x)[0])+"*"+sp.latex(self.rightmatrix.row(x).col(j)[0])))
+                    saved.append((names, sp.latex(self.leftmatrix.row(i).col(x)[0])+"*"+sp.latex(self.rightmatrix.row(x).col(j)[0])))
                     names += 1
-                    self.text.append((names, "This is added to ({},{}) in the resultant matrix".format(i,j)))
+                    text.append((names, "This is added to ({},{}) in the resultant matrix".format(i,j)))
                     names += 1
-        self.text.append((names, "The final matrix is"))
+        text.append((names, "The final matrix is"))
         names += 1
-        self.saved.append((names, sp.latex(res)))
+        saved.append((names, sp.latex(res)))
         names += 1
+        return res
 
     def latex2img(self):
-        original = "L="+sp.latex(sp.Matrix(self.leftmatrix))+" * "+"R="+sp.latex(sp.Matrix(self.rightmatrix))
-        formula_as_file(original, 'images/0.png')
-        for i in self.saved:
-            formula_as_file(i[1], 'images/'+str(i[0])+'.png')
-        for i in self.text:
-            toImage(i[1], i[0])
+        global names
+        global saved
+        global text
+        names = 0
+        for i in saved:
+            text2image.formula_as_file(i[1], i[0])
+        for i in text:
+            text2image.toImage(i[1], i[0])
+        saved = []
+        text = []
+
+    def compare_latex2img(self, subfolder):
+        global names
+        global saved
+        global text
+        names = 0
+        for i in saved:
+            compare_text2image.formula_as_file(i[1], i[0], subfolder)
+        for i in text:
+            compare_text2image.toImage(i[1], i[0], subfolder)
+        saved = []
+        text = []
 
 class Strassen:
-    def __init__(self, leftmatrix, rightmatrix, size):
+    global saved
+    global text
+    def __init__(self, leftmatrix, rightmatrix):
         self.leftmatrix = leftmatrix
         self.rightmatrix = rightmatrix
-        self.size = size
-        self.saved = []
-        self.text = []
     
     def calc(self):
-        if self.size % 2 == 0:
-            sub_size = self.size // 2
-            l_sub1 = self.leftmatrix[:sub_size, :sub_size] # top-left
-            l_sub2 = self.leftmatrix[:sub_size, sub_size:] # top-right
-            l_sub3 = self.leftmatrix[sub_size:, :sub_size] # bottom-left
-            l_sub4 = self.leftmatrix[sub_size:, sub_size:] # bottom-right
+        final_rows = self.leftmatrix.rows
+        final_cols = self.rightmatrix.cols
+        global names
+        original = "L="+sp.latex(sp.Matrix(self.leftmatrix))+" * "+"R="+sp.latex(sp.Matrix(self.rightmatrix))
+        saved.append((names, original))
+        names += 1
+        # Dynamic padding
+        if self.leftmatrix.rows % 2 == 1:
+            text.append((names, "The left matrix is padded with a row of zeroes for an even number of rows, as follows"))
+            names += 1
+            self.leftmatrix = self.leftmatrix.col_join(sp.zeros(1, self.leftmatrix.cols))
+            saved.append((names, sp.latex(self.leftmatrix)))
+            names += 1
+        if self.leftmatrix.cols % 2 == 1:
+            text.append((names, "The left matrix is padded with a column of zeroes for an even number of columns, as follows"))
+            names += 1
+            self.leftmatrix = self.leftmatrix.row_join(sp.zeros(self.leftmatrix.rows, 1))
+            saved.append((names, sp.latex(self.leftmatrix)))
+            names += 1
+        if self.rightmatrix.cols % 2 == 1:
+            text.append((names, "The right matrix is padded with a column of zeroes for an even number of columns, as follows"))
+            names += 1
+            self.rightmatrix = self.rightmatrix.row_join(sp.zeros(self.rightmatrix.rows, 1))
+            saved.append((names, sp.latex(self.rightmatrix)))
+            names += 1
+        if self.rightmatrix.rows % 2 == 1:
+            text.append((names, "The right matrix is padded with a row of zeroes for an even number of rows, as follows"))
+            names += 1
+            self.rightmatrix = self.rightmatrix.col_join(sp.zeros(1, self.rightmatrix.cols))
+            saved.append((names, sp.latex(self.rightmatrix)))
+            names += 1
 
-            r_sub1 = self.rightmatrix[:sub_size, :sub_size] # top-left
-            r_sub2 = self.rightmatrix[:sub_size, sub_size:] # top-right
-            r_sub3 = self.rightmatrix[sub_size:, :sub_size] # bottom-left
-            r_sub4 = self.rightmatrix[sub_size:, sub_size:] # bottom-right
-            M1 = (l_sub1 + l_sub4)*(r_sub1 + r_sub4)
-            M2 = (l_sub3 + l_sub4)*r_sub1
-            M3 = None
-            M4 = None
-            M5 = None
-            M6 = None
-            M7 = None
-        elif self.size % 2 == 1:
-            pass
+        text.append((names, "The halfway points are calculated as dimensions for submatrices"))
+        names += 1
+        # Submatrix dimensions
+        l_row_half = (self.leftmatrix.rows) // 2
+        l_col_half = (self.leftmatrix.cols) // 2
+        r_row_half = (self.rightmatrix.rows) // 2
+        r_col_half = (self.rightmatrix.cols) // 2
+
+        # Split matrices into quarters
+        # Left matrix
+        a11 = self.leftmatrix[:l_row_half, :l_col_half] # top-left
+        a12 = self.leftmatrix[:l_row_half, l_col_half:] # top-right
+        a21 = self.leftmatrix[l_row_half:, :l_col_half] # bottom-left
+        a22 = self.leftmatrix[l_row_half:, l_col_half:] # bottom-right
+        text.append((names, "This produces the following submatrices for the left matrix"))
+        names += 1
+        saved.append((names, "a_{1,1}="+sp.latex(a11)+",a_{1,2}="+sp.latex(a12)+",a_{2,1}="+sp.latex(a21)+",a_{2,2}="+sp.latex(a22)))
+        names += 1
+
+        # Right matrix
+        b11 = self.rightmatrix[:r_row_half, :r_col_half] # top-left
+        b12 = self.rightmatrix[:r_row_half, r_col_half:] # top-right
+        b21 = self.rightmatrix[r_row_half:, :r_col_half] # bottom-left
+        b22 = self.rightmatrix[r_row_half:, r_col_half:] # bottom-right
+        text.append((names, "and the following submatrices for the right matrix"))
+        names += 1
+        saved.append((names, "b_{1,1}="+sp.latex(b11)+",b_{1,2}="+sp.latex(b12)+",b_{2,1}="+sp.latex(b21)+",b_{2,2}="+sp.latex(b22)))
+        names += 1
+
+        # Multiplying submatrices if one has dimension equal to 1
+        if l_row_half == 1 or l_col_half == 1 or r_row_half == 1 or r_col_half == 1:
+            text.append((names, "The dimension of a submatrix is 1, so the submatrices will be multiplied using the standard method"))
+            names += 1
+            saved.append((names, "m_1=(a_{1,1}+a_{2,2})(b_{1,1}+b_{2,2})=("+sp.latex(a11)+"+"+sp.latex(a22)+")("+sp.latex(b11)+"+"+sp.latex(b22)+")"))
+            names += 1
+            m1 = naiveMultiplication((a11 + a22), (b11 + b22)).calc()
+            saved.append((names, "m_1="+sp.latex(m1)))
+            names += 1
+            saved.append((names, "m_2=(a_{2,1}+a_{2,2})b_{1,1}=("+sp.latex(a21)+"+"+sp.latex(a22)+")"+sp.latex(b11)))
+            names += 1
+            m2 = naiveMultiplication((a21 + a22), b11).calc()
+            saved.append((names, "m_2="+sp.latex(m2)))
+            names += 1
+            saved.append((names, "m_3=a_{1,1}(b_{1,2}-b_{2,2})="+sp.latex(a11)+"("+sp.latex(b12)+"-"+sp.latex(b22)+")"))
+            names += 1
+            m3 = naiveMultiplication(a11, (b12 - b22)).calc()
+            saved.append((names, "m_3="+sp.latex(m3)))
+            names += 1
+            saved.append((names, "m_4=a_{2,2}(b_{2,1}-b_{1,1})="+sp.latex(a22)+"("+sp.latex(b21)+"-"+sp.latex(b11)+")"))
+            names += 1
+            m4 = naiveMultiplication(a22, (b21 - b11)).calc()
+            saved.append((names, "m_4="+sp.latex(m4)))
+            names += 1
+            saved.append((names, "m_5=(a_{1,1}+a_{1,2})b_{2,2}=("+sp.latex(a11)+"+"+sp.latex(a12)+")"+sp.latex(b22)))
+            names += 1
+            m5 = naiveMultiplication((a11 + a12), b22).calc()
+            saved.append((names, "m_5="+sp.latex(m5)))
+            names += 1
+            saved.append((names, "m_6=(a_{2,1}-a_{1,1})(b_{1,1}+b_{1,2})=("+sp.latex(a21)+"-"+sp.latex(a11)+")("+sp.latex(b11)+"+"+sp.latex(b12)+")"))
+            names += 1
+            m6 = naiveMultiplication((a21 - a11), (b11 + b12)).calc()
+            saved.append((names, "m_6="+sp.latex(m6)))
+            names += 1
+            saved.append((names, "m_7=(a_{1,2}-a_{2,2})(b_{2,1}+b_{2,2})=("+sp.latex(a12)+"-"+sp.latex(a22)+")("+sp.latex(b21)+"+"+sp.latex(b22)+")"))
+            names += 1
+            m7 = naiveMultiplication((a12 - a22), (b21 + b22)).calc()
+            saved.append((names, "m_7="+sp.latex(m7)))
+            names += 1
+        # Otherwise, Strassen's called
+        else:
+            text.append((names, "No submatrices have a dimension of 1, therefore Strassen's method is applied once again"))
+            names += 1
+            saved.append((names, "m_1=(a_{1,1}+a_{2,2})(b_{1,1}+b_{2,2})=("+sp.latex(a11)+"+"+sp.latex(a22)+")("+sp.latex(b11)+"+"+sp.latex(b22)+")"))
+            names += 1
+            m1 = Strassen((a11 + a22), (b11 + b22)).calc()
+            saved.append((names, "m_2=(a_{2,1}+a_{2,2})b_{1,1}=("+sp.latex(a21)+"+"+sp.latex(a22)+")"+sp.latex(b11)))
+            names += 1
+            m2 = Strassen((a21 + a22), b11).calc()
+            saved.append((names, "m_3=a_{1,1}(b_{1,2}-b_{2,2})="+sp.latex(a11)+"("+sp.latex(b12)+"-"+sp.latex(b22)+")"))
+            names += 1
+            m3 = Strassen(a11, (b12 - b22)).calc()
+            saved.append((names, "m_4=a_{2,2}(b_{2,1}-b_{1,1})="+sp.latex(a22)+"("+sp.latex(b21)+"-"+sp.latex(b11)+")"))
+            names += 1
+            m4 = Strassen(a22, (b21 - b11)).calc()
+            saved.append((names, "m_5=(a_{1,1}+a_{1,2})b_{2,2}=("+sp.latex(a11)+"+"+sp.latex(a12)+")"+sp.latex(b22)))
+            names += 1
+            m5 = Strassen((a11 + a12), b22).calc()
+            saved.append((names, "m_6=(a_{2,1}-a_{1,1})(b_{1,1}+b_{1,2})=("+sp.latex(a21)+"-"+sp.latex(a11)+")("+sp.latex(b11)+"+"+sp.latex(b12)+")"))
+            names += 1
+            m6 = Strassen((a21 - a11), (b11 + b12)).calc()
+            saved.append((names, "m_7=(a_{1,2}-a_{2,2})(b_{2,1}+b_{2,2})=("+sp.latex(a12)+"-"+sp.latex(a22)+")("+sp.latex(b21)+"+"+sp.latex(b22)+")"))
+            names += 1
+            m7 = Strassen((a12 - a22), (b21 + b22)).calc()
+        text.append((names, "The result of multiplication is therefore"))
+        names += 1
+        saved.append((names, "m_1="+sp.latex(m1)+",m_2="+sp.latex(m2)+",m_3="+sp.latex(m3)))
+        names += 1
+        saved.append((names, "m_4="+sp.latex(m4)+",m_5="+sp.latex(m5)+",m_6="+sp.latex(m6)))
+        names += 1
+        saved.append((names, "m_7="+sp.latex(m7)))
+        names += 1
+
+        # Calculating final matrix elements
+        c11 = m1 + m4 - m5 + m7
+        c12 = m3 + m5
+        c21 = m2 + m4
+        c22 = m1 - m2 + m3 + m6
+        text.append((names, "These submatrices can be added and subtracted to produce the elements of the final matrix"))
+        names += 1
+        saved.append((names, "c_{1,1}=m_1 + m_4 - m_5 + m_7="+sp.latex(c11)))
+        names += 1
+        saved.append((names, "c_{1,2}=m_3 + m_5="+sp.latex(c12)))
+        names += 1
+        saved.append((names, "c_{2,1}=m_2 + m_4="+sp.latex(c21)))
+        names += 1
+        saved.append((names, "c_{2,2}=m_1 - m_2 + m_3 + m_6="+sp.latex(c22)))
+        names += 1
+
+        # Joining submatrices to form final matrices
+        top_half = c11.row_join(c12)
+        bottom_half = c21.row_join(c22)
+        final_matrix = top_half.col_join(bottom_half)
+        text.append((names, "These can be joined together to produce the following matrix"))
+        names += 1
+        saved.append((names, sp.latex(final_matrix)))
+        names += 1
+
+        # Removing dynamic padding
+        if final_matrix.cols != final_cols:
+            final_matrix.col_del(final_matrix.cols - 1)
+        if final_matrix.rows != final_rows:
+            final_matrix.row_del(final_matrix.rows - 1)
+        text.append((names, "If there is padding, it is removed to produce the resultant matrix"))
+        names += 1
+        saved.append((names, sp.latex(final_matrix)))
+        names += 1
+
+        return final_matrix
+    
+    def latex2img(self):
+        global names
+        global saved
+        global text
+        names = 0
+        for i in saved:
+            text2image.formula_as_file(i[1], i[0])
+        for i in text:
+            text2image.toImage(i[1], i[0])
+        saved = []
+        text = []
+
+    def compare_latex2img(self, subfolder):
+        global names
+        global saved
+        global text
+        names = 0
+        for i in saved:
+            compare_text2image.formula_as_file(i[1], i[0], subfolder)
+        for i in text:
+            compare_text2image.toImage(i[1], i[0], subfolder)
+        saved = []
+        text = []
+
+def getMethods():
+    methods = []
+    methods.append(("Standard", naiveMultiplication))
+    methods.append(("Strassen", Strassen))
+    return methods
 
 # empty()
-a = sp.Matrix([[1,2,3,4],[4,5,6,6],[7,8,9,2],[7,6,9,4]])
-# b = sp.Matrix([[1,5],[2,7],[3,2]])
-# x = naiveMultiplication(2, 2, 3, a, b)
-c = sp.Matrix([[1,2],[3,4]])
-d = sp.Matrix([[3,4],[1,2]])
-x = Strassen(a, d, 4)
-x.calc()
-# x.latex2img()
+# a = sp.Matrix([[1,2,3,4],[4,5,6,6],[7,8,9,2],[7,6,9,4]]) # Strassen's
+# b = sp.Matrix([[1,2,3,4],[7,6,9,4],[7,8,9,2],[4,5,6,6]]) # Strassen's
+
+# a = sp.Matrix([[1,2,3],[4,5,6],[4,6,6],[1,5,3],[7,2,6]])
+# b = sp.Matrix([[3,4,5],[6,7,8],[6,4,2]])
+
+# a = sp.Matrix([[1,3,4],[4,5,6],[7,8,2]]) # Strassen's
+# b = sp.Matrix([[1,3,4],[6,9,4],[7,8,9]]) # Strassen's
+
+# a = sp.Matrix([[1,2,3],[3,4,5]])
+# b = sp.Matrix([[3,4],[1,2],[3,5]])
+# x = Strassen(a, b)
+
+# a = sp.Matrix([4])
+# b = sp.Matrix([4])
+# x = naiveMultiplication(a, b)
+# sp.pprint(x.calc())
+# x.compare_latex2img("Standard")
+# sp.pprint(a*b)

@@ -10,7 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from inverse_input import Ui_InverseInWindow
-
+from closeWindow import QMainWindow
 
 class Ui_InverseSizeWindow(object):
     def setupUi(self, MainWindow):
@@ -84,7 +84,7 @@ class Ui_InverseSizeWindow(object):
         self.submit.setText(_translate("MainWindow", "Submit"))
 
     def sendSize(self):
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
         self.ui = Ui_InverseInWindow(self.size.value())
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
@@ -94,7 +94,7 @@ class Ui_InverseSizeWindow(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
+    MainWindow = QMainWindow()
     ui = Ui_InverseSizeWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()

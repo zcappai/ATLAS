@@ -10,6 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from determinant_input import Ui_DetInWindow
+from closeWindow import QMainWindow
 
 class Ui_DetSizeWindow(object):
     def setupUi(self, DetSizeWindow):
@@ -82,7 +83,7 @@ class Ui_DetSizeWindow(object):
         self.det_size_submit.setText(_translate("DetSizeWindow", "Submit"))
     
     def sendSize(self):
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
         self.ui = Ui_DetInWindow(self.det_size.value())
         print(self.det_size.value())
         self.ui.setupUi(self.window)
@@ -93,7 +94,7 @@ class Ui_DetSizeWindow(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    DetSizeWindow = QtWidgets.QMainWindow()
+    DetSizeWindow = QMainWindow()
     ui = Ui_DetSizeWindow()
     ui.setupUi(DetSizeWindow)
     DetSizeWindow.showMaximized()

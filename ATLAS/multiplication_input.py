@@ -11,11 +11,12 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from multiplication import naiveMultiplication
 from mult_single_method import Ui_MultSingleWindow
+from single_comparison import Ui_SingleCompWindow
 from functools import partial
 from validator import Validator
 from emptyimg import empty
 import sympy as sp
-
+from closeWindow import QMainWindow
 
 class Ui_MultInWindow(object):
     def __init__(self, leftdim, shareddim, rightdim):
@@ -142,15 +143,12 @@ class Ui_MultInWindow(object):
             for j in range(self.matrixright.columnCount()):
                 curr_row.append(self.matrixright.item(i, j).text())
             final_matrix_right.append(curr_row)
-        empty()
         final_matrix_left = sp.Matrix(final_matrix_left)
         final_matrix_right = sp.Matrix(final_matrix_right)
-        mult = naiveMultiplication(self.leftdim, self.rightdim, self.shareddim, final_matrix_left, final_matrix_right)
-        mult.calc()
-        mult.latex2img()
+        arg = (final_matrix_left, final_matrix_right)
 
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MultSingleWindow()
+        self.window = QMainWindow()
+        self.ui = Ui_SingleCompWindow(arg, "mult")
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
         self.window.showMaximized()
@@ -158,7 +156,7 @@ class Ui_MultInWindow(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
+    MainWindow = QMainWindow()
     ui = Ui_MultInWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()

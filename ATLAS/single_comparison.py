@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'eigen_choice_screen.ui'
+# Form implementation generated from reading ui file 'function_screen - Copy.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -9,17 +9,23 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from eigenvalue_size import Ui_EigenvalueSizeWindow
-from eigenvector_size import Ui_EigenvectorSizeWindow
+from single_method_choice import Ui_SingleChoiceWindow
+from mult_compare_method import Ui_MultCompareWindow
+from os import mkdir
+from multiplication import getMethods
+from compare_emptyimg import empty
 from closeWindow import QMainWindow
 
+class Ui_SingleCompWindow(object):
+    def __init__(self, arg, method):
+        self.arg = arg
+        self.method = method
 
-class Ui_EigenChoiceWindow(object):
-    def setupUi(self, MainWindow):
-        self.MainWindow = MainWindow
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1110, 831)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+    def setupUi(self, SingleCompWindow):
+        self.SingleCompWindow = SingleCompWindow
+        SingleCompWindow.setObjectName("SingleCompWindow")
+        SingleCompWindow.resize(1110, 831)
+        self.centralwidget = QtWidgets.QWidget(SingleCompWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
@@ -31,13 +37,13 @@ class Ui_EigenChoiceWindow(object):
         self.gridLayout.addItem(spacerItem2, 1, 1, 1, 4)
         spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem3, 6, 1, 1, 1)
-        self.eigenvector_size_button = QtWidgets.QPushButton(self.centralwidget)
+        self.comparison_button = QtWidgets.QPushButton(self.centralwidget)
         font = QtGui.QFont()
         font.setPointSize(30)
-        self.eigenvector_size_button.setFont(font)
-        self.eigenvector_size_button.setObjectName("eigenvector_size_button")
-        self.eigenvector_size_button.clicked.connect(self.toEigenvectorSize)
-        self.gridLayout.addWidget(self.eigenvector_size_button, 4, 3, 1, 1)
+        self.comparison_button.setFont(font)
+        self.comparison_button.setObjectName("comparison_button")
+        self.comparison_button.clicked.connect(self.toCompare)
+        self.gridLayout.addWidget(self.comparison_button, 4, 3, 1, 1)
         spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem4, 3, 3, 1, 1)
         spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -55,60 +61,71 @@ class Ui_EigenChoiceWindow(object):
         self.gridLayout.addWidget(self.label, 2, 0, 1, 5)
         spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem7, 3, 1, 1, 1)
-        self.eigenvalue_size_button = QtWidgets.QPushButton(self.centralwidget)
+        self.one_option_button = QtWidgets.QPushButton(self.centralwidget)
         font = QtGui.QFont()
         font.setPointSize(30)
-        self.eigenvalue_size_button.setFont(font)
-        self.eigenvalue_size_button.setObjectName("eigenvalue_size_button")
-        self.eigenvalue_size_button.clicked.connect(self.toEigenvalueSize)
-        self.gridLayout.addWidget(self.eigenvalue_size_button, 4, 1, 1, 1)
+        self.one_option_button.setFont(font)
+        self.one_option_button.setObjectName("one_option_button")
+        self.one_option_button.clicked.connect(self.toSingle)
+        self.gridLayout.addWidget(self.one_option_button, 4, 1, 1, 1)
         self.back_button = QtWidgets.QPushButton(self.centralwidget)
         self.back_button.setMinimumSize(QtCore.QSize(0, 50))
         self.back_button.setMaximumSize(QtCore.QSize(50, 16777215))
         self.back_button.setObjectName("back_button")
         self.gridLayout.addWidget(self.back_button, 0, 0, 2, 1, QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        SingleCompWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(SingleCompWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1110, 21))
         self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        SingleCompWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(SingleCompWindow)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        SingleCompWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(SingleCompWindow)
+        QtCore.QMetaObject.connectSlotsByName(SingleCompWindow)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, SingleCompWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.eigenvector_size_button.setText(_translate("MainWindow", "Eigenvector"))
-        self.label.setText(_translate("MainWindow", "Select one of the options:\n"
-"\"Eigenvalue\" allows you to calculate the eigenvalue of a matrix\n"
-"\"Eigenvector\" allows you to calculate the eigenvector of a matrix"))
-        self.eigenvalue_size_button.setText(_translate("MainWindow", "Eigenvalue"))
-        self.back_button.setText(_translate("MainWindow", "Go Back"))
+        SingleCompWindow.setWindowTitle(_translate("SingleCompWindow", "SingleCompWindow"))
+        self.comparison_button.setText(_translate("SingleCompWindow", "Comparison"))
+        self.label.setText(_translate("SingleCompWindow", "Select one of the options:\n"
+"\"One Method\" allows you to choose a single method to use\n"
+"\"Comparison\" allows you to compare all the methods available."))
+        self.one_option_button.setText(_translate("SingleCompWindow", "One Method"))
+        self.back_button.setText(_translate("SingleCompWindow", "Go Back"))
 
-    def toEigenvalueSize(self):
+    def toSingle(self):
         self.window = QMainWindow()
-        self.ui = Ui_EigenvalueSizeWindow()
+        self.ui = Ui_SingleChoiceWindow(self.arg, self.method)
         self.ui.setupUi(self.window)
-        self.MainWindow.hide()
+        self.SingleCompWindow.hide()
         self.window.showMaximized()
 
-    def toEigenvectorSize(self):
+    def toCompare(self):
+        empty()
         self.window = QMainWindow()
-        self.ui = Ui_EigenvectorSizeWindow()
+        if self.method == "mult":
+            self.compareMult()
+            self.ui = Ui_MultCompareWindow()
         self.ui.setupUi(self.window)
-        self.MainWindow.hide()
+        self.SingleCompWindow.hide()
         self.window.showMaximized()
+
+    def compareMult(self):
+        methods = getMethods()
+        for (i, j) in methods:
+            mkdir("multiple-images/{}/".format(i))
+            current_method = j(*self.arg)
+            current_method.calc()
+            current_method.compare_latex2img(i)
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QMainWindow()
-    ui = Ui_EigenChoiceWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
+    SingleCompWindow = QMainWindow()
+    ui = Ui_SingleCompWindow(None, "mult")
+    ui.setupUi(SingleCompWindow)
+    SingleCompWindow.show()
     sys.exit(app.exec_())

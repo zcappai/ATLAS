@@ -13,8 +13,8 @@ import sympy as sp
 from determinant import naiveDeterminant
 from det_single_method import Ui_DetSingleWindow
 from emptyimg import empty
-from functools import partial
 from validator import Validator
+from closeWindow import QMainWindow
 
 
 class Ui_DetInWindow(object):
@@ -48,8 +48,8 @@ class Ui_DetInWindow(object):
         for i in range(self.matrix.columnCount()):
             for j in range(self.matrix.rowCount()):
                 self.matrix.setItem(j, i, QtWidgets.QTableWidgetItem('0'))
-        validator = Validator(self.matrix)
-        self.matrix.itemChanged.connect(partial(validator.validate)) #################################
+        self.validator = Validator(self.matrix)
+        self.matrix.itemChanged.connect(self.validator.validate) #################################
         self.gridLayout.addWidget(self.matrix, 2, 1, 1, 1)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem1, 1, 1, 1, 1)
@@ -89,11 +89,11 @@ class Ui_DetInWindow(object):
                 final_matrix.append(self.matrix.item(i, j).text())
         matrix = sp.Matrix(self.matrix.columnCount(), self.matrix.rowCount(), final_matrix)
         determinant = naiveDeterminant(matrix, self.size)
-        det = determinant.calc()[0]
+        det = determinant.calc()
         empty()
         determinant.latex2img() #### slow!!!
 
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
         self.ui = Ui_DetSingleWindow(det)
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
@@ -114,7 +114,7 @@ class Ui_DetInWindow(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
+    MainWindow = QMainWindow()
     ui = Ui_DetInWindow(3)
     ui.setupUi(MainWindow)
     MainWindow.showMaximized()

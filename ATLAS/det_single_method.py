@@ -9,9 +9,8 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from os import listdir
 from view_changer import Changer
-from functools import partial
+from closeWindow import QMainWindow
 
 
 class Ui_DetSingleWindow(object):
@@ -45,10 +44,10 @@ class Ui_DetSingleWindow(object):
         self.graphicsView.setObjectName("graphicsView")
         self.scene = QtWidgets.QGraphicsScene()
         self.graphicsView.setScene(self.scene)
-        image = Changer(self.scene, self.graphicsView)
-        self.next.clicked.connect(partial(image.next_image)) ######################
-        self.prev.clicked.connect(partial(image.prev_image)) ######################
-        self.showMatrix.clicked.connect(partial(image.show_matrix)) ######################
+        self.image = Changer(self.scene, self.graphicsView)
+        self.next.clicked.connect(self.image.next_image) ######################
+        self.prev.clicked.connect(self.image.prev_image) ######################
+        self.showMatrix.clicked.connect(self.image.show_matrix) ######################
         # self.images = listdir("images")
         # self.images = sorted(self.images, key=self.getint)
         # self.cursor = 0
@@ -106,7 +105,7 @@ class Ui_DetSingleWindow(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
+    MainWindow = QMainWindow()
     ui = Ui_DetSingleWindow(15)
     ui.setupUi(MainWindow)
     MainWindow.show()

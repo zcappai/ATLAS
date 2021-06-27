@@ -10,6 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from eigenvalue_input import Ui_EigenvalueInWindow
+from closeWindow import QMainWindow
 
 
 class Ui_EigenvalueSizeWindow(object):
@@ -84,7 +85,7 @@ class Ui_EigenvalueSizeWindow(object):
         self.size_submit.setText(_translate("EigenvalueSizeWindow", "Submit"))
 
     def sendSize(self):
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
         self.ui = Ui_EigenvalueInWindow(self.size.value())
         self.ui.setupUi(self.window)
         self.EigenvalueSizeWindow.hide()
@@ -94,7 +95,7 @@ class Ui_EigenvalueSizeWindow(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    EigenvalueSizeWindow = QtWidgets.QMainWindow()
+    EigenvalueSizeWindow = QMainWindow()
     ui = Ui_EigenvalueSizeWindow()
     ui.setupUi(EigenvalueSizeWindow)
     EigenvalueSizeWindow.show()

@@ -1,8 +1,7 @@
-import glob
-import os
 import sympy as sp
-from latex2image import formula_as_file
-from text2image import toImage
+# from latex2image import formula_as_file
+from text2image import toImage, formula_as_file
+from emptyimg import empty
 
 class naiveDeterminant:
     names = 0
@@ -27,9 +26,9 @@ class naiveDeterminant:
         for i in range(self.size):
             curr_element = self.matrix[i]
             curr_submatrix = self.matrix.minor_submatrix(0, i)
+            curr.append((curr_element, curr_submatrix))
             naiveDeterminant.saved.append((naiveDeterminant.names, curr_submatrix))
             naiveDeterminant.names += 1
-            curr.append((curr_element, curr_submatrix))
         naiveDeterminant.text.append((naiveDeterminant.names, "To form the following expression"))
         naiveDeterminant.names += 1
         naiveDeterminant.saved.append((naiveDeterminant.names, curr))
@@ -42,7 +41,7 @@ class naiveDeterminant:
                     # naiveDeterminant.names += 1
                     self.det += curr[i][0] * curr[i][1][0]
                 else:
-                    sub_det, ops = naiveDeterminant(curr[i][1], self.size - 1).calc()
+                    sub_det = naiveDeterminant(curr[i][1], self.size - 1).calc()
                     naiveDeterminant.text.append((naiveDeterminant.names, "The determinant of the minor"))
                     naiveDeterminant.names += 1
                     naiveDeterminant.saved.append((naiveDeterminant.names, curr[i][1]))
@@ -58,7 +57,7 @@ class naiveDeterminant:
                     # naiveDeterminant.names += 1
                     self.det -= curr[i][0] * curr[i][1][0]
                 else:
-                    sub_det, ops = naiveDeterminant(curr[i][1], self.size - 1).calc()
+                    sub_det = naiveDeterminant(curr[i][1], self.size - 1).calc()
                     naiveDeterminant.text.append((naiveDeterminant.names, "The determinant of the minor"))
                     naiveDeterminant.names += 1
                     naiveDeterminant.saved.append((naiveDeterminant.names, curr[i][1]))
@@ -70,7 +69,7 @@ class naiveDeterminant:
                     naiveDeterminant.names += 1
             neg_toggle += 1
         self.final_det = (naiveDeterminant.names, self.det)
-        return self.det, curr
+        return self.det
 
     # Converts the matrices and expressions to images
     def latex2img(self):
@@ -89,18 +88,29 @@ class naiveDeterminant:
                         tex += '+'
                         symb_toggle = 0
                 symb_toggle = 0
-                formula_as_file(tex[:-1], 'images/'+str(i[0])+'.png')
+                formula_as_file(tex[:-1], i[0])
             except:
-                formula_as_file(sp.latex(i[1]), 'images/'+str(i[0])+'.png')
+                formula_as_file(sp.latex(i[1]), i[0])
         for i in naiveDeterminant.text:
             count = i[0]
             message = i[1]
             toImage(message, count)
         toImage("Therefore, the determinant of the matrix is", self.final_det[0])
-        formula_as_file(str(self.final_det[1]), 'images/'+str(self.final_det[0]+1)+'.png')
+        formula_as_file(str(self.final_det[1]), self.final_det[0]+1)
+
+class Sarrus:
+    def __init__(self, matrix, size):
+        self.matrix = matrix
+        self.size = size
+        self.det = 0
+        self.saved = []
+        self.text = []
+    
+    def calc(self):
+        pass
 
 # empty()
-# a = sp.Matrix([[1,2,3,4],[4,5,6,7],[7,8,9,10],[10,11,12,13]])
-# det = naiveDeterminant(a, 4)
+# a = sp.Matrix([[1,2,3],[4,5,6],[7,8,9]])
+# det = naiveDeterminant(a, 3)
 # det.calc()
 # det.latex2img()

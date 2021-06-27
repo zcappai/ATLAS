@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from os import listdir
 from functools import partial
 from view_changer import Changer
-
+from closeWindow import QMainWindow
 
 class Ui_InverseSingleWindow(object):
     def __init__(self, inverse_value):
@@ -107,7 +107,7 @@ class Ui_InverseSingleWindow(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
+    MainWindow = QMainWindow()
     ui = Ui_InverseSingleWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()

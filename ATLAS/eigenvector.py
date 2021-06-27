@@ -115,9 +115,9 @@ class Eigenvector:
         return eigenvectors
 
     def latex2img(self):
-        formula_as_file(sp.latex(self.matrix), 'images/0.png')
+        formula_as_file(sp.latex(self.matrix), 0)
         for i in self.saved:
-            formula_as_file(i[1], 'images/'+str(i[0])+'.png')
+            formula_as_file(i[1], i[0])
         for i in self.text:
             toImage(i[1], i[0])
 

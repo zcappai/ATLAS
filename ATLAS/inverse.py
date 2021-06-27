@@ -14,7 +14,7 @@ class naiveInverse:
     def check(self):
         det = naiveDeterminant(self.matrix, self.size).calc()
         if det == 0:
-            formula_as_file(sp.latex(self.matrix), 'images/0.png')
+            formula_as_file(sp.latex(self.matrix), 0)
             toImage("No Inverse Exists", 1)
             return False, "No Inverse Exists (Determinant of the matrix is 0)"
         else:
@@ -106,9 +106,9 @@ class naiveInverse:
         names += 1
 
     def latex2img(self):
-        formula_as_file(sp.latex(self.matrix), 'images/0.png')
+        formula_as_file(sp.latex(self.matrix), 0)
         for i in self.saved:
-            formula_as_file(i[1], 'images/'+str(i[0])+'.png')
+            formula_as_file(i[1], i[0])
         for i in self.text:
             toImage(i[1], i[0])
 

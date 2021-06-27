@@ -15,6 +15,7 @@ from inverse_single_method import Ui_InverseSingleWindow
 from functools import partial
 from validator import Validator
 from emptyimg import empty
+from closeWindow import QMainWindow
 
 class Ui_InverseInWindow(object):
     def __init__(self, size):
@@ -112,7 +113,7 @@ class Ui_InverseInWindow(object):
         elif check == False:
             inverse_value = message
 
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
         self.ui = Ui_InverseSingleWindow(inverse_value)
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
@@ -122,7 +123,7 @@ class Ui_InverseInWindow(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
+    MainWindow = QMainWindow()
     ui = Ui_InverseInWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()

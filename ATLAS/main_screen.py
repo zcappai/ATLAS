@@ -14,9 +14,11 @@ from multiplication_size import Ui_MultSizeWindow
 from inverse_size import Ui_InverseSizeWindow
 from solving_size import Ui_SolveSizeWindow
 from eigen_choice_screen import Ui_EigenChoiceWindow
+from closeWindow import QMainWindow
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -105,45 +107,44 @@ class Ui_MainWindow(object):
         self.determinant_button.setText(_translate("MainWindow", "Determinants"))
     
     def toDeterminant(self):
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
         self.ui = Ui_DetSizeWindow()
         self.ui.setupUi(self.window)
-        MainWindow.hide()
+        self.MainWindow.hide()
         self.window.showMaximized()
 
     def toMultiplication(self):
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
         self.ui = Ui_MultSizeWindow()
         self.ui.setupUi(self.window)
-        MainWindow.hide()
+        self.MainWindow.hide()
         self.window.showMaximized()
     
     def toInverse(self):
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
         self.ui = Ui_InverseSizeWindow()
         self.ui.setupUi(self.window)
-        MainWindow.hide()
+        self.MainWindow.hide()
         self.window.showMaximized()
 
     def toSolve(self):
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
         self.ui = Ui_SolveSizeWindow()
         self.ui.setupUi(self.window)
-        MainWindow.hide()
+        self.MainWindow.hide()
         self.window.showMaximized()
 
     def toEigenChoice(self):
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
         self.ui = Ui_EigenChoiceWindow()
         self.ui.setupUi(self.window)
-        MainWindow.hide()
+        self.MainWindow.hide()
         self.window.showMaximized()
-
 
 if __name__ == "main_screen":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
+    MainWindow = QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.showMaximized()

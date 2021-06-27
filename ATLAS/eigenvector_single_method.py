@@ -12,7 +12,7 @@ from functools import partial
 from PyQt5 import QtCore, QtGui, QtWidgets
 from os import listdir
 from view_changer import Changer
-
+from closeWindow import QMainWindow
 
 class Ui_EigenvectorSingleWindow(object):
     def __init__(self, solutions):
@@ -107,7 +107,7 @@ class Ui_EigenvectorSingleWindow(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
+    MainWindow = QMainWindow()
     ui = Ui_EigenvectorSingleWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
