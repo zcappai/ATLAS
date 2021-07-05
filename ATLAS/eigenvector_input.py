@@ -104,7 +104,7 @@ class Ui_EigenvectorInWindow(object):
             final_matrix.append(curr_row)
         matrix = sp.Matrix(final_matrix)
         empty()
-        e_vec = Eigenvector(matrix, self.size)
+        e_vec = Eigenvector(matrix)
         solutions = e_vec.calc()
         e_vec.latex2img()
 

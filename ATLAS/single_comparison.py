@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from single_method_choice import Ui_SingleChoiceWindow
 from mult_compare_method import Ui_MultCompareWindow
 from os import mkdir
-from multiplication import getMethods
+import multiplication
 from compare_emptyimg import empty
 from closeWindow import QMainWindow
 
@@ -113,13 +113,12 @@ class Ui_SingleCompWindow(object):
         self.window.showMaximized()
 
     def compareMult(self):
-        methods = getMethods()
+        methods = multiplication.getMethods()
         for (i, j) in methods:
             mkdir("multiple-images/{}/".format(i))
             current_method = j(*self.arg)
             current_method.calc()
             current_method.compare_latex2img(i)
-
 
 if __name__ == "__main__":
     import sys

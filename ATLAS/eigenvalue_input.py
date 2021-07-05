@@ -103,7 +103,7 @@ class Ui_EigenvalueInWindow(object):
             final_matrix.append(curr_row)
         matrix = sp.Matrix(final_matrix)
         empty()
-        e_val = Eigenvalue(matrix, self.size)
+        e_val = Eigenvalue(matrix)
         solutions = e_val.calc()
         e_val.latex2img()
 

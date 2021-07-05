@@ -1,7 +1,7 @@
 from PyQt5 import QtGui, QtWidgets
 from os import listdir
 
-class Changer:
+class CompareChanger:
     def __init__(self, initialScene, graphicsView, subfolder):
         self.cursor = 0
         self.images = listdir("multiple-images/{}".format(subfolder))

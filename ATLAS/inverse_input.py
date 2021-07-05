@@ -103,7 +103,7 @@ class Ui_InverseInWindow(object):
             final_matrix.append(curr_row)
         matrix = sp.Matrix(final_matrix)
         empty()
-        inverse = naiveInverse(matrix, self.matrix.rowCount())
+        inverse = naiveInverse(matrix)
         check, message = inverse.check()
         inverse
         if check == True:

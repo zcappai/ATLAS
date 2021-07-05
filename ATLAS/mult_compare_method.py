@@ -9,8 +9,8 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from compare_view_changer import Changer
-from multiplication import getMethods
+from compare_view_changer import CompareChanger
+import multiplication
 from closeWindow import QMainWindow
 
 class Ui_MultCompareWindow(object):
@@ -32,7 +32,7 @@ class Ui_MultCompareWindow(object):
         self.gridLayout_2.setObjectName("gridLayout_2")
         font = QtGui.QFont()
         font.setPointSize(20)
-        methods = getMethods()
+        methods = multiplication.getMethods()
 
         # Standard Method
         self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
@@ -59,7 +59,7 @@ class Ui_MultCompareWindow(object):
         self.scene_1 = QtWidgets.QGraphicsScene()
         self.standard.setScene(self.scene_1)
 
-        self.image_1 = Changer(self.scene_1, self.standard, methods[0][0])
+        self.image_1 = CompareChanger(self.scene_1, self.standard, methods[0][0])
         self.prev_1.clicked.connect(self.image_1.prev_image)
         self.next_1.clicked.connect(self.image_1.next_image)
         self.original_1.clicked.connect(self.image_1.show_matrix)
@@ -89,7 +89,7 @@ class Ui_MultCompareWindow(object):
         self.scene_2 = QtWidgets.QGraphicsScene()
         self.strassen.setScene(self.scene_2)
 
-        self.image_2 = Changer(self.scene_2, self.strassen, methods[1][0])
+        self.image_2 = CompareChanger(self.scene_2, self.strassen, methods[1][0])
         self.prev_2.clicked.connect(self.image_2.prev_image)
         self.next_2.clicked.connect(self.image_2.next_image)
         self.original_2.clicked.connect(self.image_2.show_matrix)

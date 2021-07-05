@@ -21,7 +21,6 @@ class naiveMultiplication:
         saved.append((names, original))
         names += 1
         res = sp.Matrix([[0 for x in range(self.rightdim)] for y in range (self.leftdim)])
-        # names = 1
         for i in range(self.leftdim):
             for j in range(self.rightdim):
                 res[i, j] = 0
@@ -78,9 +77,15 @@ class Strassen:
         final_rows = self.leftmatrix.rows
         final_cols = self.rightmatrix.cols
         global names
-        original = "L="+sp.latex(sp.Matrix(self.leftmatrix))+" * "+"R="+sp.latex(sp.Matrix(self.rightmatrix))
+        original = "L="+sp.latex(self.leftmatrix)+" * "+"R="+sp.latex(self.rightmatrix)
         saved.append((names, original))
         names += 1
+        if self.leftmatrix.rows == 0 or self.rightmatrix.rows == 0:
+            text.append((names, "Multiplying any matrix by an empty matrix results in an empty matrix"))
+            names += 1
+            saved.append((names, "[]"))
+            names += 1
+            return sp.Matrix([])
         # Dynamic padding
         if self.leftmatrix.rows % 2 == 1:
             text.append((names, "The left matrix is padded with a row of zeroes for an even number of rows, as follows"))
@@ -288,6 +293,9 @@ def getMethods():
 
 # a = sp.Matrix([[1,2,3],[3,4,5]])
 # b = sp.Matrix([[3,4],[1,2],[3,5]])
+
+# a = sp.Matrix([])
+# b = sp.Matrix([])
 # x = Strassen(a, b)
 
 # a = sp.Matrix([4])

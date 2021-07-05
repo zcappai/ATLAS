@@ -5,14 +5,14 @@ from emptyimg import empty
 from text2image import toImage, formula_as_file
 
 class naiveInverse:
-    def __init__(self, matrix, size):
+    def __init__(self, matrix):
         self.matrix = matrix
-        self.size = size
+        self.size = matrix.rows
         self.saved = []
         self.text = []
 
     def check(self):
-        det = naiveDeterminant(self.matrix, self.size).calc()
+        det = naiveDeterminant(self.matrix).calc()
         if det == 0:
             formula_as_file(sp.latex(self.matrix), 0)
             toImage("No Inverse Exists", 1)
@@ -23,6 +23,13 @@ class naiveInverse:
     def calc(self):
         curr = []
         names = 1
+        if self.size == 1:
+            only_value = self.matrix[0]
+            self.text.append((names, "Since the matrix has only 1 values, the reciprocal is taken"))
+            names += 1
+            self.saved.append((names, sp.latex(sp.Matrix([1/only_value]))))
+            names += 1
+            return sp.Matrix([1/only_value])
         self.text.append((names, "First, we find the minors of each element"))
         names += 1
         self.text.append((names, "The minor ignores the values on the current row & column..."))
@@ -42,7 +49,7 @@ class naiveInverse:
             if self.size - 1 == 1:
                 minors.append(i[0])
             else:
-                det = naiveDeterminant(i, self.size - 1).calc()
+                det = naiveDeterminant(i).calc()
                 minors.append(det)
         matrix_minors = sp.Matrix(self.size, self.size, minors)
         self.text.append((names, "Therefore, the matrix of minors is"))
@@ -92,7 +99,7 @@ class naiveInverse:
         names += 1
         self.text.append((names, "Giving a determinant of"))
         names += 1
-        final_det = naiveDeterminant(self.matrix, self.size).calc()
+        final_det = naiveDeterminant(self.matrix).calc()
         self.saved.append((names, sp.latex(final_det)))
         names += 1
         self.text.append((names, "Finally, we multiply 1/det by the adjugate as follows"))
@@ -104,6 +111,7 @@ class naiveInverse:
         names += 1
         self.saved.append((names, sp.latex(inverse)))
         names += 1
+        return inverse
 
     def latex2img(self):
         formula_as_file(sp.latex(self.matrix), 0)
@@ -114,8 +122,9 @@ class naiveInverse:
 
 # empty()
 # a = sp.Matrix([[2,6,3,5],[3,5,6,4],[2,4,3,5],[3,5,7,4]])
+# a = sp.Matrix([8])
 # sp.pprint(a)
-# inverse = naiveInverse(a, 4)
+# inverse = naiveInverse(a)
 # print(inverse.check())
 # sp.pprint(inverse.calc())
 # inverse.latex2img()

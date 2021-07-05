@@ -88,7 +88,7 @@ class Ui_DetInWindow(object):
             for j in range(self.matrix.rowCount()):
                 final_matrix.append(self.matrix.item(i, j).text())
         matrix = sp.Matrix(self.matrix.columnCount(), self.matrix.rowCount(), final_matrix)
-        determinant = naiveDeterminant(matrix, self.size)
+        determinant = naiveDeterminant(matrix)
         det = determinant.calc()
         empty()
         determinant.latex2img() #### slow!!!
