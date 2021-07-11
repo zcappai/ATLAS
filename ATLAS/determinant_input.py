@@ -11,10 +11,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sympy as sp
 from determinant import naiveDeterminant
-from det_single_method import Ui_DetSingleWindow
 from emptyimg import empty
 from validator import Validator
 from closeWindow import QMainWindow
+from single_comparison import Ui_SingleCompWindow
 
 
 class Ui_DetInWindow(object):
@@ -77,7 +77,7 @@ class Ui_DetInWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
         self.matrix_info.setText(_translate("MainWindow", "Please enter the values into the square matrix below.\n"
 "Use the scrollbar for larger matrices, if necessary."))
         self.det_input_submit.setText(_translate("DetInWindow", "Submit"))
@@ -87,14 +87,13 @@ class Ui_DetInWindow(object):
         for i in range(self.matrix.columnCount()):
             for j in range(self.matrix.rowCount()):
                 final_matrix.append(self.matrix.item(i, j).text())
-        matrix = sp.Matrix(self.matrix.columnCount(), self.matrix.rowCount(), final_matrix)
-        determinant = naiveDeterminant(matrix)
-        det = determinant.calc()
-        empty()
-        determinant.latex2img() #### slow!!!
-
+        arg = sp.Matrix(self.matrix.columnCount(), self.matrix.rowCount(), final_matrix)
+        # determinant = naiveDeterminant(matrix)
+        # det = determinant.calc()
+        # empty()
+        # determinant.latex2img() #### slow!!!
         self.window = QMainWindow()
-        self.ui = Ui_DetSingleWindow(det)
+        self.ui = Ui_SingleCompWindow(arg, "det")
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
         self.window.showMaximized()

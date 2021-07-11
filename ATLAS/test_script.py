@@ -1,12 +1,87 @@
 import sympy as sp
-from determinant import naiveDeterminant, Sarrus
+from determinant import naiveDeterminant, Sarrus, LU
 from multiplication import naiveMultiplication, Strassen
-from inverse import naiveInverse
+from inverse import CayleyHamilton, naiveInverse
 from solving import GaussianElimination
 from eigenvalue import Eigenvalue
 from eigenvector import Eigenvector
 
-## Determinant - Standard Method ##
+## Inverse - Cayley-Hamilton Theorem ##
+
+test1 = sp.Matrix([])
+test2 = sp.Matrix([0])
+test3 = sp.Matrix([8])
+test4 = sp.Matrix([[2,6],[10,3]])
+test5 = sp.Matrix([[1,2],[2,4]])
+test6 = sp.Matrix([[1,2,3],[4,5,6],[7,8,9]])
+test7 = sp.Matrix([[4,2,5],[14,15,7],[23,2,1]])
+test8 = sp.Matrix([[1,3,5,9],[1,3,1,7],[4,3,9,7],[5,2,0,9]])
+test9 = sp.Matrix([[-2,7,0,6,-2],[1,-1,3,2,2],[3,4,0,5,3],[2,5,-4,-2,2],[0,3,-1,1,-4]])
+test10 = sp.Matrix([[0,0,0,0,-2],[1,-1,3,2,2],[0,0,0,0,3],[2,5,0,-2,2],[0,3,-1,1,-4]])
+
+tests = [test1,test2,test3,test4,test5,test6,test7,test8,test9,test10]
+passed = 0
+
+for i in range(len(tests)):
+    try:
+        expected = tests[i].inv()
+        print("Test {} Expected Result".format(i+1))
+        sp.pprint(expected)
+        try:
+            actual = CayleyHamilton(tests[i]).calc()
+            print("Test {} Actual Result".format(i+1))
+            sp.pprint(actual)
+            if expected == actual:
+                print("Test {} Passed!".format(i+1))
+                passed += 1
+        except:
+            print("Error occurred!")
+            print("Test {} Failed!".format(i+1))
+    except:
+        print("No inverse exists!")
+        check = CayleyHamilton(tests[i]).check()[0]
+        if check == False:
+            print("Test {} Passed!".format(i+1))
+            passed += 1
+        elif check == True:
+            print("Test {} Failed!".format(i+1))       
+    print()
+
+print("{}/{} tests passed!".format(passed, len(tests)))
+
+## Determinant - LU Decomposition ##
+
+# test1 = sp.Matrix([4])
+# test2 = sp.Matrix([])
+# test3 = sp.Matrix([[3,4],[6,5]])
+# test4 = sp.Matrix([[3,4],[0,0]])
+# test5 = sp.Matrix([[4.5,3.6],[7.2,8.1]])
+# test6 = sp.Matrix([[3,4,7],[6,5,1],[9,4,7]])
+# test7 = sp.Matrix([[0,0,0],[0,0,0],[0,0,0]])
+# test8 = sp.Matrix([[9,8,3,3],[8,2,6,3],[4,3,3,1],[5,7,9,2]])
+# test9 = sp.Matrix([[9,8,3,3,4],[8,2,6,3,1],[4,3,3,1,10],[5,7,9,2,7],[4,5,2,12,5]])
+# test10 = sp.Matrix([[9,8,3,3,4],[8,2,6,3,1],[4,0,0,1,0],[5,7,9,2,7],[4,0,2,0,5]])
+
+# tests = [test1,test2,test3,test4,test5,test6,test7,test8,test9,test10]
+# passed = 0
+
+# for i in range(len(tests)):
+#     expected = tests[i].det()
+#     print("Test {} Expected Result".format(i+1), expected)
+#     try:
+#         actual = LU(tests[i]).calc()
+#         print("Test {} Actual Result".format(i+1), actual)
+#         if expected == actual:
+#             print("Test {} Passed!".format(i+1))
+#             passed += 1
+#     except:
+#         print("Error occurred!")
+#         print("Test {} Failed!".format(i+1))
+#     print()
+
+# print("{}/{} tests passed!".format(passed, len(tests)))
+
+## Determinant - Sarrus' Method ##
 
 # test1 = sp.Matrix([[3,4,7],[6,5,1],[9,4,7]])
 # test2 = sp.Matrix([[0,0,0],[0,0,0],[0,0,0]])
@@ -191,7 +266,41 @@ from eigenvector import Eigenvector
 
 # print("{}/{} tests passed!".format(passed, len(tests)))
 
-## Matrix Multiplcation ##
+## Matrix Multiplication - Standard Method ##
+
+# test1 = (sp.Matrix([]),sp.Matrix([]))
+# test2 = (sp.Matrix([9]),sp.Matrix([3]))
+# test3 = (sp.Matrix([[4,7],[5,9]]),sp.Matrix([[2,9],[6,3]]))
+# test4 = (sp.Matrix([[-1],[4],[4]]),sp.Matrix([[0,-2]]))
+# test5 = (sp.Matrix([[0,3,5],[5,5,2]]),sp.Matrix([[3,4],[3,-2],[4,-2]]))
+# test6 = (sp.Matrix([[1,0],[-1,5]]),sp.Matrix([[1,0,2],[4,5,4]]))
+# test7 = (sp.Matrix([[1,0,3,9],[-1,5,4,3],[4,7,7,2],[4,6,12,19]]),sp.Matrix([[4,6,2,7],[3,6,7,3],[3,6,6,22],[6,7,8,13]]))
+# test8 = (sp.Matrix([[4,2,5],[4,5,6],[8,4,1],[2,4,10]]),sp.Matrix([[7,2,1,5],[6,2,6,5],[12,12,15,1]]))
+# test9 = (sp.Matrix([[5],[6],[2],[6],[9]]),sp.Matrix([[4,2,9,15,16]]))
+# test10 = (sp.Matrix([[0,2,0],[1,0,0]]),sp.Matrix([[8,0],[0,3],[0,2]]))
+
+# tests = [test1,test2,test3,test4,test5,test6,test7,test8,test9,test10]
+# passed = 0
+
+# for i in range(len(tests)):
+#     expected = tests[i][0]*tests[i][1]
+#     print("Test {} Expected Result".format(i+1))
+#     sp.pprint(expected)
+#     try:
+#         actual = naiveMultiplication(tests[i][0], tests[i][1]).calc()
+#         print("Test {} Actual Result".format(i+1))
+#         sp.pprint(actual)
+#         if expected == actual:
+#             print("Test {} Passed!".format(i+1))
+#             passed += 1
+#     except:
+#         print("Error occurred!")
+#         print("Test {} Failed!".format(i+1))
+#     print()
+
+# print("{}/{} tests passed!".format(passed, len(tests)))
+
+## Matrix Multiplication - Strassen's Method ##
 
 # test1 = (sp.Matrix([]),sp.Matrix([]))
 # test2 = (sp.Matrix([9]),sp.Matrix([3]))

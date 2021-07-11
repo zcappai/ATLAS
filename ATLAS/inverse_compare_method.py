@@ -10,10 +10,10 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from compare_view_changer import CompareChanger
-import multiplication
+import inverse
 from closeWindow import QMainWindow
 
-class Ui_MultCompareWindow(object):
+class Ui_InverseCompareWindow(object):
     def setupUi(self, MainWindow):
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
@@ -32,7 +32,7 @@ class Ui_MultCompareWindow(object):
         self.gridLayout_2.setObjectName("gridLayout_2")
         font = QtGui.QFont()
         font.setPointSize(20)
-        methods = multiplication.getMethods()
+        methods = inverse.getMethods()
 
         # Standard Method
         self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
@@ -64,7 +64,7 @@ class Ui_MultCompareWindow(object):
         self.next_1.clicked.connect(self.image_1.next_image)
         self.original_1.clicked.connect(self.image_1.show_matrix)
 
-        # Strassen's Method
+        # Cayley-Hamilton Theorem
         self.label_2 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
@@ -82,14 +82,14 @@ class Ui_MultCompareWindow(object):
         self.original_2.setObjectName("original_2")
         self.gridLayout_2.addWidget(self.original_2, 10, 0, 1, 2)
 
-        self.strassen = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
-        self.strassen.setMinimumSize(QtCore.QSize(0, 700))
-        self.strassen.setObjectName("strassen")
-        self.gridLayout_2.addWidget(self.strassen, 7, 0, 1, 2)
+        self.cayley = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
+        self.cayley.setMinimumSize(QtCore.QSize(0, 700))
+        self.cayley.setObjectName("cayley")
+        self.gridLayout_2.addWidget(self.cayley, 7, 0, 1, 2)
         self.scene_2 = QtWidgets.QGraphicsScene()
-        self.strassen.setScene(self.scene_2)
+        self.cayley.setScene(self.scene_2)
 
-        self.image_2 = CompareChanger(self.scene_2, self.strassen, methods[1][0])
+        self.image_2 = CompareChanger(self.scene_2, self.cayley, methods[1][0])
         self.prev_2.clicked.connect(self.image_2.prev_image)
         self.next_2.clicked.connect(self.image_2.next_image)
         self.original_2.clicked.connect(self.image_2.show_matrix)
@@ -118,13 +118,13 @@ class Ui_MultCompareWindow(object):
         self.prev_2.setText(_translate("MainWindow", "Previous Step"))
         self.original_2.setText(_translate("MainWindow", "Show Original Matrices"))
         self.label.setText(_translate("MainWindow", "Standard Method"))
-        self.label_2.setText(_translate("MainWindow", "Strassen's Method"))
+        self.label_2.setText(_translate("MainWindow", "Cayley-Hamilton Theorem"))
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QMainWindow()
-    ui = Ui_MultCompareWindow()
+    ui = Ui_InverseCompareWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())

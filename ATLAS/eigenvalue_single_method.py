@@ -70,7 +70,7 @@ class Ui_EigenvalueSingleWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
         self.next.setText(_translate("MainWindow", "Next Step"))
         self.prev.setText(_translate("MainWindow", "Previous Step"))
         self.answer.setText(_translate("MainWindow", "Solutions: \u03BB = "+str(self.solutions)))

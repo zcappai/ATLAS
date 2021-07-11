@@ -62,7 +62,7 @@ class Ui_MultSingleWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
         self.next.setText(_translate("MainWindow", "Next Step"))
         self.prev.setText(_translate("MainWindow", "Previous Step"))
         self.showOriginalMatrices.setText(_translate("MainWindow", "Show Original Matrices"))

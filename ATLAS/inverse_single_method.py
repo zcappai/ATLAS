@@ -70,10 +70,10 @@ class Ui_InverseSingleWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
         self.next.setText(_translate("MainWindow", "Next Step"))
         self.prev.setText(_translate("MainWindow", "Previous Step"))
-        self.answer.setText(_translate("MainWindow", self.inverse_value))
+        self.answer.setText(_translate("MainWindow", str(self.inverse_value)))
         self.showOriginalMatrix.setText(_translate("MainWindow", "Show Original Matrix"))
 
     # def next_image(self):

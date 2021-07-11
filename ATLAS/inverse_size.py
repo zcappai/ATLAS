@@ -77,7 +77,7 @@ class Ui_InverseSizeWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
         self.mult_size_info2.setText(_translate("MainWindow", "Remember, the inverse of a matrix can only be calculated for a square matrix, which is a matrix that has the same number of elements along its width and height."))
         self.mult_size_info3.setText(_translate("MainWindow", "e.g. if you enter the number 4, the matrix must be of size 4x4."))
         self.mul_size_info.setText(_translate("MainWindow", "Use the box below to choose what size matrix you wish to enter."))
