@@ -80,7 +80,7 @@ class Ui_SolveInWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
         self.matrix_info.setText(_translate("MainWindow", "Please enter the values for the linear equations into the table below.\n"
 "Use the scrollbar for larger linear equations, if necessary."))
         self.submit.setText(_translate("MainWindow", "Submit"))

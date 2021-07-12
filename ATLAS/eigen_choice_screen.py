@@ -81,7 +81,7 @@ class Ui_EigenChoiceWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
         self.eigenvector_size_button.setText(_translate("MainWindow", "Eigenvector"))
         self.label.setText(_translate("MainWindow", "Select one of the options:\n"
 "\"Eigenvalue\" allows you to calculate the eigenvalue of a matrix\n"

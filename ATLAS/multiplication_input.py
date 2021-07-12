@@ -101,7 +101,7 @@ class Ui_MultInWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
         self.label.setText(_translate("MainWindow", "Left Matrix"))
         self.matrix_info.setText(_translate("MainWindow", "Please enter the values into the 2 matrices below.\n"
 "Use the scrollbar for larger matrices, if necessary."))

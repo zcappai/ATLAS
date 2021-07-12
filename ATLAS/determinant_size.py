@@ -76,7 +76,7 @@ class Ui_DetSizeWindow(object):
 
     def retranslateUi(self, DetSizeWindow):
         _translate = QtCore.QCoreApplication.translate
-        DetSizeWindow.setWindowTitle(_translate("DetSizeWindow", "MainWindow"))
+        DetSizeWindow.setWindowTitle(_translate("DetSizeWindow", "ATLAS"))
         self.det_size_info.setText(_translate("DetSizeWindow", "Use the box below to choose what size matrix you wish to enter."))
         self.det_size_info2.setText(_translate("DetSizeWindow", "e.g. if you enter the number 4, the matrix must be of size 4x4."))
         self.det_size_info1.setText(_translate("DetSizeWindow", "Remember, the determinant can only be calculated for a square matrix, which is a matrix that has the same number of elements along its width and height."))

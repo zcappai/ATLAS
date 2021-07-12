@@ -1,6 +1,5 @@
 from emptyimg import empty
 import sympy as sp
-# from latex2image import formula_as_file
 from text2image import toImage, formula_as_file
 from string import ascii_lowercase
 

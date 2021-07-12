@@ -14,11 +14,11 @@ from closeWindow import QMainWindow
 
 
 class Ui_EigenvalueSizeWindow(object):
-    def setupUi(self, EigenvalueSizeWindow):
-        self.EigenvalueSizeWindow = EigenvalueSizeWindow
-        EigenvalueSizeWindow.setObjectName("EigenvalueSizeWindow")
-        EigenvalueSizeWindow.resize(1100, 871)
-        self.centralwidget = QtWidgets.QWidget(EigenvalueSizeWindow)
+    def setupUi(self, MainWindow):
+        self.MainWindow = MainWindow
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(1100, 871)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
@@ -64,39 +64,39 @@ class Ui_EigenvalueSizeWindow(object):
         self.size_submit.setObjectName("size_submit")
         self.size_submit.clicked.connect(self.sendSize) #########################
         self.gridLayout.addWidget(self.size_submit, 5, 0, 1, 1, QtCore.Qt.AlignHCenter)
-        EigenvalueSizeWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(EigenvalueSizeWindow)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1100, 21))
         self.menubar.setObjectName("menubar")
-        EigenvalueSizeWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(EigenvalueSizeWindow)
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
-        EigenvalueSizeWindow.setStatusBar(self.statusbar)
+        MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(EigenvalueSizeWindow)
-        QtCore.QMetaObject.connectSlotsByName(EigenvalueSizeWindow)
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, EigenvalueSizeWindow):
+    def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        EigenvalueSizeWindow.setWindowTitle(_translate("EigenvalueSizeWindow", "MainWindow"))
-        self.size_info.setText(_translate("EigenvalueSizeWindow", "Use the box below to choose what size matrix you wish to enter."))
-        self.size_info2.setText(_translate("EigenvalueSizeWindow", "e.g. if you enter the number 4, the matrix must be of size 4x4."))
-        self.size_info1.setText(_translate("EigenvalueSizeWindow", "Remember, the eigenvalue can only be calculated for a square matrix, which is a matrix that has the same number of elements along its width and height."))
-        self.size_submit.setText(_translate("EigenvalueSizeWindow", "Submit"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
+        self.size_info.setText(_translate("MainWindow", "Use the box below to choose what size matrix you wish to enter."))
+        self.size_info2.setText(_translate("MainWindow", "e.g. if you enter the number 4, the matrix must be of size 4x4."))
+        self.size_info1.setText(_translate("MainWindow", "Remember, the eigenvalue can only be calculated for a square matrix, which is a matrix that has the same number of elements along its width and height."))
+        self.size_submit.setText(_translate("MainWindow", "Submit"))
 
     def sendSize(self):
         self.window = QMainWindow()
         self.ui = Ui_EigenvalueInWindow(self.size.value())
         self.ui.setupUi(self.window)
-        self.EigenvalueSizeWindow.hide()
+        self.MainWindow.hide()
         self.window.showMaximized()
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    EigenvalueSizeWindow = QMainWindow()
+    MainWindow = QMainWindow()
     ui = Ui_EigenvalueSizeWindow()
-    ui.setupUi(EigenvalueSizeWindow)
-    EigenvalueSizeWindow.show()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
     sys.exit(app.exec_())

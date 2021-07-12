@@ -69,7 +69,7 @@ class Ui_DetSingleWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
         self.next.setText(_translate("MainWindow", "Next Step"))
         self.prev.setText(_translate("MainWindow", "Previous Step"))
         self.answer.setText(QtCore.QCoreApplication.translate("MainWindow", "Determinant: "+str(self.det_value)))

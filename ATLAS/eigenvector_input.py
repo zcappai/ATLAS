@@ -79,7 +79,7 @@ class Ui_EigenvectorInWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
         self.matrix_info.setText(_translate("MainWindow", "Please enter the values into the square matrix below.\n"
 "Use the scrollbar for larger matrices, if necessary."))
         self.submit.setText(_translate("MainWindow", "Submit"))

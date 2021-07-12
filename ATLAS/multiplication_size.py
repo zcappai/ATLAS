@@ -120,7 +120,7 @@ class Ui_MultSizeWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
         self.mult_size_info3.setText(_translate("MainWindow", "e.g. a matrix with 1 row and 3 columns (1*3) would be compatible with a matrix with 3 rows and 6 columns (3*6), resulting in a matrix with 1 row and 6 columns."))
         self.submit.setText(_translate("MainWindow", "Submit"))
         self.shareddim_label.setText(_translate("MainWindow", "n"))

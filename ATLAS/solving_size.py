@@ -88,7 +88,7 @@ class Ui_SolveSizeWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
         self.mul_size_info.setText(_translate("MainWindow", "In the 2 boxes below, choose the number of equations you wish to enter and the number of unknowns in those equations."))
         self.label.setText(_translate("MainWindow", "Equations"))
         self.label_2.setText(_translate("MainWindow", "Unknowns"))

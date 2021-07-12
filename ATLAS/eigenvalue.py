@@ -1,6 +1,5 @@
 import sympy as sp
 from determinant import naiveDeterminant
-# from latex2image import formula_as_file
 from text2image import toImage, formula_as_file
 from emptyimg import empty
 

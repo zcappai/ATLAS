@@ -7,9 +7,6 @@ import sympy as sp
 from string import ascii_lowercase
 from text2image import formula_as_file
 
-a = "R_1"
-formula_as_file(a, 1)
-
 # def gauss(A):
 #     n = len(A)
 
