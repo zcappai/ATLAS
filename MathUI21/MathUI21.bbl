@@ -1,0 +1,79 @@
+\begin{thebibliography}{Mat21b}
+
+\bibitem[Han09]{matlab}
+Xiaoxu Han.
+\newblock {Teaching Elementary Linear Algebra Using MATLAB: An Initial
+  Investigation}.
+\newblock
+  \url{https://www.researchgate.net/publication/27327767\_Teaching\_Elementary\_\allowbreak{}Linear\_Algebra\_Using\_Matlab\_An\_Initial\_Investigation},
+  01 2009.
+
+\bibitem[Map21]{eigentutor}
+Maplesoft.
+\newblock {Student[LinearAlgebra][EigenvaluesTutor] --- interactive matrix
+  eigenvalues}.
+\newblock \hskip 0pt plus 400pt
+  \url{https://www.maplesoft.com/support/help/Maple/view.aspx\allowbreak?path=Student\%2fLinearAlgebra\%2fEigenvaluesTutor},
+  2021.
+
+\bibitem[Mat21a]{matlabweb}
+MathWorks.
+\newblock {MATLAB}, 2021.
+\newblock URL: \url{https://uk.mathworks.com/products/matlab.html}.
+
+\bibitem[Mat21b]{matlab_linear}
+MathWorks.
+\newblock {MATLAB --- Linear Algebra}, 2021.
+\newblock URL:
+  \url{https://uk.mathworks.com/help/symbolic/linear-algebra.html}.
+
+\bibitem[Mat21c]{smt}
+MathWorks.
+\newblock {Symbolic Math Toolbox - MATLAB}, 2021.
+\newblock URL: \url{https://uk.mathworks.com/products/symbolic.html}.
+
+\bibitem[Sag21a]{collab}
+SageMath.
+\newblock About collaborators, 2021.
+\newblock URL:
+  \url{https://doc.cocalc.com/project-settings.html\#about-collaborators}.
+
+\bibitem[Sag21b]{cocalc}
+SageMath.
+\newblock Cocalc - collaborative calculation and data science, 2021.
+\newblock URL: \url{https://cocalc.com/}.
+
+\bibitem[Sag21c]{sagemath}
+SageMath.
+\newblock Sagemath - open-source mathematical software system, 2021.
+\newblock URL: \url{https://www.sagemath.org/}.
+
+\bibitem[Sag21d]{timetravel}
+SageMath.
+\newblock Time travel, 2021.
+\newblock URL: \url{https://doc.cocalc.com/time-travel.html}.
+
+\bibitem[SG17]{sagebook}
+P.~Szabó and J.~Galanda.
+\newblock Sage math for education and research.
+\newblock In {\em 2017 15th International Conference on Emerging eLearning
+  Technologies and Applications (ICETA)}, pages 1--4, 2017.
+\newblock \href {https://doi.org/10.1109/ICETA.2017.8102535}
+  {\path{doi:10.1109/ICETA.2017.8102535}}.
+
+\bibitem[Str69]{Strassen1969}
+V.~Strassen.
+\newblock {Gaussian Elimination is not Optimal}.
+\newblock {\em Numer. Math.}, 13:354--356, 1969.
+
+\bibitem[TSD17]{Tonksetal2017a}
+Z.~Tonks, G.~Sankaran, and J.~Davenport.
+\newblock {Fast Matrix Operations in Computer Algebra}.
+\newblock In {\em Proceedings SYNASC 2017}, pages 67--70, 2017.
+
+\bibitem[Win71]{Winograd1971}
+S.~Winograd.
+\newblock {On multiplication of 2 x 2 matrices}.
+\newblock {\em Linear algebra and its applications}, 4:381--388, 1971.
+
+\end{thebibliography}
