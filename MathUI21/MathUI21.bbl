@@ -61,6 +61,12 @@ P.~Szabó and J.~Galanda.
 \newblock \href {https://doi.org/10.1109/ICETA.2017.8102535}
   {\path{doi:10.1109/ICETA.2017.8102535}}.
 
+\bibitem[Ste18]{Stein2018a}
+W.A. Stein.
+\newblock {COCALC: Making open source mathematical software easily available on
+  the web (talk at ICMS 2018)}.
+\newblock \url{https://goo.gl/HWdEvc}, 2018.
+
 \bibitem[Str69]{Strassen1969}
 V.~Strassen.
 \newblock {Gaussian Elimination is not Optimal}.

@@ -5,8 +5,8 @@
 \titlerunning{ATLAS: Educational Linear Algebra}
 \author{Akhilesh Pai\inst{1} \and James H. Davenport\inst{1}}
 \institute{
-  University of Bath, Bath BA2 7AY, UK\\
-  \email{abp43@bath.ac.uk}\\ \email{J.H.Davenport@bath.ac.uk} 
+${}^1$  University of Bath, Bath BA2 7AY, UK\\
+  \email{abp43@bath.ac.uk}; \email{J.H.Davenport@bath.ac.uk} 
 }
 \begin{document}
 
@@ -16,7 +16,7 @@
 While there are numerous linear algebra teaching tools, they tend to be focused on the basics, and not handle the more advanced aspects. This project aims to fill that gap, focusing specifically on methods like Strassen's fast matrix multiplication.
 \end{abstract}
 \section{Introduction}
-There are numerous linear algebra teaching tools, of which we make a brief survey.
+There are numerous linear algebra teaching tools, of which we make a brief survey of the more relevant ones.
 \subsection{Maple/Tutor}
 Maple, a major computer algebra system, has various linear algebra tools, but all of the ``$O(n^3)$ for multiplication'' family, despite evidence \cite{Tonksetal2017a} that, in an algebraic rather than numerical context, the Strassen--Winograd \cite{Strassen1969,Winograd1971} method can in practice be faster for reasonably small examples.
 
@@ -29,7 +29,7 @@ alternative methods could create a platform through which different methods can 
 to each other. This will not only encourage users to learn how the solution is found, but also give users
 the opportunity to learn entirely new methods that are, in some cases, more efficient.
 \subsection{CoCalc}
-Created by the developers of SageMath \cite{sagemath}, CoCalc is a CAS that is unique amongst its competition because it is web-based and therefore does not need to be downloaded or installed \cite{cocalc}. This immediately highlights one of the advantages of CoCalc over competitors such as Maple and REDUCE, which is that it is accessible on any computer system with a stable internet connection without needing a powerful computer. Therefore, it far surpasses Maple and REDUCE in its portability. CoCalc's relation to SageMath is that it is the cloud version of SageMath \cite{sagebook}.
+Created by the developers of SageMath \cite{sagemath}, CoCalc \cite{Stein2018a} is a CAS that is unique amongst its competition because it is web-based and therefore does not need to be downloaded or installed \cite{cocalc}. This immediately highlights one of the advantages of CoCalc over competitors such as Maple and REDUCE, which is that it is accessible on any computer system with a stable internet connection without needing a powerful computer. Therefore, it far surpasses Maple and REDUCE in its portability. CoCalc's relation to SageMath is that it is the cloud version of SageMath \cite{sagebook}.
 
 Another advantage of CoCalc over its competition is that CoCalc allows collaboration, so projects within CoCalc can be worked on by multiple collaborators simultaneously \cite{collab} and CoCalc will record the history of the file through its Time Travel feature \cite{timetravel}, which also shows which collaborators made which changes to a given file allowing the collaborators to view the full development of their project from start to finish and revisit an older version of the file if they need to. This feature expands the target audience from individual students and researchers to groups of students and researchers. Furthermore, its use in educational settings would allow teachers to create notebooks and conduct their lessons entirely on CoCalc by giving students the chance to interactive with and control the notebook. This is most notably achieved through the ability to create courses that students can be a part of, create handouts and assignments for students to complete which can then be graded either by the teacher or through the builtin peer grading system that randomly assigns the assignments to other students \cite{sagebook}. However, these features are part of the paid functionality. In this respect, CoCalc has many similarities to the e-learning platform, Moodle, which is used by many universities such as the University of Bath.
 
@@ -45,13 +45,15 @@ Currently, unit testing has been carried out on individual, isolated components 
 
 There is an aspiration to extend the system beyond the current suite of capabilities to look at and compare methods that are considered numerically good or bad. The purpose of this extension would be to understand which methods are superior to others when dealing with floating point numbers within matrices. This is because, there are cases where certain methods can lead to drastically incorrect results when given specific inputs due to the manner in which the method operates. Therefore, by implementing this functionality, users could be given a greater insight into the effectiveness of different methods.
 
-Any future plans for ATLAS would revolve around the idea of implementing more non-standard methods, especially those that are newly developed to ensure that users have access to the newest and most efficient methods available. Additionally, there is a desire to improve the portability of ATLAS by creating a web-based equivalent that can be accessed from anywhere without the need to transfer the files of the program. This would help to increase the reach of ATLAS not only because it would be accessible from anywhere, but also because less computational power would be needed to run the program.
+Any future plans for ATLAS would revolve around the idea of implementing more non-standard methods, especially those that are newly developed to ensure that users have access to the newest and most efficient (or numerically most stable) methods available. 
+
+Additionally, there is a desire to improve the portability of ATLAS by creating a web-based equivalent that can be accessed from anywhere without the need to transfer the files of the program. The development of CoCalc out of SageMath illustrates this. This development would help to increase the reach of ATLAS not only because it would be accessible from anywhere, but also because less computational power would be needed to run the program. 
 
 \section{Demonstration}
 A demonstration of this tool, the main way of seeing it, can be found at \hfil\break\url{https://drive.google.com/drive/folders/1lBbcWdRd7VwVb8il3HHZgZO8njOx64Pb}.
 
 \section{Conclusion}
-The development of ATLAS was started with the aim of aiding students with learning various different linear algebra methods through active examples, in addition to allowing people such as researchers to obtain a broader linear algebra toolkit to apply for more complex problems for which standard methods would prove to be too inefficient or laborious. ATLAS aims to address several problems identified during the literature review, such as the inability to compare multiple methods simultaneously and, in many cases, produce step-by-step solutions for a problem. Whilst step-by-step solutions are available within the popular computer algebra system Maple, the functionality is limited to a small subset of methods. These problems have been successfully addressed within ATLAS to create a linear algebra system with a simple and easy to use interface.
+The development of ATLAS was started with the aim of aiding students with learning various different linear algebra methods through active examples, in addition to allowing people such as researchers to obtain a broader linear algebra toolkit to apply for more complex problems for which standard methods would prove to be too inefficient or laborious. ATLAS aims to address several problems identified during the literature survey, such as the inability to compare multiple methods simultaneously and, in many cases, produce step-by-step solutions for a problem. Whilst step-by-step solutions are available within the popular computer algebra system Maple, the functionality is limited to a small subset of methods. These problems have been successfully addressed within ATLAS to create a linear algebra system with a simple and easy to use interface.
 
 \def\href{\url}\def\path{\url}
 \bibliography{references}
