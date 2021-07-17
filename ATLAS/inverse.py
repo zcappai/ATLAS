@@ -41,21 +41,19 @@ class naiveInverse:
         self.names += 1
         self.text.append((self.names, "...and calculates the determinant of the remaining values"))
         self.names += 1
+        minors = []
         for i in range(self.size):
             for j in range(self.size):
                 curr_submatrix = self.matrix.minor_submatrix(i, j)
-                self.text.append((self.names, "The minor of "+sp.latex(self.matrix.row(i).col(j)[0])+" is"))
+                self.text.append((self.names, "The element "+sp.latex(self.matrix.row(i).col(j)[0])+" gives the matrix"))
                 self.names += 1
-                self.saved.append((self.names, sp.latex(curr_submatrix[0])))
+                self.saved.append((self.names, sp.latex(curr_submatrix)))
+                self.names += 1
+                det = naiveDeterminant(curr_submatrix).calc()
+                minors.append(det)
+                self.text.append((self.names, "This has a determinant of {}".format(det)))
                 self.names += 1
                 curr.append(curr_submatrix)
-        minors = []
-        for i in curr:
-            if self.size - 1 == 1:
-                minors.append(i[0])
-            else:
-                det = naiveDeterminant(i).calc()
-                minors.append(det)
         matrix_minors = sp.Matrix(self.size, self.size, minors)
         self.text.append((self.names, "Therefore, the matrix of minors is"))
         self.names += 1
@@ -227,6 +225,77 @@ class CayleyHamilton:
         for i in self.text:
             compare_text2image.toImage(i[1], i[0], subfolder)
 
+# class Strassen:
+#     def __init__(self, matrix):
+#         self.matrix = matrix
+#         self.size = matrix.rows
+#         self.saved = []
+#         self.text = []
+#         self.names = 0
+
+#     def check(self):
+#         det = naiveDeterminant(self.matrix).calc()
+#         if det == 0:
+#             self.saved.append((self.names, sp.latex(self.matrix)))
+#             self.names += 1
+#             self.text.append((self.names, "No Inverse Exists"))
+#             self.names += 1
+#             return False, "No Inverse Exists (Determinant of the matrix is 0)"
+#         else:
+#             return True, "Inverse Exists!"
+
+#     def calc(self):
+#         final_rows = self.matrix.rows
+#         final_cols = self.matrix.cols
+#         if self.matrix.rows % 2 == 1:
+#             self.matrix = self.matrix.col_join(sp.zeros(1, self.matrix.cols))
+#         if self.matrix.cols % 2 == 1:
+#             self.matrix = self.matrix.row_join(sp.zeros(self.matrix.rows, 1))
+#         sp.pprint(self.matrix)
+
+#         row_half = (self.matrix.rows) // 2
+#         col_half = (self.matrix.cols) // 2
+
+#         a11 = self.matrix[:row_half, :col_half] # top-left
+#         a12 = self.matrix[:row_half, col_half:] # top-right
+#         a21 = self.matrix[row_half:, :col_half] # bottom-left
+#         a22 = self.matrix[row_half:, col_half:] # bottom-right
+
+#         R1 = naiveInverse(a11).calc()
+#         print("R1")
+#         sp.pprint(R1)
+#         R2 = a21 * R1
+#         print("R2")
+#         sp.pprint(R2)
+#         R3 = R1 * a12
+#         print("R3")
+#         sp.pprint(R3)
+#         R4 = a21 * R3
+#         print("R4")
+#         sp.pprint(R4)
+#         R5 = R4 - a22
+#         print("R5")
+#         sp.pprint(R5)
+#         R6 = naiveInverse(R5).calc()
+#         print("R6")
+#         sp.pprint(R6)
+#         c12 = R3 * R6
+#         c21 = R6 * R2
+#         R7 = R3 * c21
+#         c11 = R1 - R7
+#         c22 = -R6
+
+#         top_half = c11.row_join(c12)
+#         bottom_half = c21.row_join(c22)
+#         final_matrix = top_half.col_join(bottom_half)
+
+#         if final_matrix.cols != final_cols:
+#             final_matrix.col_del(final_matrix.cols - 1)
+#         if final_matrix.rows != final_rows:
+#             final_matrix.row_del(final_matrix.rows - 1)
+
+#         return final_matrix
+
 def getMethods():
     methods = []
     methods.append(("Standard", naiveInverse))
@@ -235,6 +304,7 @@ def getMethods():
 
 # empty()
 # a = sp.Matrix([[2,6,3,5],[3,5,6,4],[2,4,3,5],[3,5,7,4]])
+# a = sp.Matrix([[2,6,3],[3,5,6],[2,4,3]])
 # a = sp.Matrix([8])
 # sp.pprint(a)
 # inverse = CayleyHamilton(a)
@@ -246,7 +316,7 @@ def getMethods():
 # a = sp.Matrix([])
 # a = sp.Matrix([8])
 # sp.pprint(a)
-# inverse = CayleyHamilton(a)
+# inverse = naiveInverse(a)
 # print(inverse.check())
 # sp.pprint(inverse.calc())
 # inverse.latex2img()

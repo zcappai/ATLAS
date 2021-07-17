@@ -12,11 +12,13 @@ from inverse_single_method import Ui_InverseSingleWindow
 from det_single_method import Ui_DetSingleWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
 from mult_single_method import Ui_MultSingleWindow
-from multiplication import naiveMultiplication, Strassen
+from multiplication import Laderman, naiveMultiplication, Strassen
 from determinant import naiveDeterminant, Sarrus, LU
 from inverse import naiveInverse, CayleyHamilton
+from solving import GaussianElimination, CramersRule
 from emptyimg import empty
 from closeWindow import QMainWindow
+from solving_single_method import Ui_SolveSingleWindow
 
 class Ui_SingleChoiceWindow(object):
     def __init__(self, arg, method):
@@ -88,7 +90,8 @@ class Ui_SingleChoiceWindow(object):
             self.inv()
             self.submit_button.clicked.connect(self.invCall)
         elif self.method == "solve":
-            pass
+            self.solve()
+            self.submit_button.clicked.connect(self.solveCall)
         elif self.method == "e_val":
             pass
         elif self.method == "e_vec":
@@ -117,6 +120,15 @@ class Ui_SingleChoiceWindow(object):
         self.strassen.setText("Strassen's Method")
         self.strassen.setFont(self.font)
 
+        left = self.arg[0]
+        right = self.arg[1]
+        if left.rows == 3 and left.cols == 3 and right.rows == 3 and right.cols == 3:
+            self.laderman = QtWidgets.QRadioButton(self.scrollAreaWidgetContents)
+            self.laderman.setObjectName("laderman")
+            self.verticalLayout.addWidget(self.laderman)
+            self.laderman.setText("Laderman Method")
+            self.laderman.setFont(self.font)
+
     def multCall(self):
         if self.standard.isChecked() == True:
             mult = naiveMultiplication(*self.arg)
@@ -126,6 +138,11 @@ class Ui_SingleChoiceWindow(object):
         elif self.strassen.isChecked() == True:
             empty()
             mult = Strassen(*self.arg)
+            mult.calc()
+            mult.latex2img()
+        elif self.laderman.isChecked() == True:
+            empty()
+            mult = Laderman(*self.arg)
             mult.calc()
             mult.latex2img()
 
@@ -201,6 +218,7 @@ class Ui_SingleChoiceWindow(object):
                 inverse.latex2img()
                 ans = message
             elif check == False:
+                inverse.latex2img()
                 ans = message
         elif self.cayley.isChecked() == True:
             empty()
@@ -211,10 +229,42 @@ class Ui_SingleChoiceWindow(object):
                 inverse.latex2img()
                 ans = message
             elif check == False:
+                inverse.latex2img()
                 ans = message
 
         self.window = QMainWindow()
         self.ui = Ui_InverseSingleWindow(ans)
+        self.ui.setupUi(self.window)
+        self.MainWindow.hide()
+        self.window.showMaximized()
+
+    def solve(self):
+        self.gaussian = QtWidgets.QRadioButton(self.scrollAreaWidgetContents)
+        self.gaussian.setObjectName("gaussian")
+        self.verticalLayout.addWidget(self.gaussian)
+        self.gaussian.setText("Gaussian Elimination")
+        self.gaussian.setFont(self.font)
+
+        self.cramers = QtWidgets.QRadioButton(self.scrollAreaWidgetContents)
+        self.cramers.setObjectName("cramers")
+        self.verticalLayout.addWidget(self.cramers)
+        self.cramers.setText("Cramer's Rule")
+        self.cramers.setFont(self.font)
+
+    def solveCall(self):
+        if self.gaussian.isChecked() == True:
+            solve = GaussianElimination(self.arg)
+            empty()
+            ans = solve.calc()
+            solve.latex2img()
+        elif self.cramers.isChecked() == True:
+            empty()
+            solve = CramersRule(self.arg)
+            ans = solve.calc()
+            solve.latex2img()
+
+        self.window = QMainWindow()
+        self.ui = Ui_SolveSingleWindow(ans)
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
         self.window.showMaximized()
@@ -226,5 +276,5 @@ if __name__ == "__main__":
     MainWindow = QMainWindow()
     ui = Ui_SingleChoiceWindow(None, None)
     ui.setupUi(MainWindow)
-    MainWindow.show()
+    MainWindow.showMaximized()
     sys.exit(app.exec_())

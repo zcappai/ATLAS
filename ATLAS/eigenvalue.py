@@ -61,9 +61,74 @@ class Eigenvalue:
         for i in self.text:
             toImage(i[1], i[0])
 
+# class QR:
+#     def __init__(self, matrix):
+#         self.matrix = matrix
+#         self.cols = matrix.cols
+#         self.saved = []
+#         self.text = []
+
+#     def calc(self):
+#         if self.cols == 1:
+#             return [self.matrix[0]]
+#         U0 = sp.eye(self.cols)
+#         checker = True
+#         count = 0
+#         while checker:
+#             e = []
+#             for i in range(self.cols):
+#                 # sp.pprint(self.matrix)
+#                 curr_col = self.matrix.col(i)
+#                 modulus = 0
+#                 for k in curr_col:
+#                     modulus += k**2
+#                 modulus = sp.sqrt(modulus)
+#                 if i == 0:
+#                     e.append((curr_col/modulus).evalf())
+#                 else:
+#                     new_col = curr_col
+#                     for j in e:
+#                         new_col -= curr_col.dot(j)*j
+#                     modulus_new = 0
+#                     for l in new_col:
+#                         modulus_new += l**2
+#                     modulus_new = sp.sqrt(modulus_new)
+#                     e.append((new_col/modulus_new).evalf())
+
+#             Q = sp.Matrix.hstack(*e)
+#             R = sp.Matrix(self.cols, self.cols, [0]*self.cols*self.cols)
+
+#             for i in range(self.cols):
+#                 a_col = self.matrix.col(i)
+#                 for j in range(i+1):
+#                     q_col = Q.col(j)
+#                     R[j, i] = a_col.dot(q_col)
+
+#             new_x = R*Q
+#             diff_check = []
+#             # sp.pprint(new_x)
+#             for i in range(self.cols):
+#                 diff = self.matrix[i, i] - new_x[i, i]
+#                 if diff < 1e-15:
+#                     diff_check.append(True)
+#                 else:
+#                     diff_check.append(False)
+#             if False not in diff_check:
+#                 checker = False
+#             self.matrix = new_x
+#             U0 = U0*Q
+#             count += 1
+
+#         eigenvalues = []
+#         for i in range(self.cols):
+#             eigenvalues.append(self.matrix[i, i])
+#         print(count)
+#         return eigenvalues
+
 # x = sp.Matrix([[1,1,1],[2,-3,4],[3,4,5]])
+# x = sp.Matrix([[1,1,0],[1,0,1],[0,1,1]])
 # x = sp.Matrix([[4/5, -3/5, 0],[3/5, 4/5, 0],[1, 2, 2]])
 # sp.pprint(x)
-# new = Eigenvalue(x)
+# new = QR(x)
 # sp.pprint(new.calc())
 # new.latex2img()

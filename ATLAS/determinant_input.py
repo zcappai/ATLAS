@@ -48,8 +48,6 @@ class Ui_DetInWindow(object):
         for i in range(self.matrix.columnCount()):
             for j in range(self.matrix.rowCount()):
                 self.matrix.setItem(j, i, QtWidgets.QTableWidgetItem('0'))
-        self.validator = Validator(self.matrix)
-        self.matrix.itemChanged.connect(self.validator.validate) #################################
         self.gridLayout.addWidget(self.matrix, 2, 1, 1, 1)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem1, 1, 1, 1, 1)
@@ -74,6 +72,14 @@ class Ui_DetInWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        self.warning = QtWidgets.QLabel(self.centralwidget)
+        self.warning.setFont(font)
+        self.warning.setWordWrap(True)
+        self.warning.setObjectName("warning")
+
+        self.validator = Validator(self.matrix, self.warning)
+        self.matrix.itemChanged.connect(self.validator.validate) #################################
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

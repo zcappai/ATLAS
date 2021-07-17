@@ -27,5 +27,9 @@ def toImage(message, count, subfolder):
 #         os.system('convert tmp.png -channel RGB -negate -colorspace rgb %s' %file)
 
 def formula_as_file(formula, file, subfolder):
+    # print()
+    # print(formula)
+    # print(file)
     formula = "$$"+formula+"$$"
+    # print("yes")
     preview(r"{}".format(formula), viewer='file', filename='multiple-images/{}/{}.png'.format(subfolder, file), euler=False, dvioptions=["-T", "tight", "-z", "0", "--truecolor", "-D 600", "-bg", "Transparent"])

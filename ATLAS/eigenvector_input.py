@@ -42,8 +42,6 @@ class Ui_EigenvectorInWindow(object):
         for i in range(self.matrix.columnCount()):
             for j in range(self.matrix.rowCount()):
                 self.matrix.setItem(j, i, QtWidgets.QTableWidgetItem('0'))
-        validator = Validator(self.matrix)
-        self.matrix.itemChanged.connect(partial(validator.validate)) ######################
         # self.matrix.itemChanged.connect(self.validation) ######################
         self.gridLayout.addWidget(self.matrix, 2, 1, 1, 1)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -76,6 +74,14 @@ class Ui_EigenvectorInWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        self.warning = QtWidgets.QLabel(self.centralwidget)
+        self.warning.setFont(font)
+        self.warning.setWordWrap(True)
+        self.warning.setObjectName("warning")
+
+        validator = Validator(self.matrix, self.warning)
+        self.matrix.itemChanged.connect(partial(validator.validate)) ######################
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -119,7 +125,7 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QMainWindow()
-    ui = Ui_EigenvectorInWindow()
+    ui = Ui_EigenvectorInWindow(5)
     ui.setupUi(MainWindow)
-    MainWindow.show()
+    MainWindow.showMaximized()
     sys.exit(app.exec_())
