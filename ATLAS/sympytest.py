@@ -6,140 +6,62 @@
 import sympy as sp
 from string import ascii_lowercase
 from text2image import formula_as_file
+import math
+from pprint import pprint
 
-# def gauss(A):
-#     n = len(A)
+# def cholesky(A):
+#     """Performs a Cholesky decomposition of A, which must 
+#     be a symmetric and positive definite matrix. The function
+#     returns the lower variant triangular matrix, L."""
+#     # n = len(A)
+#     n = A.rows
 
+#     # Create zero matrix for L
+#     L = sp.Matrix(n, n, [0]*n*n)
+#     # L = [[0.0] * n for i in range(n)]
+
+#     # Perform the Cholesky decomposition
+#     for i in range(n):
+#         for k in range(i+1):
+#             tmp_sum = sum(L.row(i).col(j)[0] * L.row(k).col(j)[0] for j in range(k))
+            
+#             if (i == k): # Diagonal elements
+#                 # LaTeX: l_{kk} = \sqrt{ a_{kk} - \sum^{k-1}_{j=1} l^2_{kj}}
+#                 L[i, k] = math.sqrt(A.row(i).col(i)[0] - tmp_sum)
+#             else:
+#                 # LaTeX: l_{ik} = \frac{1}{l_{kk}} \left( a_{ik} - \sum^{k-1}_{j=1} l_{ij} l_{kj} \right)
+#                 L[i, k] = (1.0 / L.row(k).col(k)[0] * (A.row(i).col(k)[0] - tmp_sum))
+
+#     # Forward substitution
+#     L = L.col_insert(n+1, A.col(-1))
+#     x = [0 for i in range(n)]
 #     for i in range(0, n):
-#         # Search for maximum in this column
-#         maxEl = abs(A[i][i])
-#         maxRow = i
+#         x[i] = L.row(i).col(n)[0] / L.row(i).col(i)[0]
+#         if x[i] == sp.nan: #####################################################
+#             x[i] = 1
 #         for k in range(i + 1, n):
-#             if abs(A[k][i]) > maxEl:
-#                 maxEl = abs(A[k][i])
-#                 maxRow = k
+#             L[k, n] -= L.row(k).col(i)[0] * x[i]
+#         L[i, n] = x[i]
 
-#         # Swap maximum row with current row (column by column)
-#         for k in range(i, n + 1):
-#             tmp = A[maxRow][k]
-#             A[maxRow][k] = A[i][k]
-#             A[i][k] = tmp
+#     # Transposed matrix
+#     L.col_del(-1)
+#     L = L.T
+#     L = L.col_insert(n+1,sp.Matrix(n, 1, x))
 
-#         # Make all rows below this one 0 in current column
-#         for k in range(i + 1, n):
-#             c = -A[k][i] / A[i][i]
-#             for j in range(i, n + 1):
-#                 if i == j:
-#                     A[k][j] = 0
-#                 else:
-#                     A[k][j] += c * A[i][j]
-
-#     # Solve equation Ax=b for an upper triangular matrix A
+#     # Back substitution
 #     x = [0 for i in range(n)]
 #     for i in range(n - 1, -1, -1):
-#         x[i] = A[i][n] / A[i][i]
+#         x[i] = sp.N(L.row(i).col(n)[0] / L.row(i).col(i)[0], 10)
+#         if x[i] == sp.nan: #####################################################
+#             x[i] = 1
+#         L[i, i] = 1
+#         L[i, n] = x[i]
 #         for k in range(i - 1, -1, -1):
-#             A[k][n] -= A[k][i] * x[i]
+#             L[k, n] -= L.row(k).col(i)[0] * x[i]
+#             L[k, i] = 0
 #     return x
 
 
-# A = [[0,0,0],[0,0,0]]
-# print(A)
+# x = sp.Matrix([[6,15,55,76],[15,55,225,295],[55,225,979,1259]])
 
-# # Calculate solution
-# x = gauss(A)
-
-# # Print result
-# print(x)
-
-# x = sp.Matrix([[1,0,1],[0,0,0],[0,0,0]])
-# sp.pprint(x)
-# atoms = list(ascii_lowercase)
-# vars = sp.Matrix(3,1,atoms[:3])
-# sp.pprint(vars)
-# prod = x*vars
-# solution = sp.solve(prod[0])[0]
-# for key, value in solution.items():
-#     vars = vars.subs(key, value)
-# sp.pprint(vars)
-# free = list(vars.free_symbols)
-# print(free)
-# eigenvectors = []
-# for i in range(len(free)):
-#     curr = free[i]
-#     rem = free[:i] + free[i+1:]
-#     temp = vars.subs(curr, 1)
-#     for j in rem:
-#         temp = temp.subs(j, 0)
-#     eigenvectors.append(temp)
-# sp.pprint(eigenvectors)
-
-# x = sp.Matrix([[-2,-1,-1,0],[0,-1,-1,-2],[0,0,0,0],[0,0,0,0]])
-# sp.pprint(x)
-# atoms = list(ascii_lowercase)
-# vars = sp.Matrix(4,1,atoms[:4])
-# sp.pprint(vars)
-# prod = x*vars
-# sp.pprint(prod)
-# solutions = []
-# for i in prod:
-#     solutions.append(sp.solve(i))
-# print(solutions)
-# for i in solutions:
-#     print(i)
-#     try:
-#         for key, value in i[0].items():
-#             sp.pprint(vars)
-#             vars = vars.subs(key, value)
-#             sp.pprint(vars)
-#             print()
-#     except:
-#         pass
-# print()
-# sp.pprint(vars)
-# free = list(vars.free_symbols)
-# print(free)
-# eigenvectors = []
-# for i in range(len(free)):
-#     curr = free[i]
-#     rem = free[:i] + free[i+1:]
-#     temp = vars.subs(curr, 1)
-#     for j in rem:
-#         temp = temp.subs(j, 0)
-#     eigenvectors.append(temp)
-# sp.pprint(eigenvectors)
-
-# x = sp.Matrix([[0,0],[0,0]])
-# sp.pprint(x)
-# atoms = list(ascii_lowercase)
-# vars = sp.Matrix(2,1,atoms[:2])
-# sp.pprint(vars)
-# prod = x*vars
-# sp.pprint(prod)
-# solutions = []
-# for i in prod:
-#     solutions.append(sp.solve(i))
-# print(solutions)
-# for i in solutions:
-#     print(i)
-#     try:
-#         for key, value in i[0].items():
-#             sp.pprint(vars)
-#             vars = vars.subs(key, value)
-#             sp.pprint(vars)
-#             print()
-#     except:
-#         pass
-# print()
-# sp.pprint(vars)
-# free = list(vars.free_symbols)
-# print(free)
-# eigenvectors = []
-# for i in range(len(free)):
-#     curr = free[i]
-#     rem = free[:i] + free[i+1:]
-#     temp = vars.subs(curr, 1)
-#     for j in rem:
-#         temp = temp.subs(j, 0)
-#     eigenvectors.append(temp)
-# sp.pprint(eigenvectors)
+# sp.pprint(cholesky(x))

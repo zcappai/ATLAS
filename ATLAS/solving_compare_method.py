@@ -94,6 +94,36 @@ class Ui_SolveCompareWindow(object):
         self.next_2.clicked.connect(self.image_2.next_image)
         self.original_2.clicked.connect(self.image_2.show_matrix)
 
+        # Cholesky Decomposition
+        self.label_3 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_3.setFont(font)
+        self.label_3.setObjectName("label_3")
+        self.gridLayout_2.addWidget(self.label_3, 11, 0, 1, 1)
+
+        self.prev_3 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.prev_3.setObjectName("prev_3")
+        self.gridLayout_2.addWidget(self.prev_3, 16, 0, 1, 1)
+
+        self.next_3 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.next_3.setObjectName("next_3")
+        self.gridLayout_2.addWidget(self.next_3, 16, 1, 1, 1)
+
+        self.original_3 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.original_3.setObjectName("original_3")
+        self.gridLayout_2.addWidget(self.original_3, 17, 0, 1, 2)
+
+        self.cholesky = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
+        self.cholesky.setMinimumSize(QtCore.QSize(0, 700))
+        self.cholesky.setObjectName("cholesky")
+        self.gridLayout_2.addWidget(self.cholesky, 13, 0, 1, 2)
+        self.scene_3 = QtWidgets.QGraphicsScene()
+        self.cholesky.setScene(self.scene_3)
+
+        self.image_3 = CompareChanger(self.scene_3, self.cholesky, methods[2][0])
+        self.prev_3.clicked.connect(self.image_3.prev_image)
+        self.next_3.clicked.connect(self.image_3.next_image)
+        self.original_3.clicked.connect(self.image_3.show_matrix)
+
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout.addWidget(self.scrollArea, 0, 0, 1, 2)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -117,8 +147,12 @@ class Ui_SolveCompareWindow(object):
         self.next_2.setText(_translate("MainWindow", "Next Step"))
         self.prev_2.setText(_translate("MainWindow", "Previous Step"))
         self.original_2.setText(_translate("MainWindow", "Show Original Matrices"))
+        self.next_3.setText(_translate("MainWindow", "Next Step"))
+        self.prev_3.setText(_translate("MainWindow", "Previous Step"))
+        self.original_3.setText(_translate("MainWindow", "Show Original Matrices"))
         self.label.setText(_translate("MainWindow", "Gaussian Elimination"))
         self.label_2.setText(_translate("MainWindow", "Cramer's Rule"))
+        self.label_3.setText(_translate("MainWindow", "Cholesky Decomposition"))
 
 if __name__ == "__main__":
     import sys

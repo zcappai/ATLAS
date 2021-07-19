@@ -373,6 +373,51 @@ class LU:
         for i in saver.text:
             compare_text2image.toImage(i[1], i[0], subfolder)
 
+# class QR:
+#     def __init__(self, matrix):
+#         self.matrix = matrix
+#         self.saved = []
+#         self.text = []
+#         # saver. names = 0
+#         self.det = 1
+
+#     def calc(self):
+#         cols = self.matrix.cols
+#         U0 = sp.eye(cols)
+#         e = []
+#         for i in range(cols):
+#             curr_col = self.matrix.col(i)
+#             modulus = 0
+#             for k in curr_col:
+#                 modulus += k**2
+#             modulus = sp.sqrt(modulus)
+#             if i == 0:
+#                 e.append((curr_col/modulus).evalf())
+#             else:
+#                 new_col = curr_col
+#                 for j in e:
+#                     new_col -= curr_col.dot(j)*j
+#                 modulus_new = 0
+#                 for l in new_col:
+#                     modulus_new += l**2
+#                 modulus_new = sp.sqrt(modulus_new)
+#                 e.append((new_col/modulus_new).evalf())
+
+#         Q = sp.Matrix.hstack(*e)
+#         R = sp.Matrix(cols, cols, [0]*cols*cols)
+
+#         for i in range(cols):
+#             a_col = self.matrix.col(i)
+#             for j in range(i+1):
+#                 q_col = Q.col(j)
+#                 R[j, i] = a_col.dot(q_col)
+#         sp.pprint(Q)
+#         sp.pprint(R)
+#         for i in range(cols):
+#             self.det *= R[i, i]
+        
+#         return self.det
+
 def getMethods():
     methods = []
     methods.append(("Standard", naiveDeterminant))
@@ -385,6 +430,6 @@ def getMethods():
 # a = sp.Matrix([[3,4,7],[6,5,1],[9,4,7]])
 # a = sp.Matrix([[2,6,3,5],[3,5,6,4],[2,4,3,5],[3,5,7,4]])
 # a = sp.Matrix([[0,0,0],[0,0,0],[0,0,0]])
-# det = LU(a)
+# det = QR(a)
 # print(det.calc())
 # det.latex2img()

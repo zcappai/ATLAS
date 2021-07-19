@@ -2,9 +2,49 @@ import sympy as sp
 from determinant import naiveDeterminant, Sarrus, LU
 from multiplication import naiveMultiplication, Strassen, Laderman
 from inverse import CayleyHamilton, naiveInverse
-from solving import GaussianElimination, CramersRule
+from solving import GaussianElimination, CramersRule, Cholesky
 from eigenvalue import Eigenvalue
 from eigenvector import Eigenvector
+
+## Solving Systems of Linear Equations - Cholesky Decomposition ##
+
+# test1 = sp.Matrix([])
+# test2 = sp.Matrix([[7,28]])
+# test3 = sp.Matrix([[3,1,19],[1,1,8]])
+# test4 = sp.Matrix([[8,1,4],[1,1,3]])
+# test5 = sp.Matrix([[2,-1,0,3],[-1,2,-1,4],[0,-1,2,5]])
+# test6 = sp.Matrix([[25,15,-5,6],[15,18,0,16],[-5,0,11,22]])
+# test7 = sp.Matrix([[7,2,7,5],[2,5,2,6],[7,2,9,12]])
+# test8 = sp.Matrix([[1,1/2,1/3,1/4,2],[1/2,1/3,1/4,1/5,3],[1/3,1/4,1/5,1/6,4],[1/4,1/5,1/6,1/7,5]])
+# test9 = sp.Matrix([[1,1,1,1,0],[1,2,3,4,3],[1,3,6,10,4],[1,4,10,20,5]])
+# test10 = sp.Matrix([[5,7,6,5,6],[7,10,8,7,4],[6,8,10,9,12],[5,7,9,10,8]])
+
+# tests = [test1,test2,test3,test4,test5,test6,test7,test8,test9,test10]
+# passed = 0
+
+# for i in range(len(tests)):
+#     results = list(sp.linsolve(tests[i]))
+#     print("Test {} Expected Result".format(i+1))
+#     expected = []
+#     try:
+#         for j in results[0]:
+#             expected.append(j.evalf())
+#     except:
+#         pass
+#     sp.pprint(expected)
+#     actual = Cholesky(tests[i])
+#     if actual.check() == True:
+#         ans = actual.calc()[0]
+#         print("Test {} Actual Result".format(i+1))
+#         sp.pprint(ans)
+#         if expected == ans:
+#             print("Test {} Passed!".format(i+1))
+#             passed += 1
+#     else:
+#         print("Test {} Failed!".format(i+1))
+#     print()
+
+# print("{}/{} tests passed!".format(passed, len(tests)))
 
 ## Matrix Multiplication - Laderman Method ##
 
@@ -36,57 +76,6 @@ from eigenvector import Eigenvector
 #     except:
 #         print("Error occurred!")
 #         print("Test {} Failed!".format(i+1))
-#     print()
-
-# print("{}/{} tests passed!".format(passed, len(tests)))
-
-# Unfinished
-## Eigenvalues - QR Algorithm ##
-
-# test1 = sp.Matrix([0])
-# test2 = sp.Matrix([[0,0],[0,0]])
-# test3 = sp.Matrix([[6,-1],[2,3]])
-# test4 = sp.Matrix([[2,0,0],[1,2,1],[-1,0,1]])
-# test5 = sp.Matrix([[1,2,1],[6,-1,0],[-1,-2,-1]])
-# test6 = sp.Matrix([[4/5, -3/5, 0],[3/5, 4/5, 0],[1, 2, 2]])
-# test7 = sp.Matrix([[4,-6,-7],[-2,3,2],[2,-6,-5]])
-# test8 = sp.Matrix([[2,-1,-1,0],[-1,3,-1,-1],[-1,-1,3,-1],[0,-1,-1,2]])
-# test9 = sp.Matrix([[1,2,1,0,0],[2,1,2,0,0],[1,1,2,0,0],[0,0,0,0,2],[0,0,0,2,0]])
-
-# tests = [test1,test2,test3,test4,test5,test6,test7,test8,test9]
-# passed = 0
-
-# for i in range(len(tests)):
-#     results = tests[i].eigenvals()
-#     print("Test {} Expected Result".format(i+1))
-#     expected = []
-#     for k in results.items():
-#         solution = k[0]
-#         amount = k[1]
-#         while amount > 0:
-#             expected.append(solution)
-#             amount -= 1
-#     try:
-#         expected.sort()
-#     except:
-#         pass
-#     print(expected)
-#     try:
-#         actual = QR(tests[i]).calc()
-#         print("Test {} Actual Result".format(i+1))
-#         try:
-#             actual.sort()
-#         except:
-#             pass
-#         print(actual)
-#         if expected == actual:
-#             print("Test {} Passed!".format(i+1))
-#             passed += 1
-#         else:
-#             print("Test {} Failed!".format(i+1))
-#     except:
-#         print("Test {} Failed!".format(i+1))
-#         print("Function did not run successfully")
 #     print()
 
 # print("{}/{} tests passed!".format(passed, len(tests)))

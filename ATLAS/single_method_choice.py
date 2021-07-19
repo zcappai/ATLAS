@@ -15,7 +15,7 @@ from mult_single_method import Ui_MultSingleWindow
 from multiplication import Laderman, naiveMultiplication, Strassen
 from determinant import naiveDeterminant, Sarrus, LU
 from inverse import naiveInverse, CayleyHamilton
-from solving import GaussianElimination, CramersRule
+from solving import Cholesky, GaussianElimination, CramersRule
 from emptyimg import empty
 from closeWindow import QMainWindow
 from solving_single_method import Ui_SolveSingleWindow
@@ -251,6 +251,14 @@ class Ui_SingleChoiceWindow(object):
         self.cramers.setText("Cramer's Rule")
         self.cramers.setFont(self.font)
 
+        print(Cholesky(self.arg).check())
+        if Cholesky(self.arg).check() == True:
+            self.cholesky = QtWidgets.QRadioButton(self.scrollAreaWidgetContents)
+            self.cholesky.setObjectName("cholesky")
+            self.verticalLayout.addWidget(self.cholesky)
+            self.cholesky.setText("Cholesky Decomposition")
+            self.cholesky.setFont(self.font)
+
     def solveCall(self):
         if self.gaussian.isChecked() == True:
             solve = GaussianElimination(self.arg)
@@ -260,6 +268,11 @@ class Ui_SingleChoiceWindow(object):
         elif self.cramers.isChecked() == True:
             empty()
             solve = CramersRule(self.arg)
+            ans = solve.calc()
+            solve.latex2img()
+        elif self.cholesky.isChecked() == True:
+            empty()
+            solve = Cholesky(self.arg)
             ans = solve.calc()
             solve.latex2img()
 
