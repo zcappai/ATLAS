@@ -133,43 +133,45 @@ class Ui_SingleCompWindow(object):
         methods = multiplication.getMethods()
         for (i, j) in methods:
             self.zero()
-            mkdir("multiple-images/{}/".format(i))
+            mkdir("images/{}/".format(i))
             current_method = j(*self.arg)
             current_method.calc()
-            current_method.compare_latex2img(i)
+            current_method.addSaved(True)
+            current_method.compare_latex2img()
 
     def compareDet(self):
         methods = determinant.getMethods()
         for (i, j) in methods:
             self.zero()
-            mkdir("multiple-images/{}/".format(i))
+            mkdir("images/{}/".format(i))
             current_method = j(self.arg)
             current_method.calc()
             current_method.addSaved(True)
-            current_method.compare_latex2img(i)
+            current_method.compare_latex2img()
 
     def compareInv(self):
         methods = inverse.getMethods()
         for (i, j) in methods:
             self.zero()
-            mkdir("multiple-images/{}/".format(i))
+            mkdir("images/{}/".format(i))
             current_method = j(self.arg)
             current_method.calc()
-            current_method.compare_latex2img(i)
+            current_method.compare_latex2img()
 
     def compareSolve(self):
         methods = solving.getMethods()
         for (i, j) in methods:
             self.zero()
-            mkdir("multiple-images/{}/".format(i))
+            mkdir("images/{}/".format(i))
             matrix = self.arg[:, :]
             current_method = j(matrix)
             current_method.calc()
-            current_method.compare_latex2img(i)
+            current_method.addSaved(True)
+            current_method.compare_latex2img()
 
     def zero(self):
         saver.saved = []
-        saver.text = []
+        # saver.text = []
         saver.names = 0
 
 if __name__ == "__main__":

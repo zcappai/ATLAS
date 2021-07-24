@@ -177,16 +177,19 @@ class Ui_SingleChoiceWindow(object):
             determinant = naiveDeterminant(self.arg)
             empty()
             ans = determinant.calc()
+            determinant.addSaved(True)
             determinant.latex2img()
         elif self.sarrus.isChecked() == True:
             empty()
             determinant = Sarrus(self.arg)
             ans = determinant.calc()
+            determinant.addSaved(True)
             determinant.latex2img()
         elif self.lu.isChecked() == True:
             empty()
             determinant = LU(self.arg)
             ans = determinant.calc()
+            determinant.addSaved(True)
             determinant.latex2img()
 
         self.window = QMainWindow()
@@ -251,7 +254,6 @@ class Ui_SingleChoiceWindow(object):
         self.cramers.setText("Cramer's Rule")
         self.cramers.setFont(self.font)
 
-        print(Cholesky(self.arg).check())
         if Cholesky(self.arg).check() == True:
             self.cholesky = QtWidgets.QRadioButton(self.scrollAreaWidgetContents)
             self.cholesky.setObjectName("cholesky")
@@ -263,17 +265,20 @@ class Ui_SingleChoiceWindow(object):
         if self.gaussian.isChecked() == True:
             solve = GaussianElimination(self.arg)
             empty()
-            ans = solve.calc()
+            ans = solve.calc()[1]
+            solve.addSaved(True)
             solve.latex2img()
         elif self.cramers.isChecked() == True:
             empty()
             solve = CramersRule(self.arg)
             ans = solve.calc()
+            solve.addSaved(True)
             solve.latex2img()
         elif self.cholesky.isChecked() == True:
             empty()
             solve = Cholesky(self.arg)
             ans = solve.calc()
+            solve.addSaved(True)
             solve.latex2img()
 
         self.window = QMainWindow()
