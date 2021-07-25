@@ -1,0 +1,109 @@
+\newif\ifbeamer
+\beamertrue
+\def\JHD#1{\ifbeamer\end{frame}\begin{frame}\frametitle{#1}\else\section{#1}\fi}
+\def\red#1{{\color{red}#1}}
+\def\redtt{\color{red}\tt}
+\def\bluett{\color{blue}\tt}
+\font\manual=manfnt
+\def\dbend{{\manual\char127}}
+\def\eqq{{\buildrel?\over=}}
+%\def\B{\red{$\cal B$}}
+\def\lcm{\mathop{\rm lcm}}
+\def\lm{\mathop{\rm lm}}
+\def\I{{\cal I}}
+\def\Z{{\bf Z}}
+\def\Q{{\mathbb Q}}
+\def\C{{\mathbb C}}
+\def\N{{\bf N}}
+\def\R{{\bf R}}
+\def\CL{\mathop{\rm CL}}
+\def\IDA{{}_{\rm DA}\int}
+\def\DDA{D_{\rm DA}}
+\def\arctanDA{\arctan_{\rm DA}}
+\def\logDA{\log_{\rm DA}}
+\def\cDA{constant${}_{\rm DA}$}
+\def\fracDDA#1#2{\frac{{\rm d}#1}{{\rm d}_{\rm DA}#2}}
+\def\Ied{{}_{\epsilon\delta}\int}
+\def\Ded{D_{\epsilon\delta}}
+\def\arctaned{\arctan_{\epsilon\delta}}
+\def\loged{\log_{\epsilon\delta}}
+\def\fracDed#1#2{\frac{{\rm d}#1}{{\rm d}_{\epsilon\delta}#2}}
+\def\Book{\red{$\cal C$}}
+\def\J{\red{$\cal J$}}
+\def\boxit#1{\lower6pt\vbox{\hrule\hbox{\vrule\kern3pt\vbox{\kern3pt\hbox{#1}\kern3pt}\kern3pt\vrule}\hrule}}
+\ifbeamer
+%\documentclass[Aspectratio=169,notes=hide]{beamer}   % Without notes
+\documentclass[Aspectratio=169,handout]{beamer}   % handout mode
+\usetheme{Warsaw}
+
+\setbeamertemplate{navigation symbols}{}
+\else
+\def\pause{}
+\documentclass{article}
+\usepackage[mathjax]{lwarp}
+\usepackage{lmodern}
+\fi
+\usepackage[final]{pdfpages}
+
+
+\usepackage{verbatim}
+\usepackage{url}
+\usepackage{color}
+\usepackage[version=3]{mhchem}
+\bibliographystyle{alphaurl}
+\begin{document}
+\title{ATLAS: Interactive and Educational Linear Algebra System Containing Non-Standard Methods}
+\author[PaiDavenport]{
+\underline{Akhilesh Pai}\inst{1}%\thanks{}
+\and
+    \underline{James H. Davenport}\inst{1}%\thanks{Support of EPSRC (Grant EP/T015713/1) is gratefully acknowledged.}
+}
+\def\email#1{{\tt #1}}
+% Institutes for affiliations are also joined by \and,
+\institute{
+   University of Bath,
+   Bath BA2 7AY, United Kingdom\\
+   \email{\{abp34;J.H.Davenport\}@bath.ac.uk}
+ }
+
+
+%\author{James Davenport}%\thanks{Partially supported by EU H2020 project SC$^2$ (712689), and wholly supported by DEWCAD colleagues}}
+%(Thanks to RJB for the improved title)}
+\date{30 July 2021 at MathUI/CICM 2021}
+\expandafter\def\expandafter\insertshorttitle\expandafter{%
+  \insertshorttitle\hfill%
+  \insertframenumber\,/\,\inserttotalframenumber}
+\frame{
+\titlepage
+} 
+\begin{frame}[fragile]
+\frametitle{Plan of Talk}
+\begin{enumerate}%[<+->]
+\item Introduction
+\item  Prior work
+\item Current State
+\item Demonstration
+\item Q\&A
+\end{enumerate}
+\end{frame}
+\begin{frame}
+\frametitle{Introduction}%\pause
+\begin{description}[<+->]
+\item[]
+\end{description}
+\end{frame}
+\begin{frame}
+\frametitle{Prior work}\pause
+\begin{description}[<+->]
+\item[MATLAB]\cite{matlab}
+\item[Maple]\dots
+\item[Other]\dots
+\end{description}
+\end{frame}
+\begin{frame}[allowframebreaks]
+\frametitle{Bibliography}
+\bibliography{references}
+\end{frame}
+
+
+\end{document}
