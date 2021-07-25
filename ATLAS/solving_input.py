@@ -16,6 +16,7 @@ from functools import partial
 from validator import Validator
 from emptyimg import empty
 from closeWindow import QMainWindow
+from single_comparison import Ui_SingleCompWindow
 
 class Ui_SolveInWindow(object):
     def __init__(self, equations, unknowns):
@@ -41,8 +42,6 @@ class Ui_SolveInWindow(object):
         for i in range(self.matrix.columnCount()):
             for j in range(self.matrix.rowCount()):
                 self.matrix.setItem(j, i, QtWidgets.QTableWidgetItem('0'))
-        self.validator = Validator(self.matrix)
-        self.matrix.itemChanged.connect(self.validator.validate) #################################
         # self.matrix.itemChanged.connect(self.validation) #################################
         self.gridLayout.addWidget(self.matrix, 2, 1, 1, 1)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -78,6 +77,14 @@ class Ui_SolveInWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        self.warning = QtWidgets.QLabel(self.centralwidget)
+        self.warning.setFont(font)
+        self.warning.setWordWrap(True)
+        self.warning.setObjectName("warning")
+
+        self.validator = Validator(self.matrix, self.warning)
+        self.matrix.itemChanged.connect(self.validator.validate) #################################
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
@@ -104,23 +111,29 @@ class Ui_SolveInWindow(object):
                 curr_row.append(self.matrix.item(i, j).text())
             final_matrix.append(curr_row)
         matrix = sp.Matrix(final_matrix)
-        empty()
-        solution = GaussianElimination(matrix, self.equations, self.unknowns)
-        found, solutions, reduced = solution.calc()
-        solution.latex2img()
+        # empty()
+        # arg = GaussianElimination(matrix)
+        # found, solutions, reduced = solution.calc()
+        # solution.latex2img()
 
         self.window = QMainWindow()
-        self.ui = Ui_SolveSingleWindow(solutions)
+        self.ui = Ui_SingleCompWindow(matrix, "solve")
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
         self.window.showMaximized()
+
+        # self.window = QMainWindow()
+        # self.ui = Ui_SolveSingleWindow(solutions)
+        # self.ui.setupUi(self.window)
+        # self.MainWindow.hide()
+        # self.window.showMaximized()
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QMainWindow()
-    ui = Ui_SolveInWindow()
+    ui = Ui_SolveInWindow(3,2)
     ui.setupUi(MainWindow)
-    MainWindow.show()
+    MainWindow.showMaximized()
     sys.exit(app.exec_())

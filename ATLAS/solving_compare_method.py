@@ -10,32 +10,31 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from compare_view_changer import CompareChanger
-import determinant
+import solving
 from closeWindow import QMainWindow
 
-class Ui_DetCompareWindow(object):
+class Ui_SolveCompareWindow(object):
     def setupUi(self, MainWindow):
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1100, 871)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
         self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1063, 1618))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        methods = determinant.getMethods()
-
-        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
-        self.gridLayout.setObjectName("gridLayout")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_2.setObjectName("gridLayout_2")
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        methods = solving.getMethods()
 
-        # Laplace Expansion
+        # Gaussian Elimination
         self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label.setFont(font)
         self.label.setObjectName("label")
@@ -53,19 +52,19 @@ class Ui_DetCompareWindow(object):
         self.original_1.setObjectName("original_1")
         self.gridLayout_2.addWidget(self.original_1, 3, 0, 1, 2)
 
-        self.laplace = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
-        self.laplace.setMinimumSize(QtCore.QSize(0, 700))
-        self.laplace.setObjectName("laplace")
-        self.gridLayout_2.addWidget(self.laplace, 1, 0, 1, 2)
+        self.gaussian = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
+        self.gaussian.setMinimumSize(QtCore.QSize(0, 700))
+        self.gaussian.setObjectName("gaussian")
+        self.gridLayout_2.addWidget(self.gaussian, 1, 0, 1, 2)
         self.scene_1 = QtWidgets.QGraphicsScene()
-        self.laplace.setScene(self.scene_1)
+        self.gaussian.setScene(self.scene_1)
 
-        self.image_1 = CompareChanger(self.scene_1, self.laplace, methods[0][0])
+        self.image_1 = CompareChanger(self.scene_1, self.gaussian, methods[0][0])
         self.prev_1.clicked.connect(self.image_1.prev_image)
         self.next_1.clicked.connect(self.image_1.next_image)
         self.original_1.clicked.connect(self.image_1.show_matrix)
 
-        # Sarrus' Method
+        # Cramer's Rule
         self.label_2 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
@@ -83,19 +82,19 @@ class Ui_DetCompareWindow(object):
         self.original_2.setObjectName("original_2")
         self.gridLayout_2.addWidget(self.original_2, 10, 0, 1, 2)
 
-        self.sarrus = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
-        self.sarrus.setMinimumSize(QtCore.QSize(0, 700))
-        self.sarrus.setObjectName("sarrus")
-        self.gridLayout_2.addWidget(self.sarrus, 7, 0, 1, 2)
+        self.cramers = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
+        self.cramers.setMinimumSize(QtCore.QSize(0, 700))
+        self.cramers.setObjectName("cramers")
+        self.gridLayout_2.addWidget(self.cramers, 7, 0, 1, 2)
         self.scene_2 = QtWidgets.QGraphicsScene()
-        self.sarrus.setScene(self.scene_2)
+        self.cramers.setScene(self.scene_2)
 
-        self.image_2 = CompareChanger(self.scene_2, self.sarrus, methods[1][0])
+        self.image_2 = CompareChanger(self.scene_2, self.cramers, methods[1][0])
         self.prev_2.clicked.connect(self.image_2.prev_image)
         self.next_2.clicked.connect(self.image_2.next_image)
         self.original_2.clicked.connect(self.image_2.show_matrix)
 
-        # LU Decomposition
+        # Cholesky Decomposition
         self.label_3 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_3.setFont(font)
         self.label_3.setObjectName("label_3")
@@ -113,14 +112,14 @@ class Ui_DetCompareWindow(object):
         self.original_3.setObjectName("original_3")
         self.gridLayout_2.addWidget(self.original_3, 17, 0, 1, 2)
 
-        self.lu = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
-        self.lu.setMinimumSize(QtCore.QSize(0, 700))
-        self.lu.setObjectName("lu")
-        self.gridLayout_2.addWidget(self.lu, 13, 0, 1, 2)
+        self.cholesky = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
+        self.cholesky.setMinimumSize(QtCore.QSize(0, 700))
+        self.cholesky.setObjectName("cholesky")
+        self.gridLayout_2.addWidget(self.cholesky, 13, 0, 1, 2)
         self.scene_3 = QtWidgets.QGraphicsScene()
-        self.lu.setScene(self.scene_3)
+        self.cholesky.setScene(self.scene_3)
 
-        self.image_3 = CompareChanger(self.scene_3, self.lu, methods[2][0])
+        self.image_3 = CompareChanger(self.scene_3, self.cholesky, methods[2][0])
         self.prev_3.clicked.connect(self.image_3.prev_image)
         self.next_3.clicked.connect(self.image_3.next_image)
         self.original_3.clicked.connect(self.image_3.show_matrix)
@@ -145,24 +144,21 @@ class Ui_DetCompareWindow(object):
         self.next_1.setText(_translate("MainWindow", "Next Step"))
         self.prev_1.setText(_translate("MainWindow", "Previous Step"))
         self.original_1.setText(_translate("MainWindow", "Show Original Matrices"))
-
         self.next_2.setText(_translate("MainWindow", "Next Step"))
         self.prev_2.setText(_translate("MainWindow", "Previous Step"))
         self.original_2.setText(_translate("MainWindow", "Show Original Matrices"))
-
         self.next_3.setText(_translate("MainWindow", "Next Step"))
         self.prev_3.setText(_translate("MainWindow", "Previous Step"))
         self.original_3.setText(_translate("MainWindow", "Show Original Matrices"))
-
-        self.label.setText(_translate("MainWindow", "Laplace Expansion"))
-        self.label_2.setText(_translate("MainWindow", "Sarrus' Method"))
-        self.label_3.setText(_translate("MainWindow", "LU Decomposition"))
+        self.label.setText(_translate("MainWindow", "Gaussian Elimination"))
+        self.label_2.setText(_translate("MainWindow", "Cramer's Rule"))
+        self.label_3.setText(_translate("MainWindow", "Cholesky Decomposition"))
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QMainWindow()
-    ui = Ui_DetCompareWindow()
+    ui = Ui_SolveCompareWindow()
     ui.setupUi(MainWindow)
     MainWindow.showMaximized()
     sys.exit(app.exec_())

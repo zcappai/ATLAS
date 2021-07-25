@@ -13,12 +13,16 @@ from single_method_choice import Ui_SingleChoiceWindow
 from mult_compare_method import Ui_MultCompareWindow
 from det_compare_method import Ui_DetCompareWindow
 from inverse_compare_method import Ui_InverseCompareWindow
+from solving_compare_method import Ui_SolveCompareWindow
 from os import mkdir
 import multiplication
 import determinant
 import inverse
+import solving
 from compare_emptyimg import empty
 from closeWindow import QMainWindow
+import saver
+import sympy as sp
 
 class Ui_SingleCompWindow(object):
     def __init__(self, arg, method):
@@ -118,6 +122,9 @@ class Ui_SingleCompWindow(object):
         elif self.method == "inv":
             self.compareInv()
             self.ui = Ui_InverseCompareWindow()
+        elif self.method == "solve":
+            self.compareSolve()
+            self.ui = Ui_SolveCompareWindow()
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
         self.window.showMaximized()
@@ -125,26 +132,47 @@ class Ui_SingleCompWindow(object):
     def compareMult(self):
         methods = multiplication.getMethods()
         for (i, j) in methods:
-            mkdir("multiple-images/{}/".format(i))
+            self.zero()
+            mkdir("images/{}/".format(i))
             current_method = j(*self.arg)
             current_method.calc()
-            current_method.compare_latex2img(i)
+            current_method.addSaved(True)
+            current_method.compare_latex2img()
 
     def compareDet(self):
         methods = determinant.getMethods()
         for (i, j) in methods:
-            mkdir("multiple-images/{}/".format(i))
+            self.zero()
+            mkdir("images/{}/".format(i))
             current_method = j(self.arg)
             current_method.calc()
-            current_method.compare_latex2img(i)
+            current_method.addSaved(True)
+            current_method.compare_latex2img()
 
     def compareInv(self):
         methods = inverse.getMethods()
         for (i, j) in methods:
-            mkdir("multiple-images/{}/".format(i))
+            self.zero()
+            mkdir("images/{}/".format(i))
             current_method = j(self.arg)
             current_method.calc()
-            current_method.compare_latex2img(i)
+            current_method.compare_latex2img()
+
+    def compareSolve(self):
+        methods = solving.getMethods()
+        for (i, j) in methods:
+            self.zero()
+            mkdir("images/{}/".format(i))
+            matrix = self.arg[:, :]
+            current_method = j(matrix)
+            current_method.calc()
+            current_method.addSaved(True)
+            current_method.compare_latex2img()
+
+    def zero(self):
+        saver.saved = []
+        # saver.text = []
+        saver.names = 0
 
 if __name__ == "__main__":
     import sys
@@ -152,5 +180,5 @@ if __name__ == "__main__":
     MainWindow = QMainWindow()
     ui = Ui_SingleCompWindow(None, "mult")
     ui.setupUi(MainWindow)
-    MainWindow.show()
+    MainWindow.showMaximized()
     sys.exit(app.exec_())

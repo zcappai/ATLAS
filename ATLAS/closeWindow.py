@@ -1,5 +1,4 @@
 from PyQt5 import QtWidgets
-import compare_emptyimg
 import emptyimg
 
 class QMainWindow(QtWidgets.QMainWindow):
@@ -12,7 +11,6 @@ class QMainWindow(QtWidgets.QMainWindow):
 
         if close == QtWidgets.QMessageBox.Yes:
             event.accept()
-            compare_emptyimg.empty()
             emptyimg.empty()
         else:
             event.ignore()

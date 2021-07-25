@@ -61,10 +61,6 @@ class Ui_MultInWindow(object):
         for i in range(self.matrixright.columnCount()):
             for j in range(self.matrixright.rowCount()):
                 self.matrixright.setItem(j, i, QtWidgets.QTableWidgetItem('0'))
-        self.validator_left = Validator(self.matrixleft)
-        self.validator_right = Validator(self.matrixright)
-        self.matrixleft.itemChanged.connect(self.validator_left.validate) #################################
-        self.matrixright.itemChanged.connect(self.validator_right.validate) #################################
         # self.matrixright.itemChanged.connect(self.validation_right) #################################
         self.matrix_info = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
@@ -98,6 +94,16 @@ class Ui_MultInWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        self.warning = QtWidgets.QLabel(self.centralwidget)
+        self.warning.setFont(font)
+        self.warning.setWordWrap(True)
+        self.warning.setObjectName("warning")
+
+        self.validator_left = Validator(self.matrixleft, self.warning)
+        self.validator_right = Validator(self.matrixright, self.warning)
+        self.matrixleft.itemChanged.connect(self.validator_left.validate) #################################
+        self.matrixright.itemChanged.connect(self.validator_right.validate) #################################
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -157,7 +163,7 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QMainWindow()
-    ui = Ui_MultInWindow()
+    ui = Ui_MultInWindow(1,2,3)
     ui.setupUi(MainWindow)
-    MainWindow.show()
+    MainWindow.showMaximized()
     sys.exit(app.exec_())

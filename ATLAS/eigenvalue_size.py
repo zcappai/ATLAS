@@ -98,5 +98,5 @@ if __name__ == "__main__":
     MainWindow = QMainWindow()
     ui = Ui_EigenvalueSizeWindow()
     ui.setupUi(MainWindow)
-    MainWindow.show()
+    MainWindow.showMaximized()
     sys.exit(app.exec_())
