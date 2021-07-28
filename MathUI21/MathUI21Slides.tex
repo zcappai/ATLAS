@@ -32,8 +32,8 @@
 \def\J{\red{$\cal J$}}
 \def\boxit#1{\lower6pt\vbox{\hrule\hbox{\vrule\kern3pt\vbox{\kern3pt\hbox{#1}\kern3pt}\kern3pt\vrule}\hrule}}
 \ifbeamer
-%\documentclass[Aspectratio=169,notes=hide]{beamer}   % Without notes
-\documentclass[Aspectratio=169,handout]{beamer}   % handout mode
+\documentclass[Aspectratio=169,notes=hide]{beamer}   % Without notes
+%\documentclass[Aspectratio=169,handout]{beamer}   % handout mode
 \usetheme{Warsaw}
 
 \setbeamertemplate{navigation symbols}{}
@@ -100,23 +100,30 @@
 \end{frame}
 
 \begin{frame}[allowframebreaks]
-\frametitle{Prior Work}\pause
-\begin{itemize}[<+->]
+\frametitle{Prior Work}%\pause
+\begin{itemize}%[<+->]
 \item[Maple] Maple has a feature called Tutor, allowing users to view the step-by-step solutions to a problem for linear algebra functions, such as calculation of eigenvalues \cite{eigentutor}. Tutor may explain the popularity of Maple amongst students, as it can serves as a key tool in their education. However, this feature is also limited to only standard methods. Developing a Tutor-style feature in a linear algebra system, however, combined with non-standard methods could allow different methods to be compared against each other.\newline
 
-\item[MATLAB] MATLAB does not contain a step-by-step solution feature. A major flaw is that users need to learn a new programming language to utilise it. It also does not offer alternative methods, such as Strassen's method, limiting itself to only standard methods of matrix multiplication. MATLAB consequently does not allow methods to be compared with each other. A study was conducted \cite{matlab} conducted a study about whether MATLAB can act as a useful tool to supplement the learning of university students. Most students liked using MATLAB, with specific preference amongst lower achieving students as they liked getting an answer without working it out, which is not very helpful for their learning. Some students, however, did not like it because it did not show how it got to the answer and they wanted to see how the problem was solved step-by-step, otherwise it wouldn't help them. Some students also stated that they were "not good at computers", highlighting the need for simplicity in a linear algebra system for users who are unfamiliar with computers or programming. The process of learning a new piece of software is daunting, so it should be made easy.
+\item[MATLAB] MATLAB does not contain a step-by-step solution feature. But users need to learn a new programming language to utilise it. It also does not offer alternative methods, such as Strassen's method. %, limiting itself to only standard methods of matrix multiplication. %MATLAB consequently does not allow methods to be compared with each other. 
+\cite{matlab} conducted a study about whether MATLAB can act as a useful tool to supplement the learning of university students. Most students liked using MATLAB, with specific preference amongst lower achieving students as they liked getting an answer without working it out, which is not very helpful for their learning. Some students, however, did not like it because it did not show how it got to the answer and they wanted to see how the problem was solved step-by-step, otherwise it wouldn't help them. Some students also stated that they were ``not good at computers'', highlighting the need for simplicity in a linear algebra system for users who are unfamiliar with computers or programming. %The process of learning a new piece of software is daunting, so it should be made easy.
 
 \item[CoCalc] CoCalc \cite{Stein2018a} is web-based linear algebra system, which makes it more portable than Maple or MATLAB. CoCalc allows collaboration by multiple collaborators simultaneously \cite{collab}, in addition to allowing teachers to conduct their lessons entirely on CoCalc through an interactive platform. Whilst this is an interesting idea, it does little to directly help students to learn independently. Based on the features available, CoCalc acts more as an e-learning platform such as Moodle, used by many universities. CoCalc also suffers some of the flaws of MATLAB, such that users would need to learn new programming languages to utilise CoCalc.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[allowframebreaks]
-\frametitle{Current State}\pause
+\begin{frame}%[allowframebreaks]
+\frametitle{Current State (1)}\pause
 \begin{itemize}[<+->]
 \item ATLAS supports the calculation of determinants, inverses, eigenvectors and eigenvalues, in addition to matrix multiplication and solving systems of linear equations.
 \item For calculating determinants, Laplace expansion, Sarrus' method and LU decomposition are supported, allowing users to compare all 3 methods step-by-step simultaneously.
 \item This is also true of matrix multiplication, which supports the standard method, Strassen's method and the Laderman method, and calculation of inverses using both the Cramer's rule and the Cayley-Hamilton theorem.
 \item Systems of linear equations can be solved by Gaussian elimination, Cramer's rule and Cholesky decomposition, whilst being compared with each other simultaneously
+\end{itemize}
+\end{frame}
+
+\begin{frame}%[allowframebreaks]
+\frametitle{Current State (2)}\pause
+\begin{itemize}[<+->]
 \item Unit testing completed.
 \item Integration and user testing currently in progress.
 \item There is a desire to extend to comparisons of methods that are considered numerically good or bad to understand the effect of different methods on problems with floating point numbers.
@@ -125,14 +132,14 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Demonstration}\pause
+\frametitle{Demonstration}%\pause
 \begin{itemize}[<+->]
 \item[Demo] Now we shall demonstrate some of the functionality of ATLAS
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Q\&A}\pause
+\frametitle{Q\&A}%\pause
 \begin{description}[<+->]
 \item[?]Any questions?
 \end{description}
