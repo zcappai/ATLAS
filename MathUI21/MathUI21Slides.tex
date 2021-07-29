@@ -112,6 +112,28 @@
 \end{frame}
 
 \begin{frame}%[allowframebreaks]
+\frametitle{Pedagogical Example: Strassen--Winograd}\pause
+\begin{itemize}[<+->]
+\item Very hard to motivate these.
+\item But matrix multiplication is bilinear, and these expressions are also bilinear (verification easy).
+\item Hence it suffices to verify
+$$
+\begin{pmatrix}
+a&b\cr c&d
+\end{pmatrix}\times
+\begin{pmatrix}
+1&0\cr0&0
+\end{pmatrix}
+=\begin{pmatrix}
+a&0\cr c&0
+\end{pmatrix}
+$$
+(and three analogues)
+\item Tedious by hand, but easy with this tool.
+\end{itemize}
+\end{frame}
+
+\begin{frame}%[allowframebreaks]
 \frametitle{Current State (1)}\pause
 \begin{itemize}[<+->]
 \item ATLAS supports the calculation of determinants, inverses, eigenvectors and eigenvalues, in addition to matrix multiplication and solving systems of linear equations.
