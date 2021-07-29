@@ -11,6 +11,7 @@
 from emptyimg import empty
 from PyQt5 import QtCore, QtGui, QtWidgets
 from eigenvalue import Eigenvalue
+from single_comparison import Ui_SingleCompWindow
 from eigenvalue_single_method import Ui_EigenvalueSingleWindow
 import sympy as sp
 from validator import Validator
@@ -24,7 +25,6 @@ class Ui_EigenvalueInWindow(object):
     def setupUi(self, MainWindow):
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1100, 871)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -71,7 +71,10 @@ class Ui_EigenvalueInWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
+        MainWindow.setWindowTitle("ATLAS")
+        self.matrix_info.setText("Please enter the matrix values into the table below and press the \"Submit\" button.\nFor larger matrices, a scrollbar will appear.")
+        self.submit.setText("Submit")
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.warning = QtWidgets.QLabel(self.centralwidget)
@@ -82,12 +85,12 @@ class Ui_EigenvalueInWindow(object):
         self.validator = Validator(self.matrix, self.warning)
         self.matrix.itemChanged.connect(self.validator.validate) ######################
 
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
-        self.matrix_info.setText(_translate("MainWindow", "Please enter the values into the square matrix below.\n"
-"Use the scrollbar for larger matrices, if necessary."))
-        self.submit.setText(_translate("MainWindow", "Submit"))
+#     def retranslateUi(self, MainWindow):
+#         _translate = QtCore.QCoreApplication.translate
+#         MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
+#         self.matrix_info.setText(_translate("MainWindow", "Please enter the values into the square matrix below.\n"
+# "Use the scrollbar for larger matrices, if necessary."))
+#         self.submit.setText(_translate("MainWindow", "Submit"))
 
     # def validation(self):
     #     input_text = self.matrix.currentItem().text()
@@ -107,17 +110,13 @@ class Ui_EigenvalueInWindow(object):
             for j in range(self.matrix.columnCount()):
                 curr_row.append(self.matrix.item(i, j).text())
             final_matrix.append(curr_row)
-        matrix = sp.Matrix(final_matrix)
-        empty()
-        e_val = Eigenvalue(matrix)
-        solutions = e_val.calc()
-        e_val.latex2img()
+        arg = sp.Matrix(final_matrix)
 
         self.window = QMainWindow()
-        self.ui = Ui_EigenvalueSingleWindow(solutions)
+        self.ui = Ui_SingleCompWindow(arg, "e_val")
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.showMaximized()
+        self.window.show()
 
 
 if __name__ == "__main__":
@@ -126,5 +125,5 @@ if __name__ == "__main__":
     MainWindow = QMainWindow()
     ui = Ui_EigenvalueInWindow(3)
     ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
+    MainWindow.show()
     sys.exit(app.exec_())

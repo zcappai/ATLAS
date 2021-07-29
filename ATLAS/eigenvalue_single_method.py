@@ -20,7 +20,6 @@ class Ui_EigenvalueSingleWindow(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1100, 871)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -65,16 +64,25 @@ class Ui_EigenvalueSingleWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
+        MainWindow.setWindowTitle("ATLAS")
+        self.next.setText("Next Step")
+        self.prev.setText("Previous Step")
+        solutions = ""
+        for i in self.solutions:
+            solutions += str(i)
+            solutions += ", "
+        self.answer.setText("Solutions: \u03BB = "+str(solutions[:-2]))
+        self.showOriginalMatrix.setText("Show Original Matrix")
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
-        self.next.setText(_translate("MainWindow", "Next Step"))
-        self.prev.setText(_translate("MainWindow", "Previous Step"))
-        self.answer.setText(_translate("MainWindow", "Solutions: \u03BB = "+str(self.solutions)))
-        self.showOriginalMatrix.setText(_translate("MainWindow", "Show Original Matrix"))
+    # def retranslateUi(self, MainWindow):
+    #     _translate = QtCore.QCoreApplication.translate
+    #     MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
+    #     self.next.setText(_translate("MainWindow", "Next Step"))
+    #     self.prev.setText(_translate("MainWindow", "Previous Step"))
+    #     self.answer.setText(_translate("MainWindow", "Solutions: \u03BB = "+str(self.solutions)))
+    #     self.showOriginalMatrix.setText(_translate("MainWindow", "Show Original Matrix"))
 
     # def next_image(self):
     #     if self.cursor < len(self.images) - 1:
@@ -110,5 +118,5 @@ if __name__ == "__main__":
     MainWindow = QMainWindow()
     ui = Ui_EigenvalueSingleWindow()
     ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
+    MainWindow.show()
     sys.exit(app.exec_())

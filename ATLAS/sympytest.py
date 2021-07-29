@@ -3,43 +3,92 @@
 # # print((1+10.0**20)-10.0**20)
 # # print(1+(10.0**20-10.0**20))
 
-from PIL import Image, ImageDraw, ImageFont
-import textwrap
-import sympy as sp
-
-# def draw_multiple_line_text(image, text, font, text_color, text_start_height):
-#     '''
-#     From unutbu on [python PIL draw multiline text on image](https://stackoverflow.com/a/7698300/395857)
-#     '''
-#     draw = ImageDraw.Draw(image)
-#     image_width, image_height = image.size
-#     y_text = text_start_height
-#     lines = textwrap.wrap(text, width=40)
-#     for line in lines:
-#         line_width, line_height = font.getsize(line)
-#         draw.text(((image_width - line_width) / 2, y_text), 
-#                   line, font=font, fill=text_color)
-#         y_text += line_height
+# import logging
+# from operator import mul
+# import threading
+# import time
 
 
-# def toImage(message, count):
-#     '''
-#     Testing draw_multiple_line_text
-#     '''
-#     #image_width
-#     fontsize = 75  # starting font size
-#     font = ImageFont.truetype("arial.ttf", fontsize)
-#     total_height = 0
-#     max_width = 0
-#     lines = textwrap.wrap(message, width=40)
-#     for line in lines:
-#         line_width, line_height = font.getsize(line)
-#         if line_width > max_width:
-#             max_width = line_width
-#         total_height += line_height
-#     image = Image.new('RGB', (max_width, total_height), color = (255, 255, 255))
+# from PyQt5 import QtGui
+# from PyQt5.QtWidgets import QApplication, QDialog, QProgressBar, QPushButton, QVBoxLayout
+# import sys
+# from PyQt5.QtCore import Qt, QThread, pyqtSignal
+# import time
+# from multiplication import naiveMultiplication
+# import sympy as sp
+# from emptyimg import empty
+# from os import listdir
+# import saver
 
-#     text_color = (0, 0, 0)
-#     text_start_height = 0
-#     draw_multiple_line_text(image, message, font, text_color, text_start_height)
-#     image.save('images/{}.png'.format(count))
+# class MyThread(QThread):
+#     def __init__(self, mult, parent: None):
+#         super().__init__(parent=parent)
+#         self.mult = mult
+#     # Create a counter thread
+#     change_value = pyqtSignal(int)
+#     def run(self):
+#         self.mult.latex2img()
+
+# class MyString(QThread):
+#     # Create a counter thread
+#     change_value = pyqtSignal(int)
+#     def run(self):
+#         percent = 0
+#         while percent != 100.0:
+#             numSaved = len(saver.saved)
+#             images = listdir("images")
+#             numImages = len(images)
+#             new_percent = int((numImages/numSaved)*100)
+#             if new_percent > percent:
+#                 time.sleep(0.3)
+#                 percent = new_percent
+#                 self.change_value.emit(percent)
+# class Window(QDialog):
+#     def __init__(self, mult):
+#         super().__init__()
+#         self.mult = mult
+#         self.title = "PyQt5 ProgressBar"
+#         self.top = 200
+#         self.left = 500
+#         self.width = 300
+#         self.height = 100
+#         self.setWindowIcon(QtGui.QIcon("icon.png"))
+#         self.setWindowTitle(self.title)
+#         self.setGeometry(self.left, self.top, self.width, self.height)
+#         vbox = QVBoxLayout()
+#         self.progressbar = QProgressBar()
+#         #self.progressbar.setOrientation(Qt.Vertical)
+#         self.progressbar.setMaximum(100)
+#         self.progressbar.setStyleSheet("QProgressBar {border: 2px solid grey;border-radius:8px;padding:1px}"
+#                                        "QProgressBar::chunk {background:yellow}")
+#         #qlineargradient(x1: 0, y1: 0.5, x2: 1, y2: 0.5, stop: 0 red, stop: 1 white);
+#         #self.progressbar.setStyleSheet("QProgressBar::chunk {background: qlineargradient(x1: 0, y1: 0.5, x2: 1, y2: 0.5, stop: 0 red, stop: 1 white); }")
+#         #self.progressbar.setTextVisible(False)
+#         vbox.addWidget(self.progressbar)
+#         self.button = QPushButton("Start Progressbar")
+#         self.button.setStyleSheet('background-color:yellow')
+#         self.button.clicked.connect(self.startProgressBar)
+#         vbox.addWidget(self.button)
+#         self.setLayout(vbox)
+#         self.show()
+
+#     def startProgressBar(self):
+#         self.thread = MyThread(self.mult, parent=None)
+#         self.thread.start()
+#         self.thread_new = MyString()
+#         self.thread_new.change_value.connect(self.setProgressVal)
+#         self.thread_new.start()
+
+#     def setProgressVal(self, val):
+#         self.progressbar.setValue(val)
+
+
+# a = sp.Matrix([[1,3],[4,5]])
+# b = sp.Matrix([[1,3],[6,9]])
+# mult = naiveMultiplication(a, b)
+# empty()
+# mult.calc()
+# mult.addSaved(True)
+# App = QApplication(sys.argv)
+# window = Window(mult)
+# sys.exit(App.exec())

@@ -16,7 +16,6 @@ class Ui_SolveSizeWindow(object):
     def setupUi(self, MainWindow):
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1100, 871)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -83,23 +82,28 @@ class Ui_SolveSizeWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
+        MainWindow.setWindowTitle("ATLAS")
+        self.mul_size_info.setText("In the 2 boxes below, choose the number of equations you wish to enter and the number of unknowns in those equations.")
+        self.label.setText("Equations")
+        self.label_2.setText("Unknowns")
+        self.submit.setText("Submit")
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
-        self.mul_size_info.setText(_translate("MainWindow", "In the 2 boxes below, choose the number of equations you wish to enter and the number of unknowns in those equations."))
-        self.label.setText(_translate("MainWindow", "Equations"))
-        self.label_2.setText(_translate("MainWindow", "Unknowns"))
-        self.submit.setText(_translate("MainWindow", "Submit"))
+    # def retranslateUi(self, MainWindow):
+    #     _translate = QtCore.QCoreApplication.translate
+    #     MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
+    #     self.mul_size_info.setText(_translate("MainWindow", "In the 2 boxes below, choose the number of equations you wish to enter and the number of unknowns in those equations."))
+    #     self.label.setText(_translate("MainWindow", "Equations"))
+    #     self.label_2.setText(_translate("MainWindow", "Unknowns"))
+    #     self.submit.setText(_translate("MainWindow", "Submit"))
 
     def sendSizes(self):
         self.window = QMainWindow()
         self.ui = Ui_SolveInWindow(self.equations.value(), self.unknowns.value())
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.showMaximized()
+        self.window.show()
 
 if __name__ == "__main__":
     import sys
@@ -107,5 +111,5 @@ if __name__ == "__main__":
     MainWindow = QMainWindow()
     ui = Ui_SolveSizeWindow()
     ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
+    MainWindow.show()
     sys.exit(app.exec_())

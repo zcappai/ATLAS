@@ -4,26 +4,27 @@ from os import listdir
 class Changer:
     def __init__(self, initialScene, graphicsView):
         self.cursor = 0
-        self.images = listdir("images")
-        self.images = sorted(self.images, key=self.getint)
+        images = self.imageList()
         self.graphicsView = graphicsView
-        initialScene.addPixmap(QtGui.QPixmap.fromImage(QtGui.QImage("images/"+self.images[self.cursor]))) ###################
+        initialScene.addPixmap(QtGui.QPixmap.fromImage(QtGui.QImage("images/"+images[self.cursor]))) ###################
 
     def next_image(self):
-        if self.cursor < len(self.images) - 1:
+        images = self.imageList()
+        if self.cursor < len(images) - 1:
             self.cursor += 1
             self.newscene = QtWidgets.QGraphicsScene()
             self.graphicsView.setScene(self.newscene)
-            self.newscene.addPixmap(QtGui.QPixmap.fromImage(QtGui.QImage("images/"+self.images[self.cursor])))
+            self.newscene.addPixmap(QtGui.QPixmap.fromImage(QtGui.QImage("images/"+images[self.cursor])))
         else:
             pass
 
     def prev_image(self):
+        images = self.imageList()
         if self.cursor > 0:
             self.cursor -= 1
             self.newscene = QtWidgets.QGraphicsScene()
             self.graphicsView.setScene(self.newscene)
-            self.newscene.addPixmap(QtGui.QPixmap.fromImage(QtGui.QImage("images/"+self.images[self.cursor])))
+            self.newscene.addPixmap(QtGui.QPixmap.fromImage(QtGui.QImage("images/"+images[self.cursor])))
         else:
             pass
 
@@ -35,3 +36,8 @@ class Changer:
     def getint(self, name):
         num, _ = name.split('.')
         return int(num)
+
+    def imageList(self):
+        images = listdir("images")
+        images = sorted(images, key=self.getint)
+        return images

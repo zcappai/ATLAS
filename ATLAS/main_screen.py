@@ -92,54 +92,62 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
+        MainWindow.setWindowTitle("ATLAS")
+        self.welcome_message.setText("Welcome to ATLAS!")
+        self.multiplication_button.setText("Matrix Multiplication")
+        self.inverse_button.setText("Inverse")
+        self.eigen_button.setText("Eigenvalues/Eigenvectors")
+        self.main_info.setText("Choose an option from the selection below by clicking on the button!")
+        self.solving_systems.setText("Solving Systems of Linear Equations")
+        self.determinant_button.setText("Determinants")
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
-        self.welcome_message.setText(_translate("MainWindow", "Welcome to ATLAS!"))
-        self.multiplication_button.setText(_translate("MainWindow", "Matrix Multiplication"))
-        self.inverse_button.setText(_translate("MainWindow", "Inverse"))
-        self.eigen_button.setText(_translate("MainWindow", "Eigenvalues/Eigenvectors"))
-        self.main_info.setText(_translate("MainWindow", "Choose an option from the selection below by clicking on the button!"))
-        self.solving_systems.setText(_translate("MainWindow", "Solving Systems of Linear Equations"))
-        self.determinant_button.setText(_translate("MainWindow", "Determinants"))
+    # def retranslateUi(self, MainWindow):
+    #     _translate = QtCore.QCoreApplication.translate
+    #     MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
+    #     self.welcome_message.setText(_translate("MainWindow", "Welcome to ATLAS!"))
+    #     self.multiplication_button.setText(_translate("MainWindow", "Matrix Multiplication"))
+    #     self.inverse_button.setText(_translate("MainWindow", "Inverse"))
+    #     self.eigen_button.setText(_translate("MainWindow", "Eigenvalues/Eigenvectors"))
+    #     self.main_info.setText(_translate("MainWindow", "Choose an option from the selection below by clicking on the button!"))
+    #     self.solving_systems.setText(_translate("MainWindow", "Solving Systems of Linear Equations"))
+    #     self.determinant_button.setText(_translate("MainWindow", "Determinants"))
     
     def toDeterminant(self):
         self.window = QMainWindow()
         self.ui = Ui_DetSizeWindow()
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.showMaximized()
+        self.window.show()
 
     def toMultiplication(self):
         self.window = QMainWindow()
         self.ui = Ui_MultSizeWindow()
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.showMaximized()
+        self.window.show()
     
     def toInverse(self):
         self.window = QMainWindow()
         self.ui = Ui_InverseSizeWindow()
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.showMaximized()
+        self.window.show()
 
     def toSolve(self):
         self.window = QMainWindow()
         self.ui = Ui_SolveSizeWindow()
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.showMaximized()
+        self.window.show()
 
     def toEigenChoice(self):
         self.window = QMainWindow()
         self.ui = Ui_EigenChoiceWindow()
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.showMaximized()
+        self.window.show()
 
 if __name__ == "main_screen":
     import sys
@@ -147,5 +155,5 @@ if __name__ == "main_screen":
     MainWindow = QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
+    MainWindow.show()
     sys.exit(app.exec_())

@@ -19,15 +19,17 @@ class naiveMultiplication:
         for i in range(self.leftmatrix.rows):
             for j in range(self.rightmatrix.cols):
                 res[i, j] = 0
+                self.saved.append((saver.names, "\\text{The resultant matrix so far is}$$$$"+sp.latex(sp.Matrix(res))))
+                saver.names += 1
                 for x in range(self.leftmatrix.cols):
-                    self.saved.append((saver.names, "\\text{The resultant matrix so far is}$$$$"+sp.latex(sp.Matrix(res))))
-                    saver.names += 1
                     res[i, j] += (self.leftmatrix.row(i).col(x)[0] * self.rightmatrix.row(x).col(j)[0])
                     self.saved.append((saver.names, "L_{"+str(i+1)+str(x+1)+"} * R_{"+str(x+1)+str(j+1)+"} ="+sp.latex(self.leftmatrix.row(i).col(x)[0])
-                    +"*"+sp.latex(self.rightmatrix.row(x).col(j)[0])+"="+str(res[i, j])))
+                    +"*"+sp.latex(self.rightmatrix.row(x).col(j)[0])+"="+sp.latex(self.leftmatrix.row(i).col(x)[0] * self.rightmatrix.row(x).col(j)[0])))
                     saver.names += 1
                     self.saved.append((saver.names, "\\text{This is added to }a_{"+str(i+1)+str(j+1)+"}\\text{ in the resultant matrix}"))
                     saver.names += 1
+                self.saved.append((saver.names, original))
+                saver.names += 1
         self.saved.append((saver.names, "\\text{The final matrix is}$$$$"+sp.latex(res)))
         saver.names += 1
         return res
@@ -45,8 +47,7 @@ class naiveMultiplication:
         #     text2image.toImage(i[1], i[0])
 
     def compare_latex2img(self):
-        saver.names = 0
-        for i in saver.saved:
+        for i in self.saved:
             compare_text2image.formula_as_file(i[1], i[0], "Standard")
         # for i in saver.text:
         #     compare_text2image.toImage(i[1], i[0], "Standard")
@@ -70,6 +71,7 @@ class Strassen:
             return sp.Matrix([])
         self.saved.append((saver.names, "\\text{Padding is added in the form of a row or column}$$$$\\text{of zeros to matrices with odd dimensions.}"
         +"$$$$\\text{Therefore, a matrix with an odd number of rows}$$$$\\text{(and/or columns) would get a row (and/or column)}$$$$\\text{of zeros to ensure even dimensions.}"))
+        saver.names += 1
         # Dynamic padding
         if self.leftmatrix.rows % 2 == 1:
             self.leftmatrix = self.leftmatrix.col_join(sp.zeros(1, self.leftmatrix.cols))
@@ -118,32 +120,32 @@ class Strassen:
             self.saved.append((saver.names, "\\text{A dimension of the submatrices is 1, so}"
             +"$$$$\\text{the submatrices will be multiplied using}$$$$\\text{the standard method of matrix multiplication}"))
             saver.names += 1
-            # m1 = naiveMultiplication((a11 + a22), (b11 + b22)).calc()
-            m1 = (a11 + a22)*(b11 + b22)
+            m1 = naiveMultiplication((a11 + a22), (b11 + b22)).calc()
+            # m1 = (a11 + a22)*(b11 + b22)
             self.saved.append((saver.names, "m_1=(a_{11}+a_{22})(b_{11}+b_{22})$$$$=("+sp.latex(a11)+"+"+sp.latex(a22)+")("+sp.latex(b11)+"+"+sp.latex(b22)+")$$$$="+sp.latex(m1)))
             saver.names += 1
-            # m2 = naiveMultiplication((a21 + a22), b11).calc()
-            m2 = (a21 + a22)*b11
+            m2 = naiveMultiplication((a21 + a22), b11).calc()
+            # m2 = (a21 + a22)*b11
             self.saved.append((saver.names, "m_2=(a_{21}+a_{22})b_{11}$$$$=("+sp.latex(a21)+"+"+sp.latex(a22)+")"+sp.latex(b11)+"$$$$="+sp.latex(m2)))
             saver.names += 1
-            # m3 = naiveMultiplication(a11, (b12 - b22)).calc()
-            m3 = a11*(b12 - b22)
+            m3 = naiveMultiplication(a11, (b12 - b22)).calc()
+            # m3 = a11*(b12 - b22)
             self.saved.append((saver.names, "m_3=a_{11}(b_{12}-b_{22})$$$$="+sp.latex(a11)+"("+sp.latex(b12)+"+"+sp.latex(-b22)+")$$$$="+sp.latex(m3)))
             saver.names += 1
-            # m4 = naiveMultiplication(a22, (b21 - b11)).calc()
-            m4 = a22*(b21 - b11)
+            m4 = naiveMultiplication(a22, (b21 - b11)).calc()
+            # m4 = a22*(b21 - b11)
             self.saved.append((saver.names, "m_4=a_{22}(b_{21}-b_{11})$$$$="+sp.latex(a22)+"("+sp.latex(b21)+"+"+sp.latex(-b11)+")$$$$="+sp.latex(m4)))
             saver.names += 1
-            # m5 = naiveMultiplication((a11 + a12), b22).calc()
-            m5 = (a11 + a12)*b22
+            m5 = naiveMultiplication((a11 + a12), b22).calc()
+            # m5 = (a11 + a12)*b22
             self.saved.append((saver.names, "m_5=(a_{11}+a_{12})b_{22}$$$$=("+sp.latex(a11)+"+"+sp.latex(a12)+")"+sp.latex(b22)+"$$$$="+sp.latex(m5)))
             saver.names += 1
-            # m6 = naiveMultiplication((a21 - a11), (b11 + b12)).calc()
-            m6 = (a21 - a11)*(b11 + b12)
+            m6 = naiveMultiplication((a21 - a11), (b11 + b12)).calc()
+            # m6 = (a21 - a11)*(b11 + b12)
             self.saved.append((saver.names, "m_6=(a_{21}-a_{11})(b_{11}+b_{12})$$$$=("+sp.latex(a21)+"+"+sp.latex(-a11)+")("+sp.latex(b11)+"+"+sp.latex(b12)+")$$$$="+sp.latex(m6)))
             saver.names += 1
-            # m7 = naiveMultiplication((a12 - a22), (b21 + b22)).calc()
-            m7 = (a12 - a22)*(b21 + b22)
+            m7 = naiveMultiplication((a12 - a22), (b21 + b22)).calc()
+            # m7 = (a12 - a22)*(b21 + b22)
             self.saved.append((saver.names, "m_7=(a_{12}-a_{22})(b_{21}+b_{22})$$$$=("+sp.latex(a12)+"+"+sp.latex(-a22)+")("+sp.latex(b21)+"+"+sp.latex(b22)+")$$$$="+sp.latex(m7)))
             saver.names += 1
         # Otherwise, Strassen's called
@@ -154,39 +156,53 @@ class Strassen:
             self.saved.append((saver.names, "m_1=(a_{11}+a_{22})(b_{11}+b_{22})$$$$=("
             +sp.latex(a11)+"+"+sp.latex(a22)+")("+sp.latex(b11)+"+"+sp.latex(b22)+")$$$$="+sp.latex(a11+a22)+"*"+sp.latex(b11+b22)))
             saver.names += 1
-            m1 = Strassen((a11 + a22), (b11 + b22)).calc()
+            mat1 = Strassen((a11 + a22), (b11 + b22))
+            m1 = mat1.calc()
+            mat1.addSaved(True)
             self.saved.append((saver.names, "m_1="+sp.latex(m1)))
             saver.names += 1
             self.saved.append((saver.names, "m_2=(a_{21}+a_{22})b_{11}$$$$=("+sp.latex(a21)+"+"+sp.latex(a22)+")"+sp.latex(b11)+"$$$$="+sp.latex(a21+a22)+"*"+sp.latex(b11)))
             saver.names += 1
-            m2 = Strassen((a21 + a22), b11).calc()
+            mat2 = Strassen((a21 + a22), b11)
+            m2 = mat2.calc()
+            mat2.addSaved(True)
             self.saved.append((saver.names, "m_2="+sp.latex(m2)))
             saver.names += 1
             self.saved.append((saver.names, "m_3=a_{11}(b_{12}-b_{22})$$$$="+sp.latex(a11)+"("+sp.latex(b12)+"+"+sp.latex(-b22)+")$$$$="+sp.latex(a11)+"*"+sp.latex(b12-b22)))
             saver.names += 1
-            m3 = Strassen(a11, (b12 - b22)).calc()
+            mat3 = Strassen(a11, (b12 - b22))
+            m3 = mat3.calc()
+            mat3.addSaved(True)
             self.saved.append((saver.names, "m_3="+sp.latex(m3)))
             saver.names += 1
             self.saved.append((saver.names, "m_4=a_{22}(b_{21}-b_{11})$$$$="+sp.latex(a22)+"("+sp.latex(b21)+"+"+sp.latex(-b11)+")$$$$="+sp.latex(a22)+"*"+sp.latex(b21-b11)))
             saver.names += 1
-            m4 = Strassen(a22, (b21 - b11)).calc()
+            mat4 = Strassen(a22, (b21 - b11))
+            m4 = mat4.calc()
+            mat4.addSaved(True)
             self.saved.append((saver.names, "m_4="+sp.latex(m4)))
             saver.names += 1
             self.saved.append((saver.names, "m_5=(a_{11}+a_{12})b_{22}$$$$=("+sp.latex(a11)+"+"+sp.latex(a12)+")"+sp.latex(b22)+"$$$$="+sp.latex(a11+a12)+"*"+sp.latex(b22)))
             saver.names += 1
-            m5 = Strassen((a11 + a12), b22).calc()
+            mat5 = Strassen((a11 + a12), b22)
+            m5 = mat5.calc()
+            mat5.addSaved(True)
             self.saved.append((saver.names, "m_5="+sp.latex(m5)))
             saver.names += 1
             self.saved.append((saver.names, "m_6=(a_{21}-a_{11})(b_{11}+b_{12})$$$$=("
             +sp.latex(a21)+"+"+sp.latex(-a11)+")("+sp.latex(b11)+"+"+sp.latex(b12)+")$$$$="+sp.latex(a21-a11)+"*"+sp.latex(b11+b12)))
             saver.names += 1
-            m6 = Strassen((a21 - a11), (b11 + b12)).calc()
+            mat6 = Strassen((a21 - a11), (b11 + b12))
+            m6 = mat6.calc()
+            mat6.addSaved(True)
             self.saved.append((saver.names, "m_6="+sp.latex(m6)))
             saver.names += 1
             self.saved.append((saver.names, "m_7=(a_{12}-a_{22})(b_{21}+b_{22})$$$$=("
             +sp.latex(a12)+"+"+sp.latex(-a22)+")("+sp.latex(b21)+"+"+sp.latex(b22)+")$$$$="+sp.latex(a12-a22)+"*"+sp.latex(b21+b22)))
             saver.names += 1
-            m7 = Strassen((a12 - a22), (b21 + b22)).calc()
+            mat7 = Strassen((a12 - a22), (b21 + b22))
+            m7 = mat7.calc()
+            mat7.addSaved(True)
             self.saved.append((saver.names, "m_7="+sp.latex(m7)))
             saver.names += 1
         self.saved.append((saver.names, "\\text{Therefore, the results of multiplications are}$$$$m_1="
@@ -236,7 +252,7 @@ class Strassen:
         #     text2image.toImage(i[1], i[0])
 
     def compare_latex2img(self):
-        for i in saver.saved:
+        for i in self.saved:
             compare_text2image.formula_as_file(i[1], i[0], "Strassen")
         # for i in saver.text:
         #     compare_text2image.toImage(i[1], i[0], "Strassen")
@@ -426,7 +442,7 @@ class Laderman:
         #     text2image.toImage(i[1], i[0])
 
     def compare_latex2img(self):
-        for i in saver.saved:
+        for i in self.saved:
             compare_text2image.formula_as_file(i[1], i[0], "Laderman")
         # for i in saver.text:
         #     compare_text2image.toImage(i[1], i[0], "Laderman")

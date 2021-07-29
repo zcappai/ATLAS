@@ -1,6 +1,6 @@
 import sympy as sp
 from determinant import naiveDeterminant
-from text2image import toImage, formula_as_file
+from text2image import formula_as_file
 from emptyimg import empty
 import saver
 
@@ -24,7 +24,7 @@ class Eigenvalue:
         saver.names += 1
         self.saved.append((saver.names, "\\text{This results in}$$$$"+sp.latex(new_matrix)))
         saver.names += 1
-        characteristic = naiveDeterminant(new_matrix).calc()
+        characteristic = new_matrix.det()
         expanded_det = sp.expand(characteristic)
         self.saved.append((saver.names, """\\text{Then, calculate the determinant of this matrix}$$$$
         \\text{and equate it to 0, giving the following equation}$$$$"""+sp.latex(expanded_det)+"=0"))
@@ -48,7 +48,7 @@ class Eigenvalue:
 
     def addSaved(self, check):
         if check == True:
-            saver.saved = saver.saved + self.saved
+            saver.saved += self.saved
             # saver.text = saver.text + self.text
 
     def latex2img(self):

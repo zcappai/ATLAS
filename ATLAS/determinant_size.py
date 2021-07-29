@@ -13,10 +13,10 @@ from determinant_input import Ui_DetInWindow
 from closeWindow import QMainWindow
 
 class Ui_DetSizeWindow(object):
-    def setupUi(self, DetSizeWindow):
-        self.DetSizeWindow = DetSizeWindow
-        DetSizeWindow.setObjectName("DetSizeWindow")
-        self.centralwidget = QtWidgets.QWidget(DetSizeWindow)
+    def setupUi(self, MainWindow):
+        self.MainWindow = MainWindow
+        MainWindow.setObjectName("MainWindow")
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
@@ -62,41 +62,43 @@ class Ui_DetSizeWindow(object):
         self.det_size_submit.setObjectName("det_size_submit")
         self.det_size_submit.clicked.connect(self.sendSize) #######################################
         self.gridLayout.addWidget(self.det_size_submit, 5, 0, 1, 1, QtCore.Qt.AlignHCenter)
-        DetSizeWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(DetSizeWindow)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1100, 21))
         self.menubar.setObjectName("menubar")
-        DetSizeWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(DetSizeWindow)
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
-        DetSizeWindow.setStatusBar(self.statusbar)
+        MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(DetSizeWindow)
-        QtCore.QMetaObject.connectSlotsByName(DetSizeWindow)
+        MainWindow.setWindowTitle("ATLAS")
+        self.det_size_info.setText("Use the box below to choose what size matrix you wish to enter and press the \"Submit\" button.")
+        self.det_size_info1.setText("Remember, the determinant can only be calculated for a square matrix, which is a matrix that has the same number of rows and columns.")
+        self.det_size_info2.setText("e.g. if you enter the number 4, the input will be a 4 x 4 matrix.")
+        self.det_size_submit.setText("Submit")
 
-    def retranslateUi(self, DetSizeWindow):
-        _translate = QtCore.QCoreApplication.translate
-        DetSizeWindow.setWindowTitle(_translate("DetSizeWindow", "ATLAS"))
-        self.det_size_info.setText(_translate("DetSizeWindow", "Use the box below to choose what size matrix you wish to enter."))
-        self.det_size_info2.setText(_translate("DetSizeWindow", "e.g. if you enter the number 4, the matrix must be of size 4x4."))
-        self.det_size_info1.setText(_translate("DetSizeWindow", "Remember, the determinant can only be calculated for a square matrix, which is a matrix that has the same number of elements along its width and height."))
-        self.det_size_submit.setText(_translate("DetSizeWindow", "Submit"))
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    # def retranslateUi(self, MainWindow):
+    #     _translate = QtCore.QCoreApplication.translate
+    #     MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
+    #     self.det_size_info.setText(_translate("MainWindow", "Use the box below to choose what size matrix you wish to enter."))
+    #     self.det_size_info2.setText(_translate("MainWindow", "e.g. if you enter the number 4, the matrix must be of size 4x4."))
+    #     self.det_size_info1.setText(_translate("MainWindow", "Remember, the determinant can only be calculated for a square matrix, which is a matrix that has the same number of elements along its width and height."))
+    #     self.det_size_submit.setText(_translate("MainWindow", "Submit"))
     
     def sendSize(self):
         self.window = QMainWindow()
         self.ui = Ui_DetInWindow(self.det_size.value())
-        print(self.det_size.value())
         self.ui.setupUi(self.window)
-        self.DetSizeWindow.hide()
-        self.window.showMaximized()
-
+        self.MainWindow.hide()
+        self.window.show()
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    DetSizeWindow = QMainWindow()
+    MainWindow = QMainWindow()
     ui = Ui_DetSizeWindow()
-    ui.setupUi(DetSizeWindow)
-    DetSizeWindow.showMaximized()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
     sys.exit(app.exec_())
-    

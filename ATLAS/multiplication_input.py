@@ -27,7 +27,6 @@ class Ui_MultInWindow(object):
     def setupUi(self, MainWindow):
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1100, 871)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -92,7 +91,12 @@ class Ui_MultInWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
+        MainWindow.setWindowTitle("ATLAS")
+        self.label.setText("Left Matrix")
+        self.matrix_info.setText("Please enter the matrix values for both matrices into the tables below and press the \"Submit\" button.\nFor larger matrices, a scrollbar will appear.")
+        self.submit.setText("Submit")
+        self.label_2.setText("Right Matrix")
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.warning = QtWidgets.QLabel(self.centralwidget)
@@ -105,14 +109,14 @@ class Ui_MultInWindow(object):
         self.matrixleft.itemChanged.connect(self.validator_left.validate) #################################
         self.matrixright.itemChanged.connect(self.validator_right.validate) #################################
 
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
-        self.label.setText(_translate("MainWindow", "Left Matrix"))
-        self.matrix_info.setText(_translate("MainWindow", "Please enter the values into the 2 matrices below.\n"
-"Use the scrollbar for larger matrices, if necessary."))
-        self.submit.setText(_translate("MainWindow", "Submit"))
-        self.label_2.setText(_translate("MainWindow", "Right Matrix"))
+#     def retranslateUi(self, MainWindow):
+#         _translate = QtCore.QCoreApplication.translate
+#         MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
+#         self.label.setText(_translate("MainWindow", "Left Matrix"))
+#         self.matrix_info.setText(_translate("MainWindow", "Please enter the values into the 2 matrices below.\n"
+# "Use the scrollbar for larger matrices, if necessary."))
+#         self.submit.setText(_translate("MainWindow", "Submit"))
+#         self.label_2.setText(_translate("MainWindow", "Right Matrix"))
 
     # def validation_left(self):
     #     input_text = self.matrixleft.currentItem().text()
@@ -157,7 +161,7 @@ class Ui_MultInWindow(object):
         self.ui = Ui_SingleCompWindow(arg, "mult")
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.showMaximized()
+        self.window.show()
 
 if __name__ == "__main__":
     import sys
@@ -165,5 +169,5 @@ if __name__ == "__main__":
     MainWindow = QMainWindow()
     ui = Ui_MultInWindow(1,2,3)
     ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
+    MainWindow.show()
     sys.exit(app.exec_())

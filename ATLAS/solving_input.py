@@ -26,7 +26,6 @@ class Ui_SolveInWindow(object):
     def setupUi(self, MainWindow):
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1100, 871)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -74,7 +73,12 @@ class Ui_SolveInWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
+        MainWindow.setWindowTitle("ATLAS")
+        self.matrix_info.setText("Please enter the values for the linear equations into the table below."
+        +"\nRemember, unique solutions can only be guaranteed when the number of equations equals the number of unknowns."
+        +"\nUse the scrollbar for larger linear equations, if necessary.")
+        self.submit.setText("Submit")
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.warning = QtWidgets.QLabel(self.centralwidget)
@@ -85,12 +89,12 @@ class Ui_SolveInWindow(object):
         self.validator = Validator(self.matrix, self.warning)
         self.matrix.itemChanged.connect(self.validator.validate) #################################
 
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
-        self.matrix_info.setText(_translate("MainWindow", "Please enter the values for the linear equations into the table below.\n"
-"Use the scrollbar for larger linear equations, if necessary."))
-        self.submit.setText(_translate("MainWindow", "Submit"))
+#     def retranslateUi(self, MainWindow):
+#         _translate = QtCore.QCoreApplication.translate
+#         MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
+#         self.matrix_info.setText(_translate("MainWindow", "Please enter the values for the linear equations into the table below.\n"
+# "Use the scrollbar for larger linear equations, if necessary."))
+#         self.submit.setText(_translate("MainWindow", "Submit"))
 
     # def validation(self):
     #     input_text = self.matrix.currentItem().text()
@@ -120,13 +124,13 @@ class Ui_SolveInWindow(object):
         self.ui = Ui_SingleCompWindow(matrix, "solve")
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.showMaximized()
+        self.window.show()
 
         # self.window = QMainWindow()
         # self.ui = Ui_SolveSingleWindow(solutions)
         # self.ui.setupUi(self.window)
         # self.MainWindow.hide()
-        # self.window.showMaximized()
+        # self.window.show()
 
 
 if __name__ == "__main__":
@@ -135,5 +139,5 @@ if __name__ == "__main__":
     MainWindow = QMainWindow()
     ui = Ui_SolveInWindow(3,2)
     ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
+    MainWindow.show()
     sys.exit(app.exec_())

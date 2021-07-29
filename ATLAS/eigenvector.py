@@ -10,48 +10,48 @@ class Eigenvector:
     def __init__(self, matrix):
         self.matrix = matrix
         self.size = matrix.rows
+        self.saved = []
     
     def calc(self):
         eigenvalues = Eigenvalue(self.matrix).calc()
         eigenvalues = [round(num, 4) for num in eigenvalues]
-        saver.saved.append((saver.names, "\\text{First, calculate the eigenvalues of the matrix}$$$$"
+        self.saved.append((saver.names, "\\text{First, calculate the eigenvalues of the matrix}$$$$"
         +sp.latex(self.matrix)+"$$$$\\text{giving eigenvalues of}$$$$"+sp.latex(eigenvalues)))
         saver.names += 1
         eigenvectors = []
         I = sp.eye(self.size)
-        saver.saved.append((saver.names, "\\text{Take each eigenvalue in turn}$$$$\\text{and calculate the eigenvector}"))
+        self.saved.append((saver.names, "\\text{Take each eigenvalue in turn}$$$$\\text{and calculate the eigenvector}"))
         saver.names += 1
         unique_eigenvalues = set(eigenvalues)
         for e_value in unique_eigenvalues:
-            saver.saved.append((saver.names, "\\text{Looking at the eigenvalue}$$$$"+sp.latex(sp.Symbol("lamda"))+"="+sp.latex(e_value)))
+            self.saved.append((saver.names, "\\text{Looking at the eigenvalue}$$$$"+sp.latex(sp.Symbol("lamda"))+"="+sp.latex(e_value)))
             saver.names += 1
             e_I = e_value*I
             new_matrix = self.matrix - e_I
-            saver.saved.append((saver.names, "\\text{Subtract from the matrix, the identity}$$$$\\text{matrix multiplied by the eigenvalue}$$$$"
+            self.saved.append((saver.names, "\\text{Subtract from the matrix, the identity}$$$$\\text{matrix multiplied by the eigenvalue}$$$$"
             +sp.latex(self.matrix)+"-"+sp.latex(round(e_value, 4))+sp.latex(I)))
             saver.names += 1
-            saver.saved.append((saver.names, "\\text{This gives the following matrix}$$$$"+sp.latex(new_matrix)))
+            self.saved.append((saver.names, "\\text{This gives the following matrix}$$$$"+sp.latex(new_matrix)))
             saver.names += 1
             new_matrix = new_matrix.col_insert(self.size, sp.Matrix([0]*self.size))
-            saver.saved.append((saver.names, "\\text{Converting it to}$$$$"+sp.latex(new_matrix)+"$$$$\\text{allows it to be solved as}$$$$\\text{a system of linear equations}"))
+            self.saved.append((saver.names, "\\text{Converting it to}$$$$"+sp.latex(new_matrix)+"$$$$\\text{allows it to be solved as}$$$$\\text{a system of linear equations}"))
             saver.names += 1
             solved, solutions, row_ech = GaussianElimination(new_matrix).calc()
             row_ech = row_ech.n(4)
             unique = eigenvalues.count(e_value)
-            print(solved, e_value, unique)
             if solved == True and unique == 1:
-                saver.saved.append((saver.names, "\\text{Using Gaussian Elimination, the}$$$$\\text{matrix is converted to row echelon form}$$$$"+sp.latex(row_ech)))
+                self.saved.append((saver.names, "\\text{Using Gaussian Elimination, the}$$$$\\text{matrix is converted to row echelon form}$$$$"+sp.latex(row_ech)))
                 saver.names += 1
-                saver.saved.append((saver.names, "\\text{This is solved using back substitution}$$$$\\text{giving solutions of}$$$$"+sp.latex(solutions)))
+                self.saved.append((saver.names, "\\text{This is solved using back substitution}$$$$\\text{giving solutions of}$$$$"+sp.latex(solutions)))
                 saver.names += 1
                 eigenvector = sp.Matrix(self.size, 1, solutions)
                 eigenvectors.append((e_value, eigenvector))
-                saver.saved.append((saver.names, "\\text{Therefore, for the eigenvalue }"+sp.latex(e_value)+",$$$$\\text{the eigenvector is }"+sp.latex(eigenvector)))
+                self.saved.append((saver.names, "\\text{Therefore, for the eigenvalue }"+sp.latex(e_value)+",$$$$\\text{the eigenvector is }"+sp.latex(eigenvector)))
                 saver.names += 1
             elif solved == True and unique > 1:
-                saver.saved.append((saver.names, "\\text{Using Gaussian Elimination, the}$$$$\\text{matrix is converted to row echelon form}$$$$"+sp.latex(row_ech)))
+                self.saved.append((saver.names, "\\text{Using Gaussian Elimination, the}$$$$\\text{matrix is converted to row echelon form}$$$$"+sp.latex(row_ech)))
                 saver.names += 1
-                saver.saved.append((saver.names, "\\text{Since the eigenvalue }"+sp.latex(e_value)
+                self.saved.append((saver.names, "\\text{Since the eigenvalue }"+sp.latex(e_value)
                 +"\\text{ has a multiplicity}$$$$\\text{which is greater than 1, it cannot be solved by}$$$$"
                 +"\\text{back substitution on the row echelon form matrix}"))
                 saver.names += 1
@@ -59,54 +59,58 @@ class Eigenvector:
                 atoms = list(ascii_lowercase)
                 vars = sp.Matrix(self.size, 1, atoms[:self.size])
                 prod = row_ech*vars
-                saver.saved.append((saver.names, "\\text{The matrix in row echelon form is multiplied}$$$$\\text{by a column vector of unknown variables}$$$$"
+                self.saved.append((saver.names, "\\text{The matrix in row echelon form is multiplied}$$$$\\text{by a column vector of unknown variables}$$$$"
                 +sp.latex(row_ech)+"*"+sp.latex(vars)+"="+sp.latex(prod)))
                 saver.names += 1
                 solutions = []
                 for i in prod:
                     if i != 0:
-                        saver.saved.append((saver.names, "\\text{Then, the expression}$$$$"+sp.latex(i)+"=0"+"$$$$\\text{can be solved for a variable by equating it to 0}"
+                        self.saved.append((saver.names, "\\text{Then, the expression}$$$$"+sp.latex(i)+"=0"+"$$$$\\text{can be solved for a variable by equating it to 0}"
                         "$$$$\\text{giving a solution of}"+sp.latex(sp.solve(i)[0])))
                         saver.names += 1
                     solutions.append(sp.solve(i))
                 for i in solutions:
                     try:
                         for key, value in i[0].items():
-                            saver.saved.append((saver.names, "\\text{Substituting }"+sp.latex(key)+"="+sp.latex(value)+"$$$$\\text{back into column vector of unknowns}"
+                            self.saved.append((saver.names, "\\text{Substituting }"+sp.latex(key)+"="+sp.latex(value)+"$$$$\\text{back into column vector of unknowns}"
                             +"$$$$\\text{such that }"+sp.latex(vars)+"\\rightarrow"+sp.latex(vars.subs(key, value))))
                             saver.names += 1
                             vars = vars.subs(key, value)
                     except:
                         pass
                 free = list(vars.free_symbols)
-                saver.saved.append((saver.names, "\\text{For the free variables }"+sp.latex(free)+",$$$$\\text{each variable is set to 1 and the others are set to 0,}"
+                self.saved.append((saver.names, "\\text{For the free variables }"+sp.latex(free)+",$$$$\\text{each variable is set to 1 and the others are set to 0,}"
                 +"$$$$\\text{allowing the different eigenvectors to be calculated}"))
                 saver.names += 1
                 for i in range(len(free)):
                     curr = free[i]
-                    saver.saved.append((saver.names, "\\text{The free variable }"+sp.latex(curr)+"\\text{ is set to 1}"))
+                    self.saved.append((saver.names, "\\text{The free variable }"+sp.latex(curr)+"\\text{ is set to 1}"))
                     saver.names += 1
                     rem = free[:i] + free[i+1:]
-                    saver.saved.append((saver.names, "\\text{The remaining variables }"+sp.latex(rem)+"\\text{ are set to 0}"))
+                    self.saved.append((saver.names, "\\text{The remaining variables }"+sp.latex(rem)+"\\text{ are set to 0}"))
                     saver.names += 1
-                    saver.saved.append((saver.names, "\\text{Substituting }"+sp.latex(curr)+"="+"1$$$$\\text{gives }"
+                    self.saved.append((saver.names, "\\text{Substituting }"+sp.latex(curr)+"="+"1$$$$\\text{gives }"
                     +sp.latex(vars)+"\\rightarrow"+sp.latex(vars.subs(curr, 1))))
                     saver.names += 1
                     subbed = vars.subs(curr, 1)
                     for j in rem:
-                        saver.saved.append((saver.names, "\\text{Substituting }"+sp.latex(j)+"="+"0$$$$\\text{gives }"
+                        self.saved.append((saver.names, "\\text{Substituting }"+sp.latex(j)+"="+"0$$$$\\text{gives }"
                         +sp.latex(subbed)+"\\rightarrow"+sp.latex(subbed.subs(j, 0))))
                         saver.names += 1
                         subbed = subbed.subs(j, 0)
-                    saver.saved.append((saver.names, "\\text{For the eigenvalue }"+sp.latex(e_value)+",$$$$\\text{the eigenvector is }"+sp.latex(subbed)))
+                    self.saved.append((saver.names, "\\text{For the eigenvalue }"+sp.latex(e_value)+",$$$$\\text{the eigenvector is }"+sp.latex(subbed)))
                     eigenvectors.append((e_value, subbed))
                     saver.names += 1
-        saver.saved.append((saver.names, "\\text{Therefore, the eigenvalues and eigenvectors for}$$$$"+sp.latex(self.matrix)+"$$$$\\text{are}"))
+        self.saved.append((saver.names, "\\text{Therefore, the eigenvalues and eigenvectors for}$$$$"+sp.latex(self.matrix)+"$$$$\\text{are}"))
         saver.names += 1
         for i in eigenvectors:
-            saver.saved.append((saver.names, sp.latex(sp.Symbol("lamda"))+"="+sp.latex(i[0])+", "+sp.latex(sp.Symbol("v"))+"="+sp.latex(i[1])))
+            self.saved.append((saver.names, sp.latex(sp.Symbol("lamda"))+"="+sp.latex(i[0])+", "+sp.latex(sp.Symbol("v"))+"="+sp.latex(i[1])))
             saver.names += 1
         return eigenvectors
+
+    def addSaved(self, check):
+        if check == True:
+            saver.saved += self.saved
 
     def latex2img(self):
         formula_as_file(sp.latex(self.matrix), 0)

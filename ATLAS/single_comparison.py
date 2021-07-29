@@ -14,12 +14,13 @@ from mult_compare_method import Ui_MultCompareWindow
 from det_compare_method import Ui_DetCompareWindow
 from inverse_compare_method import Ui_InverseCompareWindow
 from solving_compare_method import Ui_SolveCompareWindow
+from compare_loading_screen import Ui_CompLoadingWindow
 from os import mkdir
 import multiplication
 import determinant
 import inverse
 import solving
-from compare_emptyimg import empty
+from emptyimg import empty
 from closeWindow import QMainWindow
 import saver
 import sympy as sp
@@ -32,7 +33,6 @@ class Ui_SingleCompWindow(object):
     def setupUi(self, MainWindow):
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1110, 831)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -76,11 +76,6 @@ class Ui_SingleCompWindow(object):
         self.one_option_button.setObjectName("one_option_button")
         self.one_option_button.clicked.connect(self.toSingle)
         self.gridLayout.addWidget(self.one_option_button, 4, 1, 1, 1)
-        self.back_button = QtWidgets.QPushButton(self.centralwidget)
-        self.back_button.setMinimumSize(QtCore.QSize(0, 50))
-        self.back_button.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.back_button.setObjectName("back_button")
-        self.gridLayout.addWidget(self.back_button, 0, 0, 2, 1, QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1110, 21))
@@ -90,88 +85,114 @@ class Ui_SingleCompWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
+        MainWindow.setWindowTitle("ATLAS")
+        self.comparison_button.setText("Comparison")
+        self.label.setText("Click one of the options below:\n\"One Method\" allows you to choose a single method to use.\n\"Comparison\" allows you to compare all valid methods.")
+        self.one_option_button.setText("One Method")
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
-        self.comparison_button.setText(_translate("MainWindow", "Comparison"))
-        self.label.setText(_translate("MainWindow", "Select one of the options:\n"
-"\"One Method\" allows you to choose a single method to use\n"
-"\"Comparison\" allows you to compare all the methods available."))
-        self.one_option_button.setText(_translate("MainWindow", "One Method"))
-        self.back_button.setText(_translate("MainWindow", "Go Back"))
+#     def retranslateUi(self, MainWindow):
+#         _translate = QtCore.QCoreApplication.translate
+#         MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
+#         self.comparison_button.setText(_translate("MainWindow", "Comparison"))
+#         self.label.setText(_translate("MainWindow", "Select one of the options:\n"
+# "\"One Method\" allows you to choose a single method to use\n"
+# "\"Comparison\" allows you to compare all the methods available."))
+#         self.one_option_button.setText(_translate("MainWindow", "One Method"))
 
     def toSingle(self):
         self.window = QMainWindow()
         self.ui = Ui_SingleChoiceWindow(self.arg, self.method)
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.showMaximized()
+        self.window.show()
 
     def toCompare(self):
         empty()
         self.window = QMainWindow()
         if self.method == "mult":
             self.compareMult()
-            self.ui = Ui_MultCompareWindow()
         elif self.method == "det":
             self.compareDet()
-            self.ui = Ui_DetCompareWindow()
         elif self.method == "inv":
             self.compareInv()
-            self.ui = Ui_InverseCompareWindow()
         elif self.method == "solve":
             self.compareSolve()
-            self.ui = Ui_SolveCompareWindow()
-        self.ui.setupUi(self.window)
-        self.MainWindow.hide()
-        self.window.showMaximized()
+        elif self.method == "e_val":
+            self.ui = Ui_SingleChoiceWindow(self.arg, self.method) #############
+            self.ui.setupUi(self.window)
+            self.MainWindow.hide()
+            self.window.show()
+        elif self.method == "e_vec":
+            self.ui = Ui_SingleChoiceWindow(self.arg, self.method) #############
+            self.ui.setupUi(self.window)
+            self.MainWindow.hide()
+            self.window.show()
 
     def compareMult(self):
         methods = multiplication.getMethods()
+        methodsToSend = []
         for (i, j) in methods:
             self.zero()
             mkdir("images/{}/".format(i))
             current_method = j(*self.arg)
             current_method.calc()
-            current_method.addSaved(True)
-            current_method.compare_latex2img()
+            methodsToSend.append(current_method)
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_CompLoadingWindow("mult", methodsToSend)
+        self.ui.setupUi(self.window)
+        self.MainWindow.hide()
+        self.window.show()
 
     def compareDet(self):
         methods = determinant.getMethods()
+        methodsToSend = []
         for (i, j) in methods:
             self.zero()
             mkdir("images/{}/".format(i))
             current_method = j(self.arg)
             current_method.calc()
-            current_method.addSaved(True)
-            current_method.compare_latex2img()
+            methodsToSend.append(current_method)
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_CompLoadingWindow("det", methodsToSend)
+        self.ui.setupUi(self.window)
+        self.MainWindow.hide()
+        self.window.show()
 
     def compareInv(self):
         methods = inverse.getMethods()
+        methodsToSend = []
         for (i, j) in methods:
             self.zero()
             mkdir("images/{}/".format(i))
             current_method = j(self.arg)
             current_method.calc()
-            current_method.compare_latex2img()
+            methodsToSend.append(current_method)
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_CompLoadingWindow("inv", methodsToSend)
+        self.ui.setupUi(self.window)
+        self.MainWindow.hide()
+        self.window.show()
 
     def compareSolve(self):
         methods = solving.getMethods()
+        methodsToSend = []
         for (i, j) in methods:
             self.zero()
             mkdir("images/{}/".format(i))
             matrix = self.arg[:, :]
             current_method = j(matrix)
             current_method.calc()
-            current_method.addSaved(True)
-            current_method.compare_latex2img()
+            methodsToSend.append(current_method)
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_CompLoadingWindow("solve", methodsToSend)
+        self.ui.setupUi(self.window)
+        self.MainWindow.hide()
+        self.window.show()
 
     def zero(self):
         saver.saved = []
-        # saver.text = []
         saver.names = 0
 
 if __name__ == "__main__":
@@ -180,5 +201,5 @@ if __name__ == "__main__":
     MainWindow = QMainWindow()
     ui = Ui_SingleCompWindow(None, "mult")
     ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
+    MainWindow.show()
     sys.exit(app.exec_())

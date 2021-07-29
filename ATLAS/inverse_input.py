@@ -74,15 +74,18 @@ class Ui_InverseInWindow(object):
         self.validator = Validator(self.matrix, self.warning)
         self.matrix.itemChanged.connect(self.validator.validate) #################################
 
-        self.retranslateUi(MainWindow)
+        MainWindow.setWindowTitle("ATLAS")
+        self.matrix_info.setText("Please enter the values into the square matrix below.\nUse the scrollbar for larger matrices, if necessary.")
+        self.submit.setText("Submit")
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
-        self.matrix_info.setText(_translate("MainWindow", "Please enter the values into the square matrix below.\n"
-"Use the scrollbar for larger matrices, if necessary."))
-        self.submit.setText(_translate("MainWindow", "Submit"))
+#     def retranslateUi(self, MainWindow):
+#         _translate = QtCore.QCoreApplication.translate
+#         MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
+#         self.matrix_info.setText(_translate("MainWindow", "Please enter the values into the square matrix below.\n"
+# "Use the scrollbar for larger matrices, if necessary."))
+#         self.submit.setText(_translate("MainWindow", "Submit"))
 
     # def validation(self):
     #     input_text = self.matrix.currentItem().text()
@@ -118,7 +121,7 @@ class Ui_InverseInWindow(object):
         self.ui = Ui_SingleCompWindow(matrix, "inv")
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.showMaximized()
+        self.window.show()
 
         # self.window = QMainWindow()
         # self.ui = Ui_InverseSingleWindow(inverse_value)
@@ -150,5 +153,5 @@ if __name__ == "__main__":
     MainWindow = QMainWindow()
     ui = Ui_InverseInWindow(3)
     ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
+    MainWindow.show()
     sys.exit(app.exec_())

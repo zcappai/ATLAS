@@ -17,7 +17,6 @@ class Ui_MultCompareWindow(object):
     def setupUi(self, MainWindow):
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1100, 871)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -135,24 +134,37 @@ class Ui_MultCompareWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
+        MainWindow.setWindowTitle("ATLAS")
+        self.next_1.setText("Next Step")
+        self.prev_1.setText("Previous Step")
+        self.original_1.setText("Show Original Matrices")
+        self.next_2.setText("Next Step")
+        self.prev_2.setText("Previous Step")
+        self.original_2.setText("Show Original Matrices")
+        self.next_3.setText("Next Step")
+        self.prev_3.setText("Previous Step")
+        self.original_3.setText("Show Original Matrices")
+        self.label.setText("Standard Method")
+        self.label_2.setText("Strassen's Method")
+        self.label_3.setText("Laderman Method")
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
-        self.next_1.setText(_translate("MainWindow", "Next Step"))
-        self.prev_1.setText(_translate("MainWindow", "Previous Step"))
-        self.original_1.setText(_translate("MainWindow", "Show Original Matrices"))
-        self.next_2.setText(_translate("MainWindow", "Next Step"))
-        self.prev_2.setText(_translate("MainWindow", "Previous Step"))
-        self.original_2.setText(_translate("MainWindow", "Show Original Matrices"))
-        self.next_3.setText(_translate("MainWindow", "Next Step"))
-        self.prev_3.setText(_translate("MainWindow", "Previous Step"))
-        self.original_3.setText(_translate("MainWindow", "Show Original Matrices"))
-        self.label.setText(_translate("MainWindow", "Standard Method"))
-        self.label_2.setText(_translate("MainWindow", "Strassen's Method"))
-        self.label_3.setText(_translate("MainWindow", "Laderman Method"))
+    # def retranslateUi(self, MainWindow):
+    #     _translate = QtCore.QCoreApplication.translate
+    #     MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
+    #     self.next_1.setText(_translate("MainWindow", "Next Step"))
+    #     self.prev_1.setText(_translate("MainWindow", "Previous Step"))
+    #     self.original_1.setText(_translate("MainWindow", "Show Original Matrices"))
+    #     self.next_2.setText(_translate("MainWindow", "Next Step"))
+    #     self.prev_2.setText(_translate("MainWindow", "Previous Step"))
+    #     self.original_2.setText(_translate("MainWindow", "Show Original Matrices"))
+    #     self.next_3.setText(_translate("MainWindow", "Next Step"))
+    #     self.prev_3.setText(_translate("MainWindow", "Previous Step"))
+    #     self.original_3.setText(_translate("MainWindow", "Show Original Matrices"))
+    #     self.label.setText(_translate("MainWindow", "Standard Method"))
+    #     self.label_2.setText(_translate("MainWindow", "Strassen's Method"))
+    #     self.label_3.setText(_translate("MainWindow", "Laderman Method"))
 
 if __name__ == "__main__":
     import sys
@@ -160,5 +172,5 @@ if __name__ == "__main__":
     MainWindow = QMainWindow()
     ui = Ui_MultCompareWindow()
     ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
+    MainWindow.show()
     sys.exit(app.exec_())

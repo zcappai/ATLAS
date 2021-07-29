@@ -1,0 +1,3 @@
+pyinstaller --onefile --clean atlas.py
+
+add "images" folder to same location as .exe file

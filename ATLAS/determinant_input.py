@@ -24,7 +24,6 @@ class Ui_DetInWindow(object):
     def setupUi(self, MainWindow): ############### NEED A TEXT LABEL EXPLAINING THE METHOD
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1100, 871)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -70,7 +69,10 @@ class Ui_DetInWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
+        MainWindow.setWindowTitle("ATLAS")
+        self.matrix_info.setText("Please enter the matrix values into the table below and press the \"Submit\" button.\nFor larger matrices, a scrollbar will appear.")
+        self.det_input_submit.setText("Submit")
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.warning = QtWidgets.QLabel(self.centralwidget)
@@ -81,12 +83,12 @@ class Ui_DetInWindow(object):
         self.validator = Validator(self.matrix, self.warning)
         self.matrix.itemChanged.connect(self.validator.validate) #################################
 
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
-        self.matrix_info.setText(_translate("MainWindow", "Please enter the values into the square matrix below.\n"
-"Use the scrollbar for larger matrices, if necessary."))
-        self.det_input_submit.setText(_translate("DetInWindow", "Submit"))
+#     def retranslateUi(self, MainWindow):
+#         _translate = QtCore.QCoreApplication.translate
+#         MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
+#         self.matrix_info.setText(_translate("MainWindow", "Please enter the values into the square matrix below.\n"
+# "Use the scrollbar for larger matrices, if necessary."))
+#         self.det_input_submit.setText(_translate("MainWindow", "Submit"))
     
     def sendMatrix(self):
         final_matrix = []
@@ -102,7 +104,7 @@ class Ui_DetInWindow(object):
         self.ui = Ui_SingleCompWindow(arg, "det")
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.showMaximized()
+        self.window.show()
 
     # def validation(self):
     #     input_text = self.matrix.currentItem().text()
@@ -122,5 +124,5 @@ if __name__ == "__main__":
     MainWindow = QMainWindow()
     ui = Ui_DetInWindow(3)
     ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
+    MainWindow.show()
     sys.exit(app.exec_())

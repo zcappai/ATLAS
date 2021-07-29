@@ -18,7 +18,6 @@ class Ui_EigenChoiceWindow(object):
     def setupUi(self, MainWindow):
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1110, 831)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -76,32 +75,37 @@ class Ui_EigenChoiceWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
+        MainWindow.setWindowTitle("ATLAS")
+        self.eigenvector_size_button.setText("Eigenvector")
+        self.label.setText("Select one of the options:\n\"Eigenvalue\" allows you to calculate the eigenvalue of a matrix\n\"Eigenvector\" allows you to calculate the eigenvector of a matrix")
+        self.eigenvalue_size_button.setText("Eigenvalue")
+        self.back_button.setText("Go Back")
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
-        self.eigenvector_size_button.setText(_translate("MainWindow", "Eigenvector"))
-        self.label.setText(_translate("MainWindow", "Select one of the options:\n"
-"\"Eigenvalue\" allows you to calculate the eigenvalue of a matrix\n"
-"\"Eigenvector\" allows you to calculate the eigenvector of a matrix"))
-        self.eigenvalue_size_button.setText(_translate("MainWindow", "Eigenvalue"))
-        self.back_button.setText(_translate("MainWindow", "Go Back"))
+#     def retranslateUi(self, MainWindow):
+#         _translate = QtCore.QCoreApplication.translate
+#         MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
+#         self.eigenvector_size_button.setText(_translate("MainWindow", "Eigenvector"))
+#         self.label.setText(_translate("MainWindow", "Select one of the options:\n"
+# "\"Eigenvalue\" allows you to calculate the eigenvalue of a matrix\n"
+# "\"Eigenvector\" allows you to calculate the eigenvector of a matrix"))
+#         self.eigenvalue_size_button.setText(_translate("MainWindow", "Eigenvalue"))
+#         self.back_button.setText(_translate("MainWindow", "Go Back"))
 
     def toEigenvalueSize(self):
         self.window = QMainWindow()
         self.ui = Ui_EigenvalueSizeWindow()
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.showMaximized()
+        self.window.show()
 
     def toEigenvectorSize(self):
         self.window = QMainWindow()
         self.ui = Ui_EigenvectorSizeWindow()
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.showMaximized()
+        self.window.show()
 
 
 if __name__ == "__main__":
@@ -110,5 +114,5 @@ if __name__ == "__main__":
     MainWindow = QMainWindow()
     ui = Ui_EigenChoiceWindow()
     ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
+    MainWindow.show()
     sys.exit(app.exec_())

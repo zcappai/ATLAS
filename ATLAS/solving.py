@@ -18,6 +18,8 @@ class GaussianElimination:
         # self.text = []
 
     def calc(self):
+        self.saved.append((saver.names, sp.latex(self.matrix)))
+        saver.names += 1
         if self.equations < self.unknowns:
             message = "\\text{There are infinitely many}$$$$\\text{solutions (or there are no solutions)}"
             self.saved.append((saver.names, message))
@@ -30,8 +32,6 @@ class GaussianElimination:
             # Applying Rouché–Capelli theorem
             aug = self.matrix[:, :]
             coef = self.matrix[:, :]
-            self.saved.append((saver.names, sp.latex(self.matrix)))
-            saver.names += 1
             self.saved.append((saver.names, """\\text{Rouch\\'e–Capelli theorem is used to identify}
             $$$$\\text{inconsistent systems. This is done by comparing}$$$$\\text{the ranks of the augmented and coefficient matrices.}"""))
             saver.names += 1
@@ -45,7 +45,8 @@ class GaussianElimination:
                 "$$$$\\text{the system of linear equations is}$$$$\\text{inconsistent and no solutions exist.}"))
                 saver.names += 1
                 return False, [], None
-            self.saved.append((saver.names, """Since the rank of the augmented matrix is NOT larger than the rank of the coefficient matrix, the system of linear equations is consistent"""))
+            self.saved.append((saver.names, "\\text{Since the rank of the augmented matrix is}$$$$\\text{NOT larger than the rank of the coefficient matrix,}"
+            +"$$$$\\text{the system of linear equations is consistent}"))
             saver.names += 1
 
             ## REFACTOR!!!!!!!
@@ -129,7 +130,7 @@ class GaussianElimination:
 
     def addSaved(self, check):
         if check == True:
-            saver.saved = saver.saved + self.saved
+            saver.saved += self.saved
             # saver.text = saver.text + self.text
 
     def latex2img(self):
@@ -139,7 +140,7 @@ class GaussianElimination:
         #     text2image.toImage(i[1], i[0])
 
     def compare_latex2img(self):
-        for i in saver.saved:
+        for i in self.saved:
             compare_text2image.formula_as_file(i[1], i[0], "Gaussian")
         # for i in saver.text:
         #     compare_text2image.toImage(i[1], i[0], "Gaussian")
@@ -156,6 +157,8 @@ class CramersRule:
         # self.text = []
 
     def calc(self):
+        self.saved.append((saver.names, sp.latex(self.matrix)))
+        saver.names += 1
         if self.equations < self.unknowns:
             message = "\\text{There are infinitely many}$$$$\\text{solutions (or there are no solutions)}"
             self.saved.append((saver.names, message))
@@ -165,7 +168,27 @@ class CramersRule:
             self.saved.append((saver.names, message))
             return ["No unique solutions"]
         else:
-            self.saved.append((saver.names, sp.latex(self.matrix[:, :])))
+            # Applying Rouché–Capelli theorem
+            aug = self.matrix[:, :]
+            coef = self.matrix[:, :]
+            self.saved.append((saver.names, """\\text{Rouch\\'e–Capelli theorem is used to identify}
+            $$$$\\text{inconsistent systems. This is done by comparing}$$$$\\text{the ranks of the augmented and coefficient matrices.}"""))
+            saver.names += 1
+            coef.col_del(self.unknowns)
+            self.saved.append((saver.names, "\\text{The rank of the augmented matrix}$$$$"+sp.latex(aug)+"$$$$\\text{is }"+sp.latex(aug.rank())))
+            saver.names += 1
+            self.saved.append((saver.names, "\\text{The rank of the coefficient matrix}$$$$"+sp.latex(coef)+"$$$$\\text{is }"+sp.latex(coef.rank())))
+            saver.names += 1
+            if aug.rank() > coef.rank():
+                self.saved.append((saver.names, "\\text{Since the rank of the augmented matrix is}$$$$\\text{larger than the rank of the coefficient matrix,}"
+                "$$$$\\text{the system of linear equations is}$$$$\\text{inconsistent and no solutions exist.}"))
+                saver.names += 1
+                return False, [], None
+            self.saved.append((saver.names, "\\text{Since the rank of the augmented matrix is}$$$$\\text{NOT larger than the rank of the coefficient matrix,}"
+            +"$$$$\\text{the system of linear equations is consistent}"))
+            saver.names += 1
+
+            self.saved.append((saver.names, sp.latex(self.matrix)))
             saver.names += 1
             if self.unknowns == -1 and self.equations == 0:
                 return []
@@ -212,7 +235,7 @@ class CramersRule:
         #     text2image.toImage(i[1], i[0])
 
     def compare_latex2img(self):
-        for i in saver.saved:
+        for i in self.saved:
             compare_text2image.formula_as_file(i[1], i[0], "Cramers")
         # for i in saver.text:
             # compare_text2image.toImage(i[1], i[0], "Cramers")
@@ -276,7 +299,7 @@ class Cholesky:
                 if i < 0:
                     self.saved.append((saver.names, "\\text{Since the determinant for an upper left submatrix}"
                     +"$$$$\\text{is }"+str(1)+"\\text{, the matrix of coefficients is NOT}$$$$\\text{positive definite.}"
-                    +"\\text{ Therefore, the system of linear equation is}$$$$\\text{NOT compatiable with Cholesky Decomposition.}"))
+                    +"$$$$\\text{ Therefore, the system of linear equation is}$$$$\\text{NOT compatiable with Cholesky Decomposition.}"))
                     saver.names += 1
                     return False
             self.saved.append((saver.names, "\\text{Since the determinant for all upper left submatrices}$$$$\\text{is positive, the matrix of coefficients is positive}"
@@ -422,7 +445,7 @@ class Cholesky:
         #     text2image.toImage(i[1], i[0]) ######################
 
     def compare_latex2img(self):
-        for i in saver.saved:
+        for i in self.saved:
             compare_text2image.formula_as_file(i[1], i[0], "Cholesky") ######################
         # for i in saver.text:
         #     compare_text2image.toImage(i[1], i[0], "Cholesky") ######################

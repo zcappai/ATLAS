@@ -45,7 +45,6 @@ def draw_multiple_line_text(image, text, font, text_color, text_start_height):
                   line, font=font, fill=text_color)
         y_text += line_height
 
-
 def toImage(message, count):
     '''
     Testing draw_multiple_line_text

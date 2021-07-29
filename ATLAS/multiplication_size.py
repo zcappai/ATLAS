@@ -16,7 +16,6 @@ class Ui_MultSizeWindow(object):
     def setupUi(self, MainWindow):
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1100, 871)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -115,26 +114,36 @@ class Ui_MultSizeWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
+        MainWindow.setWindowTitle("ATLAS")
+        self.mul_size_info.setText("In order for 2 matrices to be successfully multiplied, 1 dimension from each matrix must be the same.")
+        self.mult_size_info2.setText("Therefore, given 2 matrices with dimensions m x n and n x p. The dimension n must be the same for both matrices."
+        +"\nRemember that the dimenions of a matrix are represented as \"number of rows\" x \"number of columns\".")
+        self.mult_size_info3.setText("e.g. a matrix with 1 row and 3 columns (1 x 3 matrix) would be compatible with a matrix with 3 rows and 6 columns (3 x 6 matrix),"
+        +"\nresulting in a matrix with 1 row and 6 columns.")
+        self.leftmatrixdim_label.setText("m")
+        self.shareddim_label.setText("n")
+        self.rightmatrixdim_label.setText("p")
+        self.submit.setText("Submit")
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
-        self.mult_size_info3.setText(_translate("MainWindow", "e.g. a matrix with 1 row and 3 columns (1*3) would be compatible with a matrix with 3 rows and 6 columns (3*6), resulting in a matrix with 1 row and 6 columns."))
-        self.submit.setText(_translate("MainWindow", "Submit"))
-        self.shareddim_label.setText(_translate("MainWindow", "n"))
-        self.mult_size_info2.setText(_translate("MainWindow", "Therefore, given 2 matrices with dimensions m*n and n*p. The dimension n must be the same for both matrices. Remember that the dimenions of a matrix are represented as \"number of rows\"*\"number of columns\"."))
-        self.rightmatrixdim_label.setText(_translate("MainWindow", "p"))
-        self.mul_size_info.setText(_translate("MainWindow", "In order for 2 matrices to be successfully multiplied, 1 dimension from each matrix must be the same."))
-        self.leftmatrixdim_label.setText(_translate("MainWindow", "m"))
+    # def retranslateUi(self, MainWindow):
+    #     _translate = QtCore.QCoreApplication.translate
+    #     MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
+    #     self.mult_size_info3.setText(_translate("MainWindow", "e.g. a matrix with 1 row and 3 columns (1*3) would be compatible with a matrix with 3 rows and 6 columns (3*6), resulting in a matrix with 1 row and 6 columns."))
+    #     self.submit.setText(_translate("MainWindow", "Submit"))
+    #     self.shareddim_label.setText(_translate("MainWindow", "n"))
+    #     self.mult_size_info2.setText(_translate("MainWindow", "Therefore, given 2 matrices with dimensions m*n and n*p. The dimension n must be the same for both matrices. Remember that the dimenions of a matrix are represented as \"number of rows\"*\"number of columns\"."))
+    #     self.rightmatrixdim_label.setText(_translate("MainWindow", "p"))
+    #     self.mul_size_info.setText(_translate("MainWindow", "In order for 2 matrices to be successfully multiplied, 1 dimension from each matrix must be the same."))
+    #     self.leftmatrixdim_label.setText(_translate("MainWindow", "m"))
 
     def sendSizes(self):
         self.window = QMainWindow()
         self.ui = Ui_MultInWindow(self.leftmatrixdim.value(), self.shareddim.value(), self.rightmatrixdim.value())
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.showMaximized()
+        self.window.show()
 
 
 if __name__ == "__main__":
@@ -143,5 +152,5 @@ if __name__ == "__main__":
     MainWindow = QMainWindow()
     ui = Ui_MultSizeWindow()
     ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
+    MainWindow.show()
     sys.exit(app.exec_())

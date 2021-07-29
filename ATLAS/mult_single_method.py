@@ -16,7 +16,6 @@ from closeWindow import QMainWindow
 class Ui_MultSingleWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1100, 871)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -57,15 +56,19 @@ class Ui_MultSingleWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
+        MainWindow.setWindowTitle("ATLAS")
+        self.next.setText("Next Step")
+        self.prev.setText("Previous Step")
+        self.showOriginalMatrices.setText("Show Original Matrices")
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
-        self.next.setText(_translate("MainWindow", "Next Step"))
-        self.prev.setText(_translate("MainWindow", "Previous Step"))
-        self.showOriginalMatrices.setText(_translate("MainWindow", "Show Original Matrices"))
+    # def retranslateUi(self, MainWindow):
+    #     _translate = QtCore.QCoreApplication.translate
+    #     MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
+    #     self.next.setText(_translate("MainWindow", "Next Step"))
+    #     self.prev.setText(_translate("MainWindow", "Previous Step"))
+    #     self.showOriginalMatrices.setText(_translate("MainWindow", "Show Original Matrices"))
 
     # def next_image(self):
     #     if self.cursor < len(self.images) - 1:
@@ -100,5 +103,5 @@ if __name__ == "__main__":
     MainWindow = QMainWindow()
     ui = Ui_MultSingleWindow()
     ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
+    MainWindow.show()
     sys.exit(app.exec_())

@@ -18,17 +18,13 @@ class naiveDeterminant:
         self.saved.append((saver.names, sp.latex(self.matrix)))
         saver.names += 1
         if self.size == 0:
-            self.saved.append((saver.names, self.matrix))
-            saver.names += 1
-            self.saved.append((saver.names, "\\text{A matrix of size 0 has a determinant of 1}"))
+            self.saved.append((saver.names, "\\text{A matrix of size 0 has}$$$$\\text{a determinant of 1}"))
             saver.names += 1
             self.det = 1
             self.final_det = (saver.names, self.det)
             return self.det
         elif self.size == 1:
-            self.saved.append((saver.names, self.matrix))
-            saver.names += 1
-            self.saved.append((saver.names, "\\text{A matrix of size 1 has a determinant equal to its only value}"))
+            self.saved.append((saver.names, "\\text{A matrix of size 1 has a}$$$$\\text{determinant equal to its only value}"))
             saver.names += 1
             self.det = self.matrix[0]
             self.final_det = (saver.names, self.det)
@@ -93,6 +89,8 @@ class naiveDeterminant:
             self.final_det = self.det
             self.saved.append((saver.names, "\\text{The expression becomes}$$$$"+sp.latex(self.final_equation[1:])+"$$$$\\text{giving a value of }"+sp.latex(self.final_det)))
             saver.names += 1
+            self.saved.append((saver.names, "\\text{Therefore, the determinant}$$$$\\text{of the matrix is }"+sp.latex(self.final_det)))
+            saver.names += 1
             return self.det
 
     def addSaved(self, check):
@@ -102,7 +100,6 @@ class naiveDeterminant:
 
     # Converts the matrices and expressions to images
     def latex2img(self):
-        symb_toggle = 0
         for i in saver.saved:
             text2image.formula_as_file(i[1], i[0])
             # tex = ""
@@ -125,13 +122,12 @@ class naiveDeterminant:
         #     count = i[0]
         #     message = i[1]
         #     text2image.toImage(message, count)
-        text2image.formula_as_file("\\text{Therefore, the determinant}$$$$\\text{of the matrix is }"+sp.latex(self.final_det), saver.names)
-        saver.names += 1
+        # text2image.formula_as_file("\\text{Therefore, the determinant}$$$$\\text{of the matrix is }"+sp.latex(self.final_det), saver.names)
+        # saver.names += 1
 
     # Converts the matrices and expressions to images for method comparison
     def compare_latex2img(self):
-        symb_toggle = 0
-        for i in saver.saved:
+        for i in self.saved:
             compare_text2image.formula_as_file(i[1], i[0], "Standard")
             # tex = ""
             # expr = i[1]
@@ -153,8 +149,8 @@ class naiveDeterminant:
         #     count = i[0]
         #     message = i[1]
         #     compare_text2image.toImage(message, count, "Standard")
-        compare_text2image.formula_as_file("\\text{Therefore, the determinant}$$$$\\text{of the matrix is }"+sp.latex(self.final_det), saver.names, "Standard")
-        saver.names += 1
+        # compare_text2image.formula_as_file("\\text{Therefore, the determinant}$$$$\\text{of the matrix is }"+sp.latex(self.final_det), saver.names, "Standard")
+        # saver.names += 1
 
 class Sarrus:
     def __init__(self, matrix):
@@ -231,7 +227,7 @@ class Sarrus:
 
     # Converts the matrices and expressions to images
     def compare_latex2img(self):
-        for i in saver.saved:
+        for i in self.saved:
             compare_text2image.formula_as_file(i[1], i[0], "Sarrus")
         # for i in saver.text:
         #     compare_text2image.toImage(i[1], i[0], "Sarrus")
@@ -256,8 +252,8 @@ class LU:
                     L[i, j] = sp.symbols('L_{}{}'.format(i+1,j+1))
                 elif i == j:
                     L[i, j] = 1
-        self.saved.append((saver.names, """\\text{Populate the lower triangular matrix with symbols in the}$$$$
-        \\text{bottom-left corner and 1's along the leading diagonal}$$$$"""+sp.latex(L)))
+        self.saved.append((saver.names, """\\text{Populate the lower triangular matrix}$$$$\\text{with symbols in the bottom-left corner}"
+        +"$$$$\\text{and 1's along the leading diagonal}$$$$"""+sp.latex(L)))
         saver.names += 1
         U = sp.Matrix(size, size, [0]*size*size)
         self.saved.append((saver.names, "\\text{Next, create an empty matrix representing}$$$$\\text{the upper triangular (U) matrix}$$$$"+sp.latex(U)))
@@ -270,7 +266,7 @@ class LU:
         \\text{top-right corner and along the leading diagonal}$$$$"""+sp.latex(U)))
         saver.names += 1
         LU = L*U
-        self.saved.append((saver.names, "\\text{Next, multiply the L and U matrices to form the resultant matrix}$$$$"
+        self.saved.append((saver.names, "\\text{Next, multiply the L and U matrices}$$$$\\text{to form the resultant matrix}$$$$"
         +sp.latex(LU)+", $$$$\\text{which is equivalent to the original matrix}"))
         saver.names += 1
         self.saved.append((saver.names, sp.latex(LU)+"="+sp.latex(self.matrix)))
@@ -332,7 +328,7 @@ class LU:
 
     # Converts the matrices and expressions to images
     def compare_latex2img(self):
-        for i in saver.saved:
+        for i in self.saved:
             compare_text2image.formula_as_file(i[1], i[0], "LU")
         # for i in saver.text:
         #     compare_text2image.toImage(i[1], i[0], "LU")
@@ -344,15 +340,15 @@ def getMethods():
     methods.append(("LU", LU))
     return methods
 
-empty()
-a = sp.Matrix([[1,2,3],[4,5,6],[7,8,9]])
+# empty()
+# a = sp.Matrix([[1,2,3],[4,5,6],[7,8,9]])
 # a = sp.Matrix([[3,4,7],[6,5,1],[9,4,7]])
 # a = sp.Matrix([[2,6,3,5],[3,5,6,4],[2,4,3,5],[3,5,7,4]])
 # a = sp.Matrix([[0,0,0],[0,0,0],[0,0,0]])
-det = naiveDeterminant(a)
-print(det.calc())
-det.addSaved(True)
-det.latex2img()
+# det = naiveDeterminant(a)
+# print(det.calc())
+# det.addSaved(True)
+# det.latex2img()
 
 # class QR:
 #     def __init__(self, matrix):

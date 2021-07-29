@@ -17,7 +17,6 @@ class Ui_DetCompareWindow(object):
     def setupUi(self, MainWindow):
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1100, 871)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
@@ -136,27 +135,43 @@ class Ui_DetCompareWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
+        MainWindow.setWindowTitle("ATLAS")
+        self.next_1.setText("Next Step")
+        self.prev_1.setText("Previous Step")
+        self.original_1.setText("Show Original Matrix")
+
+        self.next_2.setText("Next Step")
+        self.prev_2.setText("Previous Step")
+        self.original_2.setText("Show Original Matrix")
+
+        self.next_3.setText("Next Step")
+        self.prev_3.setText("Previous Step")
+        self.original_3.setText("Show Original Matrix")
+
+        self.label.setText("Laplace Expansion")
+        self.label_2.setText("Sarrus' Method")
+        self.label_3.setText("LU Decomposition")
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
-        self.next_1.setText(_translate("MainWindow", "Next Step"))
-        self.prev_1.setText(_translate("MainWindow", "Previous Step"))
-        self.original_1.setText(_translate("MainWindow", "Show Original Matrices"))
+    # def retranslateUi(self, MainWindow):
+    #     _translate = QtCore.QCoreApplication.translate
+    #     MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
+    #     self.next_1.setText(_translate("MainWindow", "Next Step"))
+    #     self.prev_1.setText(_translate("MainWindow", "Previous Step"))
+    #     self.original_1.setText(_translate("MainWindow", "Show Original Matrices"))
 
-        self.next_2.setText(_translate("MainWindow", "Next Step"))
-        self.prev_2.setText(_translate("MainWindow", "Previous Step"))
-        self.original_2.setText(_translate("MainWindow", "Show Original Matrices"))
+    #     self.next_2.setText(_translate("MainWindow", "Next Step"))
+    #     self.prev_2.setText(_translate("MainWindow", "Previous Step"))
+    #     self.original_2.setText(_translate("MainWindow", "Show Original Matrices"))
 
-        self.next_3.setText(_translate("MainWindow", "Next Step"))
-        self.prev_3.setText(_translate("MainWindow", "Previous Step"))
-        self.original_3.setText(_translate("MainWindow", "Show Original Matrices"))
+    #     self.next_3.setText(_translate("MainWindow", "Next Step"))
+    #     self.prev_3.setText(_translate("MainWindow", "Previous Step"))
+    #     self.original_3.setText(_translate("MainWindow", "Show Original Matrices"))
 
-        self.label.setText(_translate("MainWindow", "Laplace Expansion"))
-        self.label_2.setText(_translate("MainWindow", "Sarrus' Method"))
-        self.label_3.setText(_translate("MainWindow", "LU Decomposition"))
+    #     self.label.setText(_translate("MainWindow", "Laplace Expansion"))
+    #     self.label_2.setText(_translate("MainWindow", "Sarrus' Method"))
+    #     self.label_3.setText(_translate("MainWindow", "LU Decomposition"))
 
 if __name__ == "__main__":
     import sys
@@ -164,5 +179,5 @@ if __name__ == "__main__":
     MainWindow = QMainWindow()
     ui = Ui_DetCompareWindow()
     ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
+    MainWindow.show()
     sys.exit(app.exec_())
