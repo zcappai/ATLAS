@@ -1,0 +1,31 @@
+\begin{thebibliography}{Map21}
+
+\bibitem[Han09]{matlab}
+Xiaoxu Han.
+\newblock {Teaching Elementary Linear Algebra Using MATLAB: An Initial
+  Investigation}.
+\newblock
+  \url{https://www.researchgate.net/publication/27327767\_Teaching\_Elementary\_Linear\_Algebra\_Using\_Matlab\_An\_Initial\_Investigation},
+  01 2009.
+
+\bibitem[Map21]{eigentutor}
+Maplesoft.
+\newblock {Student[LinearAlgebra][EigenvaluesTutor] --- interactive matrix
+  eigenvalues}.
+\newblock \hskip 0pt plus 400pt
+  \url{https://www.maplesoft.com/support/help/Maple/view.aspx\allowbreak?path=Student\%2fLinearAlgebra\%2fEigenvaluesTutor},
+  2021.
+
+\bibitem[PD21]{PaiDavenport2021a}
+A.~Pai and J.H. Davenport.
+\newblock {ATLAS: Interactive and Educational Linear Algebra System Containing
+  Non-Standard Methods}.
+\newblock \url{https://arxiv.org/abs/2107.13942}, 2021.
+
+\bibitem[Ste18]{Stein2018a}
+W.A. Stein.
+\newblock {COCALC: Making open source mathematical software easily available on
+  the web (talk at ICMS 2018)}.
+\newblock \url{https://goo.gl/HWdEvc}, 2018.
+
+\end{thebibliography}
