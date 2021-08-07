@@ -10,11 +10,11 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sympy as sp
-from solving import GaussianElimination
-from solving_single_method import Ui_SolveSingleWindow
-from functools import partial
+# from solving import GaussianElimination
+# from solving_single_method import Ui_SolveSingleWindow
+# from functools import partial
 from validator import Validator
-from emptyimg import empty
+# from emptyimg import empty
 from closeWindow import QMainWindow
 from single_comparison import Ui_SingleCompWindow
 

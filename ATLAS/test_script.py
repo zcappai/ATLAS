@@ -1,10 +1,10 @@
-import sympy as sp
-from determinant import naiveDeterminant, Sarrus, LU
-from multiplication import naiveMultiplication, Strassen, Laderman
-from inverse import CayleyHamilton, naiveInverse
-from solving import GaussianElimination, CramersRule, Cholesky
-from eigenvalue import Eigenvalue
-from eigenvector import Eigenvector
+# import sympy as sp
+# from determinant import naiveDeterminant, Sarrus, LU
+# from multiplication import naiveMultiplication, Strassen, Laderman
+# from inverse import CayleyHamilton, naiveInverse
+# from solving import GaussianElimination, CramersRule, Cholesky
+# from eigenvalue import Eigenvalue
+# from eigenvector import Eigenvector
 
 ## Solving Systems of Linear Equations - Cholesky Decomposition ##
 

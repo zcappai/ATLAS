@@ -1,9 +1,10 @@
 import sympy as sp
 from eigenvalue import Eigenvalue
 from solving import GaussianElimination
-from text2image import toImage, formula_as_file
+import text2image
+import compare_text2image
 from string import ascii_lowercase
-from emptyimg import empty
+# from emptyimg import empty
 import saver
 
 class Eigenvector:
@@ -15,6 +16,8 @@ class Eigenvector:
     def calc(self):
         eigenvalues = Eigenvalue(self.matrix).calc()
         eigenvalues = [round(num, 4) for num in eigenvalues]
+        self.saved.append((saver.names, sp.latex(self.matrix)))
+        saver.names += 1
         self.saved.append((saver.names, "\\text{First, calculate the eigenvalues of the matrix}$$$$"
         +sp.latex(self.matrix)+"$$$$\\text{giving eigenvalues of}$$$$"+sp.latex(eigenvalues)))
         saver.names += 1
@@ -113,11 +116,22 @@ class Eigenvector:
             saver.saved += self.saved
 
     def latex2img(self):
-        formula_as_file(sp.latex(self.matrix), 0)
         for i in saver.saved:
-            formula_as_file(i[1], i[0])
+            text2image.formula_as_file(i[1], i[0])
         # for i in saver.text:
         #     toImage(i[1], i[0])
+
+    def compare_latex2img(self):
+        for i in self.saved:
+            compare_text2image.formula_as_file(i[1], i[0], "Gaussian")
+        # for i in saver.text:
+        #     toImage(i[1], i[0])
+
+
+def getMethods():
+    methods = []
+    methods.append(("Gaussian", Eigenvector))
+    return methods
 
 # empty()
 # x = sp.Matrix([[1,1,1],[2,-3,4],[3,4,5]])

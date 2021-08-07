@@ -1,45 +1,47 @@
-from emptyimg import empty
 import sympy as sp
 import text2image
 import compare_text2image
-from string import ascii_lowercase
 from determinant import naiveDeterminant
 import saver
 
+# Gaussian Elimination
 class GaussianElimination:
+    # Constructor takes matrix as argument
     def __init__(self, matrix):
         self.matrix = matrix
         self.equations = matrix.rows
         self.unknowns = matrix.cols - 1
-        # self.atoms = list(ascii_lowercase)
-        # for x in range(self.unknowns//26):
-        #     self.atoms += ["".join([i, str(x)]) for i in list(ascii_lowercase)]
         self.saved = []
-        # self.text = []
 
+    # Calculates solutions to system of linear equations
     def calc(self):
         self.saved.append((saver.names, sp.latex(self.matrix)))
         saver.names += 1
+        # More unknowns than equations (underdetermined system)
         if self.equations < self.unknowns:
-            message = "\\text{There are infinitely many}$$$$\\text{solutions (or there are no solutions)}"
+            message = "\\text{There are infinite}$$$$\\text{or no solutions)}$$$$\\text{(this is an underdetermined system)}"
             self.saved.append((saver.names, message))
-            return False, [], None
+            return False, ["No unique solutions"], None
+        # More equations than unknowns (overdetermined system)
         elif self.equations > self.unknowns:
-            message = "\\text{There are no solutions }$$$$\\text{(this is an overdetermined system)}"
+            message = "\\text{There are no solutions}$$$$\\text{(this is an overdetermined system)}"
             self.saved.append((saver.names, message))
-            return False, [], None
+            return False, ["No unique solutions"], None
+        # Equal numbers of equations and unknowns
         else:
             # Applying Rouché–Capelli theorem
-            aug = self.matrix[:, :]
+            aug = self.matrix[:, :] # Full matrix
+            # Matrix without column of constants
             coef = self.matrix[:, :]
+            coef.col_del(self.unknowns)
             self.saved.append((saver.names, """\\text{Rouch\\'e–Capelli theorem is used to identify}
             $$$$\\text{inconsistent systems. This is done by comparing}$$$$\\text{the ranks of the augmented and coefficient matrices.}"""))
             saver.names += 1
-            coef.col_del(self.unknowns)
             self.saved.append((saver.names, "\\text{The rank of the augmented matrix}$$$$"+sp.latex(aug)+"$$$$\\text{is }"+sp.latex(aug.rank())))
             saver.names += 1
             self.saved.append((saver.names, "\\text{The rank of the coefficient matrix}$$$$"+sp.latex(coef)+"$$$$\\text{is }"+sp.latex(coef.rank())))
             saver.names += 1
+            # Checking system of linear equations is consistent
             if aug.rank() > coef.rank():
                 self.saved.append((saver.names, "\\text{Since the rank of the augmented matrix is}$$$$\\text{larger than the rank of the coefficient matrix,}"
                 "$$$$\\text{the system of linear equations is}$$$$\\text{inconsistent and no solutions exist.}"))
@@ -49,7 +51,7 @@ class GaussianElimination:
             +"$$$$\\text{the system of linear equations is consistent}"))
             saver.names += 1
 
-            ## REFACTOR!!!!!!!
+            # Applying Gaussian Elimination
             n = self.equations
             self.saved.append((saver.names, sp.latex(self.matrix)))
             saver.names += 1
@@ -57,11 +59,13 @@ class GaussianElimination:
             +"$$$$\\text{maximum absolute value in the current column}$$$$\\text{below the current element. This is}$$$$\\text{used to improve numerical stability,}"
             +"$$$$\\text{as it helps to reduce rounding errors.}"))
             saver.names += 1
+            # Iterates through each column of matrix of coefficients
             for i in range(0, n):
-                # Search for maximum in this column
+                # Searching for maximum absolute value in current column
                 maxEl = abs(self.matrix.row(i).col(i)[0])
                 maxRow = i
                 for k in range(i + 1, n):
+                    # Replacing current maximum absolute value if higher is found
                     if abs(self.matrix.row(k).col(i)[0]) > maxEl:
                         maxEl = abs(self.matrix.row(k).col(i)[0])
                         maxRow = k
@@ -69,18 +73,21 @@ class GaussianElimination:
                 +"\\text{the maximum absolute in the column}$$$$\\text{ below the current element }"+sp.latex(self.matrix.row(i).col(i)[0])+"\\text{ is }"+sp.latex(maxEl)+"\\text{ on row }"+sp.latex(maxRow+1)))
                 saver.names += 1
 
-                # Swap maximum row with current row
                 self.saved.append((saver.names, "\\text{Swap the current row}$$$$"+sp.latex(self.matrix.row(i))+"$$$$\\text{and the row with the maximum value}$$$$"+sp.latex(self.matrix.row(maxRow))))
                 saver.names += 1
+                # Swap maximum row with current row
                 self.matrix.row_swap(maxRow, i)
                 self.saved.append((saver.names, "\\text{This gives the matrix}$$$$"+sp.latex(self.matrix)))
                 saver.names += 1
 
-                # Make all rows below this one 0 in current column
+                # Make all rows below current row 0 in current column
                 self.saved.append((saver.names, "\\text{Now all elements below the current}$$$$\\text{row in the current column must be 0}"))
                 saver.names += 1
+                # Iterates through all rows below current row
                 for k in range(i + 1, n):
+                    # Calculates ratio of current element on next row and current row
                     c = self.matrix.row(k).col(i)[0] / self.matrix.row(i).col(i)[0]
+                    # If division by 0 occurs
                     if c == sp.nan:
                         pass
                     else:
@@ -89,6 +96,7 @@ class GaussianElimination:
                         saver.names += 1
                         self.saved.append((saver.names, "\\text{This ratio is substracted from row }"+sp.latex(k+1)+"$$$$\\text{ by multiplying the ratio by values from row }"+sp.latex(i+1)))
                         saver.names += 1
+                        # Subtracting ratio multiplied by current row from next row
                         self.matrix.row_op(k, lambda a, j: a - c*self.matrix[i, j])
                         self.saved.append((saver.names, "\\text{This gives the following matrix}$$$$"+sp.latex(self.matrix)))
                         saver.names += 1
@@ -97,24 +105,27 @@ class GaussianElimination:
 
             self.saved.append((saver.names, "\\text{The matrix is now in row echelon form}$$$$"+sp.latex(self.matrix)))
             saver.names += 1
+            # Matrix is row echelon form
             row_ech = self.matrix[:, :]
 
-            # Solve equation Ax=b for an upper triangular matrix A
-            x = [0 for i in range(n)]
+            # Back substitution
+            x = [0 for i in range(n)] # Storing solutions
             self.saved.append((saver.names, "\\text{Now use back substitution to find the solutions}"))
             saver.names += 1
+            # Iterating through each row of row echelon matrix backwards
             for i in range(n - 1, -1, -1):
+                # Dividing constant by coefficient of unknown variable
                 x[i] = self.matrix.row(i).col(n)[0] / self.matrix.row(i).col(i)[0]
-                if x[i] == sp.nan: #####################################################
-                    x[i] = 1
-                if x[i] == 0:
+                # If constant or coefficient is 0
+                if x[i] == sp.nan or x[i] == 0:
                     x[i] = 1
                 self.saved.append((saver.names, "\\text{On row }"+sp.latex(self.matrix.row(i))
                 +"\\text{dividing }"+sp.latex(self.matrix.row(i).col(n)[0])+"\\text{ by }"
                 +sp.latex(self.matrix.row(i).col(i)[0])+"$$$$\\text{gives the solution }"+sp.latex(x[i])))
-                self.matrix[i, i] = 1
-                self.matrix[i, n] = x[i]
+                self.matrix[i, i] = 1 # Setting leading diagonal element to 1
+                self.matrix[i, n] = x[i] # Setting constant element to solution
                 saver.names += 1
+                # Substituting solution into all other rows and subtracting from constant
                 for k in range(i - 1, -1, -1):
                     self.saved.append((saver.names, "\\text{For row }"+sp.latex(self.matrix.row(k))
                     +"$$$$\\text{Remove the value }"+sp.latex(self.matrix.row(k).col(i)[0])
@@ -128,57 +139,59 @@ class GaussianElimination:
             saver.names += 1
             return True, x, row_ech
 
+    # Adds steps from instance variable list to shared list
     def addSaved(self, check):
         if check == True:
             saver.saved += self.saved
-            # saver.text = saver.text + self.text
 
+    # Converts the matrices and expressions to images for single method
     def latex2img(self):
         for i in saver.saved:
             text2image.formula_as_file(i[1], i[0])
-        # for i in saver.text:
-        #     text2image.toImage(i[1], i[0])
 
+    # Converts the matrices and expressions to images for method comparison
     def compare_latex2img(self):
         for i in self.saved:
             compare_text2image.formula_as_file(i[1], i[0], "Gaussian")
-        # for i in saver.text:
-        #     compare_text2image.toImage(i[1], i[0], "Gaussian")
 
+# Cramer's Rule
 class CramersRule:
+    # Constructor takes matrix as argument
     def __init__(self, matrix):
         self.matrix = matrix
         self.equations = matrix.rows
         self.unknowns = matrix.cols - 1
-        # self.atoms = list(ascii_lowercase)
-        # for x in range(self.unknowns//26):
-        #     self.atoms += ["".join([i, str(x)]) for i in list(ascii_lowercase)]
         self.saved = []
-        # self.text = []
 
+    # Calculates solutions to system of linear equations
     def calc(self):
         self.saved.append((saver.names, sp.latex(self.matrix)))
         saver.names += 1
+        # More unknowns than equations (underdetermined system)
         if self.equations < self.unknowns:
             message = "\\text{There are infinitely many}$$$$\\text{solutions (or there are no solutions)}"
             self.saved.append((saver.names, message))
             return ["No unique solutions"]
+        # More equations than unknowns (overdetermined system)
         elif self.equations > self.unknowns:
             message = "\\text{There are no solutions }$$$$\\text{(this is an overdetermined system)}"
             self.saved.append((saver.names, message))
             return ["No unique solutions"]
+        # Equal numbers of equations and unknowns
         else:
             # Applying Rouché–Capelli theorem
-            aug = self.matrix[:, :]
+            aug = self.matrix[:, :] # Full matrix
+            # Matrix without column of constants
             coef = self.matrix[:, :]
+            coef.col_del(self.unknowns)
             self.saved.append((saver.names, """\\text{Rouch\\'e–Capelli theorem is used to identify}
             $$$$\\text{inconsistent systems. This is done by comparing}$$$$\\text{the ranks of the augmented and coefficient matrices.}"""))
             saver.names += 1
-            coef.col_del(self.unknowns)
             self.saved.append((saver.names, "\\text{The rank of the augmented matrix}$$$$"+sp.latex(aug)+"$$$$\\text{is }"+sp.latex(aug.rank())))
             saver.names += 1
             self.saved.append((saver.names, "\\text{The rank of the coefficient matrix}$$$$"+sp.latex(coef)+"$$$$\\text{is }"+sp.latex(coef.rank())))
             saver.names += 1
+            # Checking system of linear equations is consistent
             if aug.rank() > coef.rank():
                 self.saved.append((saver.names, "\\text{Since the rank of the augmented matrix is}$$$$\\text{larger than the rank of the coefficient matrix,}"
                 "$$$$\\text{the system of linear equations is}$$$$\\text{inconsistent and no solutions exist.}"))
@@ -188,30 +201,36 @@ class CramersRule:
             +"$$$$\\text{the system of linear equations is consistent}"))
             saver.names += 1
 
+            # Applying Cramer's Rule
             self.saved.append((saver.names, sp.latex(self.matrix)))
             saver.names += 1
-            if self.unknowns == -1 and self.equations == 0:
-                return []
-            solutions = []
+            solutions = [] # Solutions
+            # Matrix of coefficients
             mat_coeff = self.matrix[:, :]
             mat_coeff.col_del(-1)
+            # Determinant of matrix of coefficients
             det_mat_coeff = naiveDeterminant(mat_coeff).calc()
             self.saved.append((saver.names, "\\text{The matrix of coefficients is}$$$$"+sp.latex(mat_coeff)+"$$$$\\text{with a determinant of }"+sp.latex(det_mat_coeff)))
             saver.names += 1
+            # No solutions if det(matrix of coefficients) = 0
             if det_mat_coeff == 0:
                 self.saved.append((saver.names, "\\text{Since the determinant is }"+sp.latex(det_mat_coeff)+",$$$$\\text{no solutions exist}"))
                 saver.names += 1
-                return []
+                return ["No solutions"]
+            # Calculating solution for each variable
             for i in range(self.unknowns):
                 self.saved.append((saver.names, "\\text{In the matrix}$$$$"+sp.latex(self.matrix[:, :])))
                 saver.names += 1
+                # Replacing variable column with column of coefficients
                 mat = self.matrix[:, :]
                 mat.col_swap(i, -1)
                 self.saved.append((saver.names, sp.latex(self.matrix.col(i))+"\\text{ and }"+sp.latex(self.matrix.col(-1))+"\\text{ are swapped to give}$$$$"
                 +sp.latex(mat[:, :])+"$$$$\\text{These are columns }"+sp.latex(i+1)+"\\text{ and the column of constants.}"))
                 saver.names += 1
-                mat.col_del(-1)
+                mat.col_del(-1) # Deleting extra column
+                # Calculating determinant of new matrix
                 det_new_matrix = naiveDeterminant(mat).calc()
+                # Dividing det of new matrix by det of matrix of coefficients
                 solution = det_new_matrix/det_mat_coeff
                 self.saved.append((saver.names, "\\text{Then, the last column is removed}$$$$\\text{from the matrix to give}$$$$"+sp.latex(mat[:, :])+"$$$$\\text{with a determinant of }"+sp.latex(det_new_matrix)))
                 saver.names += 1
@@ -223,33 +242,29 @@ class CramersRule:
             saver.names += 1
             return solutions
 
+    # Adds steps from instance variable list to shared list
     def addSaved(self, check):
         if check == True:
             saver.saved = saver.saved + self.saved
-            # saver.text = saver.text + self.text
 
+    # Converts the matrices and expressions to images for single method
     def latex2img(self):
         for i in saver.saved:
             text2image.formula_as_file(i[1], i[0])
-        # for i in saver.text:
-        #     text2image.toImage(i[1], i[0])
 
+    # Converts the matrices and expressions to images for method comparison
     def compare_latex2img(self):
         for i in self.saved:
             compare_text2image.formula_as_file(i[1], i[0], "Cramers")
-        # for i in saver.text:
-            # compare_text2image.toImage(i[1], i[0], "Cramers")
 
+# Cholesky Decomposition
 class Cholesky:
+    # Constructor takes matrix as argument
     def __init__(self, matrix):
         self.matrix = matrix
         self.equations = matrix.rows
         self.unknowns = matrix.cols - 1
-        # self.atoms = list(ascii_lowercase)
-        # for x in range(self.unknowns//26):
-        #     self.atoms += ["".join([i, str(x)]) for i in list(ascii_lowercase)]
         self.saved = []
-        # self.text = []
 
     def check(self):
         if self.equations < self.unknowns:
@@ -311,8 +326,6 @@ class Cholesky:
     def calc(self):
         self.saved.append((saver.names, sp.latex(self.matrix)))
         saver.names += 1
-        if self.unknowns == -1 and self.equations == 0:
-            return []
         check_compatible = self.check()
         if check_compatible == True:
             A = self.matrix[:, :]

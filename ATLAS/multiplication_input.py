@@ -9,12 +9,12 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from multiplication import naiveMultiplication
-from mult_single_method import Ui_MultSingleWindow
+# from multiplication import naiveMultiplication
+# from mult_single_method import Ui_MultSingleWindow
 from single_comparison import Ui_SingleCompWindow
-from functools import partial
+# from functools import partial
 from validator import Validator
-from emptyimg import empty
+# from emptyimg import empty
 import sympy as sp
 from closeWindow import QMainWindow
 

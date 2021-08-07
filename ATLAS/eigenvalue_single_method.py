@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from os import listdir
+# from os import listdir
 from view_changer import Changer
 from closeWindow import QMainWindow
 

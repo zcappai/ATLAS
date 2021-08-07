@@ -1,7 +1,8 @@
 import sympy as sp
-from determinant import naiveDeterminant
-from text2image import formula_as_file
-from emptyimg import empty
+# from determinant import naiveDeterminant
+import text2image
+import compare_text2image
+# from emptyimg import empty
 import saver
 
 
@@ -53,9 +54,21 @@ class Eigenvalue:
 
     def latex2img(self):
         for i in saver.saved:
-            formula_as_file(i[1], i[0])
+            text2image.formula_as_file(i[1], i[0])
         # for i in saver.text:
         #     toImage(i[1], i[0])
+
+    def compare_latex2img(self):
+        for i in self.saved:
+            compare_text2image.formula_as_file(i[1], i[0], "Characteristic")
+        # for i in saver.text:
+        #     toImage(i[1], i[0])
+
+
+def getMethods():
+    methods = []
+    methods.append(("Characteristic", Eigenvalue))
+    return methods
 
 # empty()
 # x = sp.Matrix([[1,1,1],[2,-3,4],[3,4,5]])

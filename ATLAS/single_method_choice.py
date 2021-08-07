@@ -261,11 +261,11 @@ class Ui_SingleChoiceWindow(object):
         #     pass
 
     def inv(self):
-        self.standard = QtWidgets.QRadioButton(self.scrollAreaWidgetContents)
-        self.standard.setObjectName("standard")
-        self.verticalLayout.addWidget(self.standard)
-        self.standard.setText("Standard Method")
-        self.standard.setFont(self.font)
+        self.cramer = QtWidgets.QRadioButton(self.scrollAreaWidgetContents)
+        self.cramer.setObjectName("cramer")
+        self.verticalLayout.addWidget(self.cramer)
+        self.cramer.setText("Cramer's Rule")
+        self.cramer.setFont(self.font)
 
         self.cayley = QtWidgets.QRadioButton(self.scrollAreaWidgetContents)
         self.cayley.setObjectName("cayley")
@@ -274,7 +274,7 @@ class Ui_SingleChoiceWindow(object):
         self.cayley.setFont(self.font)
 
     def invCall(self):
-        if self.standard.isChecked() == True:
+        if self.cramer.isChecked() == True:
             empty()
             inverse = naiveInverse(self.arg)
             check, message = inverse.check()

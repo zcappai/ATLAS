@@ -10,30 +10,31 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from compare_view_changer import CompareChanger
-import inverse
+import eigenvalue
 from closeWindow import QMainWindow
 
-class Ui_InverseCompareWindow(object):
+class Ui_EigenvalueCompareWindow(object):
     def setupUi(self, MainWindow):
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
-        self.gridLayout.setObjectName("gridLayout")
         self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1063, 1618))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
-        self.gridLayout_2.setObjectName("gridLayout_2")
         font = QtGui.QFont()
         font.setPointSize(20)
-        methods = inverse.getMethods()
+        methods = eigenvalue.getMethods()
 
-        # cramer Method
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+
+        # Characteristic Equation
         self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label.setFont(font)
         self.label.setObjectName("label")
@@ -51,47 +52,17 @@ class Ui_InverseCompareWindow(object):
         self.original_1.setObjectName("original_1")
         self.gridLayout_2.addWidget(self.original_1, 3, 0, 1, 2)
 
-        self.cramer = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
-        self.cramer.setMinimumSize(QtCore.QSize(0, 700))
-        self.cramer.setObjectName("cramer")
-        self.gridLayout_2.addWidget(self.cramer, 1, 0, 1, 2)
+        self.characteristic = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
+        self.characteristic.setMinimumSize(QtCore.QSize(0, 700))
+        self.characteristic.setObjectName("characteristic")
+        self.gridLayout_2.addWidget(self.characteristic, 1, 0, 1, 2)
         self.scene_1 = QtWidgets.QGraphicsScene()
-        self.cramer.setScene(self.scene_1)
+        self.characteristic.setScene(self.scene_1)
 
-        self.image_1 = CompareChanger(self.scene_1, self.cramer, methods[0][0])
+        self.image_1 = CompareChanger(self.scene_1, self.characteristic, methods[0][0])
         self.prev_1.clicked.connect(self.image_1.prev_image)
         self.next_1.clicked.connect(self.image_1.next_image)
         self.original_1.clicked.connect(self.image_1.show_matrix)
-
-        # Cayley-Hamilton Theorem
-        self.label_2 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.label_2.setFont(font)
-        self.label_2.setObjectName("label_2")
-        self.gridLayout_2.addWidget(self.label_2, 4, 0, 1, 1)
-
-        self.prev_2 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.prev_2.setObjectName("prev_2")
-        self.gridLayout_2.addWidget(self.prev_2, 9, 0, 1, 1)
-
-        self.next_2 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.next_2.setObjectName("next_2")
-        self.gridLayout_2.addWidget(self.next_2, 9, 1, 1, 1)
-
-        self.original_2 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.original_2.setObjectName("original_2")
-        self.gridLayout_2.addWidget(self.original_2, 10, 0, 1, 2)
-
-        self.cayley = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
-        self.cayley.setMinimumSize(QtCore.QSize(0, 700))
-        self.cayley.setObjectName("cayley")
-        self.gridLayout_2.addWidget(self.cayley, 7, 0, 1, 2)
-        self.scene_2 = QtWidgets.QGraphicsScene()
-        self.cayley.setScene(self.scene_2)
-
-        self.image_2 = CompareChanger(self.scene_2, self.cayley, methods[1][0])
-        self.prev_2.clicked.connect(self.image_2.prev_image)
-        self.next_2.clicked.connect(self.image_2.next_image)
-        self.original_2.clicked.connect(self.image_2.show_matrix)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout.addWidget(self.scrollArea, 0, 0, 1, 2)
@@ -107,12 +78,9 @@ class Ui_InverseCompareWindow(object):
         MainWindow.setWindowTitle("ATLAS")
         self.next_1.setText("Next Step")
         self.prev_1.setText("Previous Step")
-        self.original_1.setText("Show Original Matrices")
-        self.next_2.setText("Next Step")
-        self.prev_2.setText("Previous Step")
-        self.original_2.setText("Show Original Matrices")
-        self.label.setText("Cramer's Rule")
-        self.label_2.setText("Cayley-Hamilton Theorem")
+        self.original_1.setText("Show Original Matrix")
+
+        self.label.setText("Characteristic Equation")
 
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -122,17 +90,24 @@ class Ui_InverseCompareWindow(object):
     #     self.next_1.setText(_translate("MainWindow", "Next Step"))
     #     self.prev_1.setText(_translate("MainWindow", "Previous Step"))
     #     self.original_1.setText(_translate("MainWindow", "Show Original Matrices"))
+
     #     self.next_2.setText(_translate("MainWindow", "Next Step"))
     #     self.prev_2.setText(_translate("MainWindow", "Previous Step"))
     #     self.original_2.setText(_translate("MainWindow", "Show Original Matrices"))
-    #     self.label.setText(_translate("MainWindow", "Cramer's Rule"))
-    #     self.label_2.setText(_translate("MainWindow", "Cayley-Hamilton Theorem"))
+
+    #     self.next_3.setText(_translate("MainWindow", "Next Step"))
+    #     self.prev_3.setText(_translate("MainWindow", "Previous Step"))
+    #     self.original_3.setText(_translate("MainWindow", "Show Original Matrices"))
+
+    #     self.label.setText(_translate("MainWindow", "Laplace Expansion"))
+    #     self.label_2.setText(_translate("MainWindow", "Sarrus' Method"))
+    #     self.label_3.setText(_translate("MainWindow", "LU Decomposition"))
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QMainWindow()
-    ui = Ui_InverseCompareWindow()
+    ui = Ui_EigenvalueCompareWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())

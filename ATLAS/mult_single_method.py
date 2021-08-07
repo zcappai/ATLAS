@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from functools import partial
+# from functools import partial
 from view_changer import Changer
 from closeWindow import QMainWindow
 

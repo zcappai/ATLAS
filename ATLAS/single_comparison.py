@@ -10,16 +10,18 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from single_method_choice import Ui_SingleChoiceWindow
-from mult_compare_method import Ui_MultCompareWindow
-from det_compare_method import Ui_DetCompareWindow
-from inverse_compare_method import Ui_InverseCompareWindow
-from solving_compare_method import Ui_SolveCompareWindow
+# from mult_compare_method import Ui_MultCompareWindow
+# from det_compare_method import Ui_DetCompareWindow
+# from inverse_compare_method import Ui_InverseCompareWindow
+# from solving_compare_method import Ui_SolveCompareWindow
 from compare_loading_screen import Ui_CompLoadingWindow
 from os import mkdir
 import multiplication
 import determinant
 import inverse
 import solving
+import eigenvalue
+import eigenvector
 from emptyimg import empty
 from closeWindow import QMainWindow
 import saver
@@ -92,15 +94,6 @@ class Ui_SingleCompWindow(object):
 
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-#     def retranslateUi(self, MainWindow):
-#         _translate = QtCore.QCoreApplication.translate
-#         MainWindow.setWindowTitle(_translate("MainWindow", "ATLAS"))
-#         self.comparison_button.setText(_translate("MainWindow", "Comparison"))
-#         self.label.setText(_translate("MainWindow", "Select one of the options:\n"
-# "\"One Method\" allows you to choose a single method to use\n"
-# "\"Comparison\" allows you to compare all the methods available."))
-#         self.one_option_button.setText(_translate("MainWindow", "One Method"))
-
     def toSingle(self):
         self.window = QMainWindow()
         self.ui = Ui_SingleChoiceWindow(self.arg, self.method)
@@ -120,15 +113,9 @@ class Ui_SingleCompWindow(object):
         elif self.method == "solve":
             self.compareSolve()
         elif self.method == "e_val":
-            self.ui = Ui_SingleChoiceWindow(self.arg, self.method) #############
-            self.ui.setupUi(self.window)
-            self.MainWindow.hide()
-            self.window.show()
+            self.compareEigenvalue()
         elif self.method == "e_vec":
-            self.ui = Ui_SingleChoiceWindow(self.arg, self.method) #############
-            self.ui.setupUi(self.window)
-            self.MainWindow.hide()
-            self.window.show()
+            self.compareEigenvector()
 
     def compareMult(self):
         methods = multiplication.getMethods()
@@ -152,6 +139,7 @@ class Ui_SingleCompWindow(object):
             self.zero()
             mkdir("images/{}/".format(i))
             current_method = j(self.arg)
+            current_method.saved = []
             current_method.calc()
             methodsToSend.append(current_method)
         self.window = QtWidgets.QMainWindow()
@@ -187,6 +175,38 @@ class Ui_SingleCompWindow(object):
             methodsToSend.append(current_method)
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_CompLoadingWindow("solve", methodsToSend)
+        self.ui.setupUi(self.window)
+        self.MainWindow.hide()
+        self.window.show()
+
+    def compareEigenvalue(self):
+        methods = eigenvalue.getMethods()
+        methodsToSend = []
+        for (i, j) in methods:
+            self.zero()
+            mkdir("images/{}/".format(i))
+            matrix = self.arg[:, :]
+            current_method = j(matrix)
+            current_method.calc()
+            methodsToSend.append(current_method)
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_CompLoadingWindow("e_val", methodsToSend)
+        self.ui.setupUi(self.window)
+        self.MainWindow.hide()
+        self.window.show()
+
+    def compareEigenvector(self):
+        methods = eigenvector.getMethods()
+        methodsToSend = []
+        for (i, j) in methods:
+            self.zero()
+            mkdir("images/{}/".format(i))
+            matrix = self.arg[:, :]
+            current_method = j(matrix)
+            current_method.calc()
+            methodsToSend.append(current_method)
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_CompLoadingWindow("e_vec", methodsToSend)
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
         self.window.show()

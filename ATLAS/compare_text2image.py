@@ -1,7 +1,8 @@
-from PIL import Image, ImageDraw, ImageFont
-import os, requests
-import textwrap
+# from PIL import Image, ImageDraw, ImageFont
+# import os, requests
+# import textwrap
 from sympy import preview
+# from gitex import tex2png
 
 # REFACTOR
 
@@ -28,6 +29,7 @@ from sympy import preview
 #         os.system('convert tmp.png -channel RGB -negate -colorspace rgb %s' %file)
 
 def formula_as_file(formula, file, subfolder):
+    # tex2png(formula, 'images/{}/{}.png'.format(subfolder, file), math_mode='display', dpi=500)
     formula = "$$"+formula+"$$"
     preview(r"{}".format(formula), viewer='file', filename='images/{}/{}.png'.format(subfolder, file), euler=False, dvioptions=["-T", "tight", "-z", "0", "--truecolor", "-D 500", "-bg", "Transparent"])
 
