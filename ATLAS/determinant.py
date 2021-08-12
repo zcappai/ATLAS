@@ -22,14 +22,12 @@ class naiveDeterminant:
             naiveDeterminant.saved.append((saver.names, "\\text{A matrix of size 0 has}$$$$\\text{a determinant of 1}"))
             saver.names += 1
             self.det = 1
-            self.final_det = (saver.names, self.det)
             return self.det
         # 1 x 1 matrix
         elif self.size == 1:
             naiveDeterminant.saved.append((saver.names, "\\text{A matrix of size 1 has a}$$$$\\text{determinant equal to its only value}"))
             saver.names += 1
             self.det = self.matrix[0]
-            self.final_det = (saver.names, self.det)
             return self.det
         # 2 x 2 or larger matrix
         else:
@@ -75,7 +73,6 @@ class naiveDeterminant:
                         # Calculating determinant of submatrix
                         sub = naiveDeterminant(curr[i][1])
                         sub_det = sub.calc()
-                        sub.addSaved(True)
                         self.final_equation += "+"+sp.latex(curr[i][0])+"*"+sp.latex(sub_det)
                         # Adding to current determinant value
                         self.det += curr[i][0] * sub_det
@@ -94,17 +91,15 @@ class naiveDeterminant:
                         # Calculating determinant of submatrix
                         sub = naiveDeterminant(curr[i][1])
                         sub_det = sub.calc()
-                        sub.addSaved(True)
                         self.final_equation += "-"+sp.latex(curr[i][0])+"*"+sp.latex(sub_det)
                         # Adding to current determinant value
                         self.det -= curr[i][0] * sub_det
                         naiveDeterminant.saved.append((saver.names, "\\text{The determinant of the minor}$$$$"+sp.latex(curr[i][1])+"\\text{ is }"+sp.latex(sub_det)))
                         saver.names += 1
                 neg_toggle += 1 # Alternating elements in expression have opposite sign
-            self.final_det = self.det
-            naiveDeterminant.saved.append((saver.names, "\\text{The expression becomes}$$$$"+sp.latex(self.final_equation[1:])+"$$$$\\text{giving a value of }"+sp.latex(self.final_det)))
+            naiveDeterminant.saved.append((saver.names, "\\text{The expression becomes}$$$$"+self.final_equation[1:]+"$$$$\\text{giving a value of }"+sp.latex(self.det)))
             saver.names += 1
-            naiveDeterminant.saved.append((saver.names, "\\text{Therefore, the determinant}$$$$\\text{of the matrix is }"+sp.latex(self.final_det)))
+            naiveDeterminant.saved.append((saver.names, "\\text{Therefore, the determinant}$$$$\\text{of the matrix is }"+sp.latex(self.det)))
             saver.names += 1
             return self.det
 
@@ -116,12 +111,14 @@ class naiveDeterminant:
     # Converts the matrices and expressions to images for single method
     def latex2img(self):
         for i in saver.saved:
-            text2image.formula_as_file(i[1], i[0])
+            text2image.convertLatex(i[1], i[0])
+        naiveDeterminant.saved = []
 
     # Converts the matrices and expressions to images for method comparison
     def compare_latex2img(self):
         for i in naiveDeterminant.saved:
-            compare_text2image.formula_as_file(i[1], i[0], "Laplace")
+            compare_text2image.convertLatex(i[1], i[0], "Laplace")
+        naiveDeterminant.saved = []
 
 # Sarrus' Method
 class Sarrus:
@@ -201,12 +198,12 @@ class Sarrus:
     # Converts the matrices and expressions to images for single method
     def latex2img(self):
         for i in saver.saved:
-            text2image.formula_as_file(i[1], i[0])
+            text2image.convertLatex(i[1], i[0])
 
     # Converts the matrices and expressions to images for method comparison
     def compare_latex2img(self):
         for i in self.saved:
-            compare_text2image.formula_as_file(i[1], i[0], "Sarrus")
+            compare_text2image.convertLatex(i[1], i[0], "Sarrus")
 
 # LU Decomposition
 class LU:
@@ -311,12 +308,12 @@ class LU:
     # Converts the matrices and expressions to images for single method
     def latex2img(self):
         for i in saver.saved:
-            text2image.formula_as_file(i[1], i[0])
+            text2image.convertLatex(i[1], i[0])
 
     # Converts the matrices and expressions to images for method comparison
     def compare_latex2img(self):
         for i in self.saved:
-            compare_text2image.formula_as_file(i[1], i[0], "LU")
+            compare_text2image.convertLatex(i[1], i[0], "LU")
 
 # Stores method class and name for subfolder
 def getMethods():

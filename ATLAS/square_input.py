@@ -4,12 +4,12 @@ from validator import Validator
 from closeWindow import QMainWindow
 from single_comparison import Ui_SingleCompWindow
 
-# System of Linear Equations Input GUI
-class Ui_SolveInWindow(object):
-    # Initialises matrix size
-    def __init__(self, equations, unknowns):
-        self.equations = equations
-        self.unknowns = unknowns
+# Square Matrix Input GUI
+class Ui_SquareInWindow(object):
+    # Initialises matrix size and function ID
+    def __init__(self, size, func):
+        self.size = size
+        self.func = func
 
     # Setting up GUI
     def setupUi(self, MainWindow):
@@ -24,17 +24,6 @@ class Ui_SolveInWindow(object):
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
 
-        # Table for inputting system of linear equations
-        self.matrix = QtWidgets.QTableWidget(self.centralwidget)
-        self.matrix.setRowCount(self.equations)
-        self.matrix.setColumnCount(self.unknowns + 1)
-        self.matrix.setObjectName("matrix")
-        self.gridLayout.addWidget(self.matrix, 2, 1, 1, 1)
-        # Setting all table values to 0
-        for i in range(self.matrix.columnCount()):
-            for j in range(self.matrix.rowCount()):
-                self.matrix.setItem(j, i, QtWidgets.QTableWidgetItem('0'))
-
         font = QtGui.QFont()
         font.setPointSize(20)
         # Input information
@@ -42,33 +31,43 @@ class Ui_SolveInWindow(object):
         self.matrix_info.setFont(font)
         self.matrix_info.setWordWrap(True)
         self.matrix_info.setObjectName("matrix_info")
-        self.gridLayout.addWidget(self.matrix_info, 0, 0, 1, 3)
+        self.gridLayout.addWidget(self.matrix_info, 0, 1, 1, 1)
+
+        # Table for inputting matrix
+        self.matrix = QtWidgets.QTableWidget(self.centralwidget)
+        self.matrix.setRowCount(self.size)
+        self.matrix.setColumnCount(self.size)
+        self.matrix.setObjectName("matrix")
+        self.gridLayout.addWidget(self.matrix, 2, 1, 1, 1)
+        # Setting all table values to 0
+        for i in range(self.matrix.columnCount()):
+            for j in range(self.matrix.rowCount()):
+                self.matrix.setItem(j, i, QtWidgets.QTableWidgetItem('0'))
 
         # Matrix input submit button
-        self.submit = QtWidgets.QPushButton(self.centralwidget)
-        self.submit.setMinimumSize(QtCore.QSize(125, 50))
-        self.submit.setObjectName("submit")
-        self.submit.clicked.connect(self.sendMatrix)
-        self.gridLayout.addWidget(self.submit, 3, 1, 1, 1, QtCore.Qt.AlignHCenter)
+        self.input_submit = QtWidgets.QPushButton(self.centralwidget)
+        self.input_submit.setMinimumSize(QtCore.QSize(125, 50))
+        self.input_submit.setFont(font)
+        self.input_submit.setObjectName("input_submit")
+        self.input_submit.clicked.connect(self.sendMatrix)
+        self.gridLayout.addWidget(self.input_submit, 3, 1, 1, 1, QtCore.Qt.AlignHCenter)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
         # Spacers provide structure
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem, 2, 2, 1, 1)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout.addItem(spacerItem, 4, 1, 1, 1)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout.addItem(spacerItem1, 4, 1, 1, 1)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout.addItem(spacerItem2, 1, 1, 1, 1)
+        self.gridLayout.addItem(spacerItem1, 1, 1, 1, 1)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem2, 2, 0, 1, 1)
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem3, 2, 0, 1, 1)
+        self.gridLayout.addItem(spacerItem3, 2, 2, 1, 1)
 
         # Setting text for labels, buttons and window
         MainWindow.setWindowTitle("ATLAS")
-        self.matrix_info.setText("Please enter the values for the linear equations into the table below."
-        +"\nRemember, unique solutions can only be guaranteed when the number of equations equals the number of unknowns."
-        +"\nUse the scrollbar for larger linear equations, if necessary.")
-        self.submit.setText("Submit")
+        self.matrix_info.setText("Please enter the matrix values into the table below and press the \"Submit\" button.\nFor larger matrices, a scrollbar will appear.")
+        self.input_submit.setText("Submit")
 
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -95,7 +94,7 @@ class Ui_SolveInWindow(object):
 
         # Sends matrix and function ID to choose single method or compare methods
         self.window = QMainWindow()
-        self.ui = Ui_SingleCompWindow(arg, "solve")
+        self.ui = Ui_SingleCompWindow(arg, self.func)
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
         self.window.show()

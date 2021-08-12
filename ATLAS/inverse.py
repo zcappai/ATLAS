@@ -20,11 +20,11 @@ class naiveInverse:
         if det == 0:
             self.saved.append((saver.names, sp.latex(self.matrix)))
             saver.names += 1
-            self.saved.append((saver.names, "\\text{No Inverse Exists}"))
+            self.saved.append((saver.names, "\\text{No Inverse Exists}$$$$\\text{(Determinant of the matrix is 0)}"))
             saver.names += 1
-            return False, "No Inverse Exists (Determinant of the matrix is 0)"
+            return False
         else:
-            return True, "Inverse Exists!"
+            return True
 
     # Calculates the inverse matrix
     def calc(self):
@@ -87,7 +87,7 @@ class naiveInverse:
         self.saved.append((saver.names, "\\text{Therefore, the adjugate is}$$$$"+sp.latex(adjugate)))
         saver.names += 1
         # Calculating determinant of input matrix
-        final_det = self.matrix.det()
+        final_det = naiveDeterminant(self.matrix).calc()
         self.saved.append((saver.names, "\\text{Then, we find the determinant of the original matrix}$$$$"+sp.latex(self.matrix)+"$$$$\\text{giving a determinant of }"+sp.latex(final_det)))
         saver.names += 1
         self.saved.append((saver.names, "\\text{Finally, we multiply }\\frac{1}{det}\\text{ by the adjugate}$$$$\\frac{"
@@ -130,11 +130,11 @@ class CayleyHamilton:
         if det == 0:
             self.saved.append((saver.names, sp.latex(self.matrix)))
             saver.names += 1
-            self.saved.append((saver.names, "\\text{No Inverse Exists}"))
+            self.saved.append((saver.names, "\\text{No Inverse Exists}$$$$\\text{(Determinant of the matrix is 0)}"))
             saver.names += 1
-            return False, "No Inverse Exists (Determinant of the matrix is 0)"
+            return False
         else:
-            return True, "Inverse Exists!"
+            return True
 
     # Calculates the inverse matrix
     def calc(self):

@@ -47,12 +47,12 @@ class naiveMultiplication:
     def latex2img(self):
         saver.names = 0
         for i in saver.saved:
-            text2image.formula_as_file(i[1], i[0])
+            text2image.convertLatex(i[1], i[0])
 
     # Converts the matrices and expressions to images for method comparison
     def compare_latex2img(self):
         for i in self.saved:
-            compare_text2image.formula_as_file(i[1], i[0], "Standard")
+            compare_text2image.convertLatex(i[1], i[0], "Standard")
 
 # Strassen's Method
 class Strassen:
@@ -161,35 +161,30 @@ class Strassen:
             saver.names += 1
             mat1 = Strassen((a11 + a22), (b11 + b22))
             m1 = mat1.calc()
-            mat1.addSaved(True)
             self.saved.append((saver.names, "m_1="+sp.latex(m1)))
             saver.names += 1
             self.saved.append((saver.names, "m_2=(a_{21}+a_{22})b_{11}$$$$=("+sp.latex(a21)+"+"+sp.latex(a22)+")"+sp.latex(b11)+"$$$$="+sp.latex(a21+a22)+"*"+sp.latex(b11)))
             saver.names += 1
             mat2 = Strassen((a21 + a22), b11)
             m2 = mat2.calc()
-            mat2.addSaved(True)
             self.saved.append((saver.names, "m_2="+sp.latex(m2)))
             saver.names += 1
             self.saved.append((saver.names, "m_3=a_{11}(b_{12}-b_{22})$$$$="+sp.latex(a11)+"("+sp.latex(b12)+"+"+sp.latex(-b22)+")$$$$="+sp.latex(a11)+"*"+sp.latex(b12-b22)))
             saver.names += 1
             mat3 = Strassen(a11, (b12 - b22))
             m3 = mat3.calc()
-            mat3.addSaved(True)
             self.saved.append((saver.names, "m_3="+sp.latex(m3)))
             saver.names += 1
             self.saved.append((saver.names, "m_4=a_{22}(b_{21}-b_{11})$$$$="+sp.latex(a22)+"("+sp.latex(b21)+"+"+sp.latex(-b11)+")$$$$="+sp.latex(a22)+"*"+sp.latex(b21-b11)))
             saver.names += 1
             mat4 = Strassen(a22, (b21 - b11))
             m4 = mat4.calc()
-            mat4.addSaved(True)
             self.saved.append((saver.names, "m_4="+sp.latex(m4)))
             saver.names += 1
             self.saved.append((saver.names, "m_5=(a_{11}+a_{12})b_{22}$$$$=("+sp.latex(a11)+"+"+sp.latex(a12)+")"+sp.latex(b22)+"$$$$="+sp.latex(a11+a12)+"*"+sp.latex(b22)))
             saver.names += 1
             mat5 = Strassen((a11 + a12), b22)
             m5 = mat5.calc()
-            mat5.addSaved(True)
             self.saved.append((saver.names, "m_5="+sp.latex(m5)))
             saver.names += 1
             self.saved.append((saver.names, "m_6=(a_{21}-a_{11})(b_{11}+b_{12})$$$$=("
@@ -197,7 +192,6 @@ class Strassen:
             saver.names += 1
             mat6 = Strassen((a21 - a11), (b11 + b12))
             m6 = mat6.calc()
-            mat6.addSaved(True)
             self.saved.append((saver.names, "m_6="+sp.latex(m6)))
             saver.names += 1
             self.saved.append((saver.names, "m_7=(a_{12}-a_{22})(b_{21}+b_{22})$$$$=("
@@ -205,7 +199,6 @@ class Strassen:
             saver.names += 1
             mat7 = Strassen((a12 - a22), (b21 + b22))
             m7 = mat7.calc()
-            mat7.addSaved(True)
             self.saved.append((saver.names, "m_7="+sp.latex(m7)))
             saver.names += 1
         self.saved.append((saver.names, "\\text{Therefore, the results of multiplications are}$$$$m_1="
@@ -250,12 +243,12 @@ class Strassen:
     # Converts the matrices and expressions to images for single method
     def latex2img(self):
         for i in saver.saved:
-            text2image.formula_as_file(i[1], i[0])
+            text2image.convertLatex(i[1], i[0])
 
     # Converts the matrices and expressions to images for method comparison
     def compare_latex2img(self):
         for i in self.saved:
-            compare_text2image.formula_as_file(i[1], i[0], "Strassen")
+            compare_text2image.convertLatex(i[1], i[0], "Strassen")
 
 # Laderman Method
 class Laderman:
@@ -441,12 +434,12 @@ class Laderman:
     # Converts the matrices and expressions to images for single method
     def latex2img(self):
         for i in saver.saved:
-            text2image.formula_as_file(i[1], i[0])
+            text2image.convertLatex(i[1], i[0])
 
     # Converts the matrices and expressions to images for method comparison
     def compare_latex2img(self):
         for i in self.saved:
-            compare_text2image.formula_as_file(i[1], i[0], "Laderman")
+            compare_text2image.convertLatex(i[1], i[0], "Laderman")
 
 # Stores method class and name for subfolder
 def getMethods():

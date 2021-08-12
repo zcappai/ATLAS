@@ -46,7 +46,7 @@ class GaussianElimination:
                 self.saved.append((saver.names, "\\text{Since the rank of the augmented matrix is}$$$$\\text{larger than the rank of the coefficient matrix,}"
                 "$$$$\\text{the system of linear equations is}$$$$\\text{inconsistent and no solutions exist.}"))
                 saver.names += 1
-                return False, [], None
+                return False, ["No unique solutions"], None
             self.saved.append((saver.names, "\\text{Since the rank of the augmented matrix is}$$$$\\text{NOT larger than the rank of the coefficient matrix,}"
             +"$$$$\\text{the system of linear equations is consistent}"))
             saver.names += 1
@@ -105,8 +105,14 @@ class GaussianElimination:
 
             self.saved.append((saver.names, "\\text{The matrix is now in row echelon form}$$$$"+sp.latex(self.matrix)))
             saver.names += 1
-            # Matrix is row echelon form
+            # Matrix in row echelon form
             row_ech = self.matrix[:, :]
+
+            # Replacing numbers smaller than 10^-10 with 0
+            for i in range(n):
+                for j in range(n):
+                    if self.matrix[i, j] < 10**(-10) and self.matrix[i, j] > -10**(-10):
+                        self.matrix[i, j] = 0
 
             # Back substitution
             x = [0 for i in range(n)] # Storing solutions
@@ -116,8 +122,13 @@ class GaussianElimination:
             for i in range(n - 1, -1, -1):
                 # Dividing constant by coefficient of unknown variable
                 x[i] = self.matrix.row(i).col(n)[0] / self.matrix.row(i).col(i)[0]
-                # If constant or coefficient is 0
-                if x[i] == sp.nan or x[i] == 0:
+                # If division by 0 occurs
+                if x[i] == sp.nan:
+                    x[i] = 1
+                # If any row of row echelon matrix only has 0s
+                if self.matrix.row(i).col(i)[0] != 0 and self.matrix.row(i).col(n)[0] == 0:
+                    x[i] = 0
+                if self.matrix.row(i).col(i)[0] == 0 and self.matrix.row(i).col(n)[0] == 0:
                     x[i] = 1
                 self.saved.append((saver.names, "\\text{On row }"+sp.latex(self.matrix.row(i))
                 +"\\text{dividing }"+sp.latex(self.matrix.row(i).col(n)[0])+"\\text{ by }"
@@ -147,12 +158,12 @@ class GaussianElimination:
     # Converts the matrices and expressions to images for single method
     def latex2img(self):
         for i in saver.saved:
-            text2image.formula_as_file(i[1], i[0])
+            text2image.convertLatex(i[1], i[0])
 
     # Converts the matrices and expressions to images for method comparison
     def compare_latex2img(self):
         for i in self.saved:
-            compare_text2image.formula_as_file(i[1], i[0], "Gaussian")
+            compare_text2image.convertLatex(i[1], i[0], "Gaussian")
 
 # Cramer's Rule
 class CramersRule:
@@ -169,12 +180,12 @@ class CramersRule:
         saver.names += 1
         # More unknowns than equations (underdetermined system)
         if self.equations < self.unknowns:
-            message = "\\text{There are infinitely many}$$$$\\text{solutions (or there are no solutions)}"
+            message = "\\text{There are infinite}$$$$\\text{or no solutions)}$$$$\\text{(this is an underdetermined system)}"
             self.saved.append((saver.names, message))
             return ["No unique solutions"]
         # More equations than unknowns (overdetermined system)
         elif self.equations > self.unknowns:
-            message = "\\text{There are no solutions }$$$$\\text{(this is an overdetermined system)}"
+            message = "\\text{There are no solutions}$$$$\\text{(this is an overdetermined system)}"
             self.saved.append((saver.names, message))
             return ["No unique solutions"]
         # Equal numbers of equations and unknowns
@@ -250,12 +261,12 @@ class CramersRule:
     # Converts the matrices and expressions to images for single method
     def latex2img(self):
         for i in saver.saved:
-            text2image.formula_as_file(i[1], i[0])
+            text2image.convertLatex(i[1], i[0])
 
     # Converts the matrices and expressions to images for method comparison
     def compare_latex2img(self):
         for i in self.saved:
-            compare_text2image.formula_as_file(i[1], i[0], "Cramers")
+            compare_text2image.convertLatex(i[1], i[0], "Cramers")
 
 # Cholesky Decomposition
 class Cholesky:
@@ -266,28 +277,34 @@ class Cholesky:
         self.unknowns = matrix.cols - 1
         self.saved = []
 
+    # Checking matrix is compatible with Cholesky Decomposition
     def check(self):
+        # More unknowns than equations (underdetermined system)
         if self.equations < self.unknowns:
-            message = "\\text{There are infinitely many}$$$$\\text{solutions (or there are no solutions)}"
+            message = "\\text{There are infinite}$$$$\\text{or no solutions)}$$$$\\text{(this is an underdetermined system)}"
             self.saved.append((saver.names, message))
             return False
+        # More equations than unknowns (overdetermined system)
         elif self.equations > self.unknowns:
-            message = "\\text{There are no solutions }$$$$\\text{(this is an overdetermined system)}"
+            message = "\\text{There are no solutions}$$$$\\text{(this is an overdetermined system)}"
             self.saved.append((saver.names, message))
             return False
+        # Equal numbers of equations and unknowns
         else:
-            # https://www.gaussianwaves.com/2013/04/tests-for-positive-definiteness-of-a-matrix/
             self.saved.append((saver.names, "\\text{First, we check that the matrix of coefficients}$$$$\\text{is both symmetric and positive definite.}"
             +"$$$$\\text{The matrix of coefficients is symmetric, if}$$$$\\text{the matrix of coefficients is equal to its transpose.}"
             +"$$$$\\text{The matrix of coefficients is positive definite,}$$$$\\text{if the determinant of each upper left square}$$$$\\text{(sub)matrix is positive.}"))
             saver.names += 1
+            # Matrix of coefficients
             square = self.matrix[:, :]
             square.col_del(-1)
+            # Transposed matrix of coefficients
             transposed = square.T
             self.saved.append((saver.names, sp.latex(square)+"\\text{ is the matrix of coefficients}"))
             saver.names += 1
             self.saved.append((saver.names, sp.latex(transposed)+"\\text{ is the transposed matrix of coefficients}"))
             saver.names += 1
+            # Checking for symmetry
             if square == transposed:
                 self.saved.append((saver.names, "\\text{Since the matrix of coefficients and its}$$$$\\text{transpose are equal, the matrix is symmetric.}"))
                 saver.names += 1
@@ -296,13 +313,16 @@ class Cholesky:
                 self.saved.append((saver.names, "\\text{Since the matrix of coefficients and its}$$$$\\text{transpose are NOT equal, the matrix is NOT symmetric.}"))
                 saver.names += 1
                 return False
+            # Storing all upper-left matrix determinants
             determinants = []
+            # Determinant of matrix of coefficients
             det = naiveDeterminant(square).calc()
             self.saved.append((saver.names, "\\text{Now check that each of the upper left}$$$$\\text{square (sub)matrices has a positive determinant.}"))
             saver.names += 1
             self.saved.append((saver.names, "\\text{The determinant of }$$$$"+sp.latex(square)+"\\text{ is } "+str(det)))
             saver.names += 1
             determinants.append(det)
+            # Determinant of remaining upper-left square matrices
             while square.cols > 1:
                 square.col_del(-1)
                 square.row_del(-1)
@@ -310,7 +330,9 @@ class Cholesky:
                 self.saved.append((saver.names, "\\text{The determinant of }$$$$"+sp.latex(square)+"\\text{ is } "+str(det)))
                 saver.names += 1
                 determinants.append(det)
+            # Checking for negative determinants
             for i in determinants:
+                # Matrix not valid if a determinant is negative
                 if i < 0:
                     self.saved.append((saver.names, "\\text{Since the determinant for an upper left submatrix}"
                     +"$$$$\\text{is }"+str(1)+"\\text{, the matrix of coefficients is NOT}$$$$\\text{positive definite.}"
@@ -323,15 +345,17 @@ class Cholesky:
             saver.names += 1
             return True
 
+    # Calculates solutions to system of linear equations
     def calc(self):
         self.saved.append((saver.names, sp.latex(self.matrix)))
         saver.names += 1
+        # Checking matrix is valid, symmetric and positive definite
         check_compatible = self.check()
         if check_compatible == True:
             A = self.matrix[:, :]
             n = self.equations
 
-            # Create zero matrix for L
+            # Creates lower triangular matrix
             L = sp.Matrix(n, n, [0]*n*n)
             self.saved.append((saver.names, "\\text{Now, create an empty }"+sp.latex(n)+"x"+sp.latex(n)
             +"\\text{ matrix for the}$$$$\\text{lower triangular matrix formed by}$$$$\\text{Cholesky Decomposition}"))
@@ -339,20 +363,26 @@ class Cholesky:
             self.saved.append((saver.names, sp.latex(L)))
             saver.names += 1
 
-            # Perform the Cholesky decomposition
+            # Applying Cholesky Decomposition
             self.saved.append((saver.names, "\\text{Then, the formula }$$$$l_{ki} = \\frac{a_{ki}-\sum_{j=1}^{i-1} l_{ij}\cdot l_{kj}}{l_{ii}}$$$$\\text{ is applied to the lower left elements}"))
             saver.names += 1
             self.saved.append((saver.names, "\\text{The formula is rearranged to }$$$$l_{ii} = \sqrt{a_{ii}-\sum_{j=1}^{i-1} l_{ij}^2}$$$$\\text{ for diagonal elements } (k=i)"))
             saver.names += 1
+            # Iterates through lower triangular elements
             for i in range(n):
                 for k in range(i+1):
+                    # Calculating sum within formula from j=1 to k
+                    # tmp_sum = sum from j=1 to k of l_ij*l_kj
                     tmp_sum = sum(L.row(i).col(j)[0] * L.row(k).col(j)[0] for j in range(k))
                     self.saved.append((saver.names, "\\text{For the element }l_{"+str(i+1)+str(k+1)+"""}, 
                     \\text{ the sum is }$$$$\sum_{j=1}^{"""+str(k)+"} l_{"+str(k+1)+"j}\cdot l_{"+str(i+1)+"j}"))
                     saver.names += 1
                     self.saved.append((saver.names, "\\text{This gives a value of }"+sp.latex(tmp_sum)))
                     saver.names += 1
-                    if (i == k): # Diagonal elements
+                    # Diagonal elements
+                    if i == k:
+                        # Using formula for diagonal elements
+                        # l_ik = sqrt(a_ik - sum)
                         L[i, k] = sp.sqrt(A.row(i).col(i)[0] - tmp_sum)
                         self.saved.append((saver.names, """\\text{For this diagonal element, the formula is } 
                         $$$$l_{"""+str(i+1)+str(i+1)+"} = \sqrt{a_{"+str(i+1)+str(i+1)+"}-"+sp.latex(tmp_sum)+"}"))
@@ -360,10 +390,14 @@ class Cholesky:
                         self.saved.append((saver.names, """\\text{Therefore, the value of the element is } 
                         $$$$l_{"""+str(i+1)+str(i+1)+"} = \sqrt{"+sp.latex(A.row(i).col(i)[0])+"-"+sp.latex(tmp_sum)+"}="+sp.latex(L[i, k])))
                         saver.names += 1
+                    # Non-diagonal elements
                     else:
-                        L[i, k] = (1.0 / L.row(k).col(k)[0] * (A.row(i).col(k)[0] - tmp_sum))
+                        # Using formula for non-diagonal elements
+                        # l_ik = (a_ik - sum)/l_kk
+                        L[i, k] = (A.row(i).col(k)[0] - tmp_sum)/L.row(k).col(k)[0]
                         self.saved.append((saver.names, """\\text{For this non-diagonal element, the formula is }
                         $$$$l_{"""+str(i+1)+str(k+1)+"} = \\frac{a_{"+str(i+1)+str(k+1)+"}-"+sp.latex(tmp_sum)+"}{l_{"+str(k+1)+str(k+1)+"}}"))
+                        saver.names += 1
                         self.saved.append((saver.names, """\\text{Therefore, the value of the element is } 
                         $$$$l_{"""+str(i+1)+str(k+1)+"} = \\frac{"""+sp.latex(A.row(i).col(i)[0])+"-"+sp.latex(tmp_sum)+"}{"+sp.latex(L.row(k).col(k)[0])+"}="+sp.latex(L[i, k])))
                         saver.names += 1
@@ -374,27 +408,34 @@ class Cholesky:
             pre_change_L = L[:, :]
             self.saved.append((saver.names, "\\text{Forward substitution is now used}$$$$\\text{to change the column of constants }"+sp.latex(A.col(-1))))
             saver.names += 1
+            # Reinserting column of constants into lower triangular matrix
             L = L.col_insert(n+1, A.col(-1))
             self.saved.append((saver.names, "\\text{Starting with the lower triangular matrix}$$$$\\text{with the column of constants}$$$$"+sp.latex(L)))
             saver.names += 1
+            # Storing forward substitution solutions
             x = [0 for i in range(n)]
+            # Iterating through each row from top to bottom
             for i in range(0, n):
+                # Solution by dividing constant by coefficient
                 x[i] = L.row(i).col(n)[0] / L.row(i).col(i)[0]
                 self.saved.append((saver.names, "\\text{On row }"+sp.latex(L.row(i))+",$$$$\\text{dividing }"+sp.latex(L.row(i).col(n)[0])
                 +"\\text{ by }"+sp.latex(L.row(i).col(i)[0])+"$$$$\\text{gives }"+sp.latex(x[i])))
-                L[i, i] = 1
                 saver.names += 1
-                if x[i] == sp.nan: #####################################################
+                # Solution = 1 if division by 0
+                if x[i] == sp.nan:
                     self.saved.append((saver.names, "\\text{Since the solution is undefined, it is set to 1}"))
                     saver.names += 1
                     x[i] = 1
-                L[i, n] = x[i]
+                L[i, i] = 1 # Setting coefficient to 1
+                L[i, n] = x[i] # Setting constant element to solution
                 self.saved.append((saver.names, "\\text{The solution is substituted back into the matrix}"))
                 saver.names += 1
+                # Iterating through all rows below current row
                 for k in range(i + 1, n):
                     self.saved.append((saver.names, "\\text{For row }$$$$"+sp.latex(L.row(k))+", $$$$\\text{multiply }"+sp.latex(L.row(k).col(i)[0])
                     +"\\text{ by }"+sp.latex(x[i])+"$$$$\\text{and subtract from }"+sp.latex(L[k, n])))
                     saver.names += 1
+                    # Substituting solution into all other rows and subtracting from constant
                     L[k, n] -= L.row(k).col(i)[0] * x[i]
                     L[k, i] = 0
                     self.saved.append((saver.names, "\\text{This results in a value of }"+sp.latex(L[k, n])))
@@ -404,8 +445,9 @@ class Cholesky:
                 self.saved.append((saver.names, "\\text{The resultant lower triangular matrix is}$$$$"+sp.latex(L)))
                 saver.names += 1
 
-            # Transposed matrix
+            # Transposing lower triangular matrix of coefficients
             pre_change_L = pre_change_L.T
+            # Inserting forward substitution solutions as column of constants
             L = pre_change_L.col_insert(n+1,sp.Matrix(n, 1, x))
             self.saved.append((saver.names, """\\text{The matrix of coefficients of the}
             $$$$\\text{lower triangular matrix is then transposed}$$$$\\text{and the new columnn of coefficients is appended}$$$$"""+sp.latex(L)))
@@ -414,69 +456,62 @@ class Cholesky:
             # Back substitution
             self.saved.append((saver.names, "\\text{Back substitution is now used to find the solutions}"))
             saver.names += 1
+            # Storing final solutions
             x = [0 for i in range(n)]
+            # Iterating through each row of upper triangular matrix backwards
             for i in range(n - 1, -1, -1):
+                # Dividing constant by coefficient of unknown variable
                 x[i] = L.row(i).col(n)[0] / L.row(i).col(i)[0]
                 self.saved.append((saver.names, "\\text{On row }"+sp.latex(L.row(i))+", $$$$\\text{dividing }"+sp.latex(L.row(i).col(n)[0])
                 +"\\text{ by }"+sp.latex(L.row(i).col(i)[0])+"$$$$\\text{gives }"+sp.latex(x[i])))
                 saver.names += 1
-                if x[i] == sp.nan: #####################################################
+                # Solution = 1 if division by 0
+                if x[i] == sp.nan:
                     self.saved.append((saver.names, "\\text{Since the solution is undefined, it is set to 1}"))
                     saver.names += 1
                     x[i] = 1
-                L[i, i] = 1
-                L[i, n] = x[i]
+                L[i, i] = 1 # Setting coefficient to 1
+                L[i, n] = x[i] # Setting constant element to solution
                 self.saved.append((saver.names, "\\text{The solution is substituted back into the matrix}"))
                 saver.names += 1
+                # Iterating through all rows above current row
                 for k in range(i - 1, -1, -1):
                     self.saved.append((saver.names, "\\text{For row }$$$$"+sp.latex(L.row(k))+", $$$$\\text{multiply }"+sp.latex(L.row(k).col(i)[0])
                     +"\\text{ by }"+sp.latex(x[i])+"$$$$\\text{and subtract from }"+sp.latex(L[k, n])))
                     saver.names += 1
+                    # Substituting solution into all other rows and subtracting from constant
                     L[k, n] -= L.row(k).col(i)[0] * x[i]
+                    L[k, i] = 0
                     self.saved.append((saver.names, "\\text{This results in a value of }"+sp.latex(L[k, n])))
                     saver.names += 1
-                    L[k, i] = 0
-                    # print(L[k, n])
-                    # print(round(L[k, n], 4))
                     self.saved.append((saver.names, "\\text{The lower triangular matrix is}$$$$"+sp.latex(L)+"$$$$\\text{so far}"))
                     saver.names += 1
             self.saved.append((saver.names, "\\text{Therefore, the final matrix is}$$$$"+sp.latex(L)+"$$$$\\text{where }"+sp.latex(x)+"$$$$\\text{ are the solutions}"))
             saver.names += 1
             return x
+        # If matrix is not symmetric positive definite
         else:
-            return []
+            return ["No solutions"]
 
+    # Adds steps from instance variable list to shared list
     def addSaved(self, check):
         if check == True:
             saver.saved = saver.saved + self.saved
-            # saver.text = saver.text + self.text
 
+    # Converts the matrices and expressions to images for single method
     def latex2img(self):
         for i in saver.saved:
-            text2image.formula_as_file(i[1], i[0]) ######################
-        # for i in saver.text:
-        #     text2image.toImage(i[1], i[0]) ######################
+            text2image.convertLatex(i[1], i[0])
 
+    # Converts the matrices and expressions to images for method comparison
     def compare_latex2img(self):
         for i in self.saved:
-            compare_text2image.formula_as_file(i[1], i[0], "Cholesky") ######################
-        # for i in saver.text:
-        #     compare_text2image.toImage(i[1], i[0], "Cholesky") ######################
+            compare_text2image.convertLatex(i[1], i[0], "Cholesky")
 
+# Stores method class and name for subfolder
 def getMethods():
     methods = []
     methods.append(("Gaussian", GaussianElimination))
     methods.append(("Cramers", CramersRule))
     methods.append(("Cholesky", Cholesky))
     return methods
-
-# empty()
-# x = sp.Matrix([[1,1,1,9],[2,-3,4,13],[3,4,5,40]])
-# x = sp.Matrix([[0, 0, 0, 0],[1, 0, 1, 0],[-1, 0, -1, 0]])
-# x = sp.Matrix([[6,15,55,76],[15,55,225,295],[55,225,979,1259]])
-# x = sp.Matrix([[2,-1,0,3],[-1,2,-1,4],[0,-1,2,5]])
-# sp.pprint(x)
-# new = GaussianElimination(x)
-# sp.pprint(new.calc())
-# new.addSaved(True)
-# new.latex2img()

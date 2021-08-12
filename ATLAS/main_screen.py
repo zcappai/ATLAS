@@ -1,9 +1,10 @@
+from square_size import Ui_SquareSizeWindow
 import sys
 from closeWindow import QMainWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
-from determinant_size import Ui_DetSizeWindow
+# from determinant_size import Ui_DetSizeWindow
 from multiplication_size import Ui_MultSizeWindow
-from inverse_size import Ui_InverseSizeWindow
+# from inverse_size import Ui_InverseSizeWindow
 from solving_size import Ui_SolveSizeWindow
 from eigen_choice_screen import Ui_EigenChoiceWindow
 
@@ -18,6 +19,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
 
+        # Provides structure to widget layout
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
 
@@ -75,9 +77,9 @@ class Ui_MainWindow(object):
         self.main_info.setObjectName("main_info")
         self.gridLayout.addWidget(self.main_info, 1, 0, 1, 2)
 
+        # Spacers provide structure
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem, 2, 0, 1, 2)
-
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem1, 7, 0, 1, 2)
 
@@ -97,7 +99,7 @@ class Ui_MainWindow(object):
     
     def toDeterminant(self):
         self.window = QMainWindow()
-        self.ui = Ui_DetSizeWindow()
+        self.ui = Ui_SquareSizeWindow("det")
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
         # self.window.show()
@@ -111,7 +113,7 @@ class Ui_MainWindow(object):
     
     def toInverse(self):
         self.window = QMainWindow()
-        self.ui = Ui_InverseSizeWindow()
+        self.ui = Ui_SquareSizeWindow("inv")
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
         self.window.show()

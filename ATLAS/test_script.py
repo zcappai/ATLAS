@@ -1,10 +1,10 @@
-# import sympy as sp
-# from determinant import naiveDeterminant, Sarrus, LU
-# from multiplication import naiveMultiplication, Strassen, Laderman
-# from inverse import CayleyHamilton, naiveInverse
-# from solving import GaussianElimination, CramersRule, Cholesky
-# from eigenvalue import Eigenvalue
-# from eigenvector import Eigenvector
+import sympy as sp
+from determinant import naiveDeterminant, Sarrus, LU
+from multiplication import naiveMultiplication, Strassen, Laderman
+from inverse import CayleyHamilton, naiveInverse
+from solving import GaussianElimination, CramersRule, Cholesky
+from eigenvalue import Characteristic
+from eigenvector import Eigenvector
 
 ## Solving Systems of Linear Equations - Cholesky Decomposition ##
 
@@ -232,24 +232,21 @@
 # test3 = sp.Matrix([[6,-1],[2,3]])
 # test4 = sp.Matrix([[2,0,0],[1,2,1],[-1,0,1]])
 # test5 = sp.Matrix([[1,2,1],[6,-1,0],[-1,-2,-1]])
-# test6 = sp.Matrix([[4/5,-3/5,0],[3/5,4/5,0],[1,2,2]])
-# test7 = sp.Matrix([[4,-6,-7],[-2,3,2],[2,-6,-5]])
-# test8 = sp.Matrix([[2,-1,-1,0],[-1,3,-1,-1],[-1,-1,3,-1],[0,-1,-1,2]])
-# test9 = sp.Matrix([[1,2,1,0,0],[2,1,2,0,0],[1,1,2,0,0],[0,0,0,0,2],[0,0,0,2,0]])
+# test6 = sp.Matrix([[4,-6,-7],[-2,3,2],[2,-6,-5]])
+# test7 = sp.Matrix([[2,-1,-1,0],[-1,3,-1,-1],[-1,-1,3,-1],[0,-1,-1,2]])
+# test8 = sp.Matrix([[1,2,1,0,0],[2,1,2,0,0],[1,1,2,0,0],[0,0,0,0,2],[0,0,0,2,0]])
 
-# tests = [test1,test2,test3,test4,test5,test6,test7,test8,test9]
-# passed = 0
-
-# mat = test9
+# mat = test8
 
 # results = mat.eigenvects()
+# print("Expected")
 # for i in results:
 #     sp.pprint(i[2])
 # print()
 # actual = Eigenvector(mat).calc()
+# print("Actual")
 # for i in actual:
-#     sp.pprint(i[1])
-#     print()
+#     sp.pprint(i)
 
 ## Eigenvalues - Standard Method ##
 
@@ -337,46 +334,46 @@
 
 ## Inverse - Standard Method ##
 
-# test1 = sp.Matrix([])
-# test2 = sp.Matrix([0])
-# test3 = sp.Matrix([8])
-# test4 = sp.Matrix([[2,6],[10,3]])
-# test5 = sp.Matrix([[1,2],[2,4]])
-# test6 = sp.Matrix([[1,2,3],[4,5,6],[7,8,9]])
-# test7 = sp.Matrix([[4,2,5],[14,15,7],[23,2,1]])
-# test8 = sp.Matrix([[1,3,5,9],[1,3,1,7],[4,3,9,7],[5,2,0,9]])
-# test9 = sp.Matrix([[-2,7,0,6,-2],[1,-1,3,2,2],[3,4,0,5,3],[2,5,-4,-2,2],[0,3,-1,1,-4]])
-# test10 = sp.Matrix([[0,0,0,0,-2],[1,-1,3,2,2],[0,0,0,0,3],[2,5,0,-2,2],[0,3,-1,1,-4]])
+test1 = sp.Matrix([])
+test2 = sp.Matrix([0])
+test3 = sp.Matrix([8])
+test4 = sp.Matrix([[2,6],[10,3]])
+test5 = sp.Matrix([[1,2],[2,4]])
+test6 = sp.Matrix([[1,2,3],[4,5,6],[7,8,9]])
+test7 = sp.Matrix([[4,2,5],[14,15,7],[23,2,1]])
+test8 = sp.Matrix([[1,3,5,9],[1,3,1,7],[4,3,9,7],[5,2,0,9]])
+test9 = sp.Matrix([[-2,7,0,6,-2],[1,-1,3,2,2],[3,4,0,5,3],[2,5,-4,-2,2],[0,3,-1,1,-4]])
+test10 = sp.Matrix([[0,0,0,0,-2],[1,-1,3,2,2],[0,0,0,0,3],[2,5,0,-2,2],[0,3,-1,1,-4]])
 
-# tests = [test1,test2,test3,test4,test5,test6,test7,test8,test9,test10]
-# passed = 0
+tests = [test1,test2,test3,test4,test5,test6,test7,test8,test9,test10]
+passed = 0
 
-# for i in range(len(tests)):
-#     try:
-#         expected = tests[i].inv()
-#         print("Test {} Expected Result".format(i+1))
-#         sp.pprint(expected)
-#         try:
-#             actual = naiveInverse(tests[i]).calc()
-#             print("Test {} Actual Result".format(i+1))
-#             sp.pprint(actual)
-#             if expected == actual:
-#                 print("Test {} Passed!".format(i+1))
-#                 passed += 1
-#         except:
-#             print("Error occurred!")
-#             print("Test {} Failed!".format(i+1))
-#     except:
-#         print("No inverse exists!")
-#         check = naiveInverse(tests[i]).check()[0]
-#         if check == False:
-#             print("Test {} Passed!".format(i+1))
-#             passed += 1
-#         elif check == True:
-#             print("Test {} Failed!".format(i+1))       
-#     print()
+for i in range(len(tests)):
+    try:
+        expected = tests[i].inv()
+        print("Test {} Expected Result".format(i+1))
+        sp.pprint(expected)
+        try:
+            actual = naiveInverse(tests[i]).calc()
+            print("Test {} Actual Result".format(i+1))
+            sp.pprint(actual)
+            if expected == actual:
+                print("Test {} Passed!".format(i+1))
+                passed += 1
+        except:
+            print("Error occurred!")
+            print("Test {} Failed!".format(i+1))
+    except:
+        print("No inverse exists!")
+        check = naiveInverse(tests[i]).check()
+        if check == False:
+            print("Test {} Passed!".format(i+1))
+            passed += 1
+        elif check == True:
+            print("Test {} Failed!".format(i+1))       
+    print()
 
-# print("{}/{} tests passed!".format(passed, len(tests)))
+print("{}/{} tests passed!".format(passed, len(tests)))
 
 ## Matrix Multiplication - Standard Method ##
 
