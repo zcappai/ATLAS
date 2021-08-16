@@ -2,6 +2,7 @@ import sympy as sp
 import text2image
 import compare_text2image
 import saver
+from single_image import single_view
 
 # Laplace Expansion
 class naiveDeterminant:
@@ -22,12 +23,20 @@ class naiveDeterminant:
             naiveDeterminant.saved.append((saver.names, "\\text{A matrix of size 0 has}$$$$\\text{a determinant of 1}"))
             saver.names += 1
             self.det = 1
+            for key, value in naiveDeterminant.saved:
+                if key == "single":
+                    naiveDeterminant.saved.remove((key, value))
+            naiveDeterminant.saved.append(single_view(naiveDeterminant.saved))
             return self.det
         # 1 x 1 matrix
         elif self.size == 1:
             naiveDeterminant.saved.append((saver.names, "\\text{A matrix of size 1 has a}$$$$\\text{determinant equal to its only value}"))
             saver.names += 1
             self.det = self.matrix[0]
+            for key, value in naiveDeterminant.saved:
+                if key == "single":
+                    naiveDeterminant.saved.remove((key, value))
+            naiveDeterminant.saved.append(single_view(naiveDeterminant.saved))
             return self.det
         # 2 x 2 or larger matrix
         else:
@@ -101,6 +110,10 @@ class naiveDeterminant:
             saver.names += 1
             naiveDeterminant.saved.append((saver.names, "\\text{Therefore, the determinant}$$$$\\text{of the matrix is }"+sp.latex(self.det)))
             saver.names += 1
+            for key, value in naiveDeterminant.saved:
+                if key == "single":
+                    naiveDeterminant.saved.remove((key, value))
+            naiveDeterminant.saved.append(single_view(naiveDeterminant.saved))
             return self.det
 
     # Adds steps from class variable list to shared list
@@ -137,12 +150,13 @@ class Sarrus:
         if self.size != 3:
             self.saved.append((saver.names, "\\text{Sarrus' method cannot be used}$$$$\\text{for "+sp.latex(self.size)+"x"+sp.latex(self.size)+" matrices}"))
             saver.names += 1
+            self.saved.append(single_view(self.saved))
             return "N/A"
         # If input matrix is a 3 x 3 matrix
         else:
             # Multiplying along diagonals
             R1 = self.matrix[0, 0] * self.matrix[1, 1] * self.matrix[2, 2]
-            self.saved.append((saver.names, "\\text{First, multiply the values along the leading diagonal}$$$$"
+            self.saved.append((saver.names, "\\text{First, multiply the values}$$$$\\text{along the leading diagonal}$$$$"
             +"R_1="+sp.latex(self.matrix[0, 0])+"*"+sp.latex(self.matrix[1, 1])+"*"+sp.latex(self.matrix[2, 2])+"={}".format(R1)))
             saver.names += 1
             R2 = self.matrix[1, 0] * self.matrix[2, 1] * self.matrix[0, 2]
@@ -151,28 +165,28 @@ class Sarrus:
             +"R_2="+sp.latex(self.matrix[1, 0])+"*"+sp.latex(self.matrix[2, 1])+"*"+sp.latex(self.matrix[0, 2])+"={}".format(R2)))
             saver.names += 1
             R3 = self.matrix[2, 0] * self.matrix[0, 1] * self.matrix[1, 2]
-            self.saved.append((saver.names, """\\text{Then, multiply the values along the second}$$$$\\text{subdiagonal by making the same assumption}
-            $$$$\\text{as the previous multiplication, so the final}$$$$\\text{2 elements are at } a_{12} \\text{ and } a_{23}$$$$"""
+            self.saved.append((saver.names, """\\text{Then, multiply the values}$$$$\\text{along the second subdiagonal by}$$$$\\text{making the same assumption}
+            $$$$\\text{as the previous multiplication,}$$$$\\text{so the final 2 elements are at }$$$$a_{12}\\text{ and } a_{23}$$$$"""
             +"R_3="+sp.latex(self.matrix[2, 0])+"*"+sp.latex(self.matrix[0, 1])+"*"+sp.latex(self.matrix[1, 2])+"={}".format(R3)))
             saver.names += 1
             # Summing values from diagonal multiplication
             R = R1 + R2 + R3
             self.saved.append((saver.names, "\\text{Now, add together the products}$$$$"
-            +"R=R_1+R_2+R_3="+sp.latex(R1)+"+"+sp.latex(R2)+"+"+sp.latex(R3)+"={}".format(R)))
+            +"R=R_1+R_2+R_3$$$$="+sp.latex(R1)+"+"+sp.latex(R2)+"+"+sp.latex(R3)+"={}".format(R)))
             saver.names += 1
 
             # Multiplying along antidiagonals
             L1 = self.matrix[0, 2] * self.matrix[1, 1] * self.matrix[2, 0]
             self.saved.append((saver.names, "\\text{Now do the same for the anti-diagonals,}$$$$\\text{starting with the leading anti-diagonal.}$$$$"
-            +"\\text{It is important to remember that the anti-diagonal}$$$$\\text{is the leading diagonal going from right to left.}$$$$"
+            +"\\text{It is important to remember that the}$$$$\\text{anti-diagonal is the leading diagonal}$$$$\\text{going from right to left.}$$$$"
             +"L_1="+sp.latex(self.matrix[0, 2])+"*"+sp.latex(self.matrix[1, 1])+"*"+sp.latex(self.matrix[2, 0])+"={}".format(L1)))
             saver.names += 1
             L2 = self.matrix[1, 2] * self.matrix[2, 1] * self.matrix[0, 0]
-            self.saved.append((saver.names, "\\text{Then, multiply the values along the anti-subdiagonal}$$$$"
+            self.saved.append((saver.names, "\\text{Then, multiply the values}$$$$\\text{along the anti-subdiagonal}$$$$"
             +"L_2="+sp.latex(self.matrix[1, 2])+"*"+sp.latex(self.matrix[2, 1])+"*"+sp.latex(self.matrix[0, 0])+"={}".format(L2)))
             saver.names += 1
             L3 = self.matrix[2, 2] * self.matrix[0, 1] * self.matrix[1, 0]
-            self.saved.append((saver.names, "\\text{Then, multiply the values along the second anti-subdiagonal}$$$$"
+            self.saved.append((saver.names, "\\text{Then, multiply the values}$$$$\\text{along the second anti-subdiagonal}$$$$"
             +"L_3="+sp.latex(self.matrix[2, 2])+"*"+sp.latex(self.matrix[0, 1])+"*"+sp.latex(self.matrix[1, 0])+"={}".format(L3)))
             saver.names += 1
             # Summing values from antidiagonal multiplication
@@ -188,6 +202,7 @@ class Sarrus:
             saver.names += 1
             self.saved.append((saver.names, "\\text{Therefore, the determinant is }"+sp.latex(self.det)))
             saver.names += 1
+            self.saved.append(single_view(self.saved))
             return self.det
 
     # Adds steps from instance variable list to shared list
@@ -230,7 +245,7 @@ class LU:
                 # 1s along leading diagonal
                 elif i == j:
                     L[i, j] = 1
-        self.saved.append((saver.names, "\\text{Populate the lower triangular matrix}$$$$\\text{with symbols in the bottom-left corner}"
+        self.saved.append((saver.names, "\\text{Populate the lower triangular matrix}$$$$\\text{with symbols in the bottom-left corner}$$$$"
         +"$$$$\\text{and 1's along the leading diagonal}$$$$"+sp.latex(L)))
         saver.names += 1
         # Empty upper triangular matrix
@@ -242,8 +257,8 @@ class LU:
             for j in range(self.size):
                 if i <= j:
                     U[i, j] = sp.symbols('U_{}{}'.format(i+1,j+1))
-        self.saved.append((saver.names, """\\text{Populate the upper triangular matrix with symbols in the}$$$$
-        \\text{top-right corner and along the leading diagonal}$$$$"""+sp.latex(U)))
+        self.saved.append((saver.names, "\\text{Populate the upper triangular matrix}$$$$\\text{with symbols in the top-right corner}$$$$"
+        +"\\text{and along the leading diagonal}$$$$"+sp.latex(U)))
         saver.names += 1
         LU = L*U # Multiplication of lower and upper triangular matrices
         self.saved.append((saver.names, "\\text{Next, multiply the L and U matrices}$$$$\\text{to form the resultant matrix}$$$$"
@@ -270,13 +285,13 @@ class LU:
                     if symb in U:
                         U = U.subs(symb, solution)
                         LU = LU.subs(symb, solution)
-                        self.saved.append((saver.names, "\\text{This value is substituted back into U and LU to give}$$$$U="+sp.latex(U)+", LU="+sp.latex(LU)))
+                        self.saved.append((saver.names, "\\text{This value is substituted back}$$$$\\text{into U and LU to give}$$$$U="+sp.latex(U)+",$$$$LU="+sp.latex(LU)))
                         saver.names += 1
                     # Substituting solution back into L and LU matrices
                     elif symb in L:
                         L = L.subs(symb, solution)
                         LU = LU.subs(symb, solution)
-                        self.saved.append((saver.names, "\\text{This value is substituted back into L and LU to give}$$$$L="+sp.latex(L)+", LU="+sp.latex(LU)))
+                        self.saved.append((saver.names, "\\text{This value is substituted back}$$$$\\text{into L and LU to give}$$$$L="+sp.latex(L)+",$$$$LU="+sp.latex(LU)))
                         saver.names += 1
                 except:
                     pass
@@ -298,6 +313,7 @@ class LU:
         saver.names += 1
         self.saved.append((saver.names, "\\text{Therefore, the determinant is }"+sp.latex(self.det)))
         saver.names += 1
+        self.saved.append(single_view(self.saved))
         return self.det
 
     # Adds steps from instance variable list to shared list

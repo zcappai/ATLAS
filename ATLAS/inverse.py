@@ -3,6 +3,7 @@ import text2image
 from determinant import naiveDeterminant
 import compare_text2image
 import saver
+from single_image import single_view
 
 # Cramer's Rule
 class naiveInverse:
@@ -22,6 +23,7 @@ class naiveInverse:
             saver.names += 1
             self.saved.append((saver.names, "\\text{No Inverse Exists}$$$$\\text{(Determinant of the matrix is 0)}"))
             saver.names += 1
+            self.saved.append(single_view(self.saved))
             return False
         else:
             return True
@@ -36,6 +38,7 @@ class naiveInverse:
             inverse = sp.Matrix([1/only_value])
             self.saved.append((saver.names, "\\text{Since the matrix has only 1 values,}$$$$\\text{the reciprocal is taken, giving an inverse of}$$$$"+sp.latex(sp.Matrix([1/only_value]))))
             saver.names += 1
+            self.saved.append(single_view(self.saved))
             return inverse
         self.saved.append((saver.names, "\\text{First, we find the minors of each element.}$$$$\\text{The minor of an element ignores the values}"
         +"$$$$\\text{of the current row \& column and calculates}$$$$\\text{the determinant of the remaining values.}"))
@@ -97,6 +100,7 @@ class naiveInverse:
         inverse = (1/final_det)*adjugate
         self.saved.append((saver.names, "\\text{Therefore, the inverse of the matrix is}$$$$"+sp.latex(inverse)))
         saver.names += 1
+        self.saved.append(single_view(self.saved))
         return inverse
 
     # Adds steps from instance variable list to shared list
@@ -107,12 +111,12 @@ class naiveInverse:
     # Converts the matrices and expressions to images for single method
     def latex2img(self):
         for i in saver.saved:
-            text2image.formula_as_file(i[1], i[0])
+            text2image.convertLatex(i[1], i[0])
 
     # Converts the matrices and expressions to images for method comparison
     def compare_latex2img(self):
         for i in self.saved:
-            compare_text2image.formula_as_file(i[1], i[0], "Cramer")
+            compare_text2image.convertLatex(i[1], i[0], "Cramer")
 
 # Cayley-Hamilton Theorem
 class CayleyHamilton:
@@ -132,6 +136,7 @@ class CayleyHamilton:
             saver.names += 1
             self.saved.append((saver.names, "\\text{No Inverse Exists}$$$$\\text{(Determinant of the matrix is 0)}"))
             saver.names += 1
+            self.saved.append(single_view(self.saved))
             return False
         else:
             return True
@@ -142,6 +147,7 @@ class CayleyHamilton:
         saver.names += 1
         # Dealing with empty matrix
         if self.size == 0:
+            self.saved.append(single_view(self.saved))
             return sp.Matrix([])
         # Dealing with 1 x 1 matrix
         elif self.size == 1:
@@ -149,6 +155,7 @@ class CayleyHamilton:
             inverse = sp.Matrix([1/only_value])
             self.saved.append((saver.names, "\\text{Since the matrix has only 1 values,}$$$$\\text{the reciprocal is taken, giving an inverse of}$$$$"+sp.latex(sp.Matrix([1/only_value]))))
             saver.names += 1
+            self.saved.append(single_view(self.saved))
             return inverse
         # Square matrices larger than 1 x 1
         else:
@@ -192,6 +199,7 @@ class CayleyHamilton:
             saver.names += 1
             self.saved.append((saver.names, "\\text{Therefore, the inverse of the matrix is}$$$$"+sp.latex(inverse)))
             saver.names += 1
+            self.saved.append(single_view(self.saved))
             return inverse
 
     # Adds steps from class variable list to shared list
@@ -202,12 +210,12 @@ class CayleyHamilton:
     # Converts the matrices and expressions to images for single method
     def latex2img(self):
         for i in saver.saved:
-            text2image.formula_as_file(i[1], i[0])
+            text2image.convertLatex(i[1], i[0])
 
     # Converts the matrices and expressions to images for method comparison
     def compare_latex2img(self):
         for i in self.saved:
-            compare_text2image.formula_as_file(i[1], i[0], "Cayley")
+            compare_text2image.convertLatex(i[1], i[0], "Cayley")
 
 # Stores method class and name for subfolder
 def getMethods():

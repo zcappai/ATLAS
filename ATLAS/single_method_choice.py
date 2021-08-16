@@ -9,6 +9,7 @@ from inverse import naiveInverse, CayleyHamilton
 from solving import Cholesky, GaussianElimination, CramersRule
 from eigenvalue import Characteristic
 from eigenvector import Eigenvector
+from closeWindow import QMainWindow
 
 # GUI for Choosing Single Method
 class Ui_SingleChoiceWindow(object):
@@ -31,11 +32,10 @@ class Ui_SingleChoiceWindow(object):
         self.gridLayout.setObjectName("gridLayout")
 
         self.font = QtGui.QFont()
-        self.font.setPointSize(20)
+        self.font.setPointSize(30)
         # Method submit button
         self.submit_button = QtWidgets.QPushButton(self.centralwidget)
-        self.submit_button.setMinimumSize(QtCore.QSize(125, 50))
-        self.submit_button.setMaximumSize(QtCore.QSize(125, 16777215))
+        self.submit_button.setMinimumSize(QtCore.QSize(150, 75))
         self.submit_button.setFont(self.font)
         self.submit_button.setObjectName("submit_button")
         self.gridLayout.addWidget(self.submit_button, 7, 0, 1, 3, QtCore.Qt.AlignHCenter)
@@ -134,7 +134,8 @@ class Ui_SingleChoiceWindow(object):
         mult.calc()
         mult.addSaved(True)
         # Passes method object to loading screen
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
+        self.window.setFixedSize(400, 150)
         self.ui = Ui_LoadingWindow(mult, Ui_NonNumSingleWindow())
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
@@ -173,7 +174,8 @@ class Ui_SingleChoiceWindow(object):
         ans = determinant.calc()
         determinant.addSaved(True)
         # Passes method object to loading screen
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
+        self.window.setFixedSize(400, 150)
         self.ui = Ui_LoadingWindow(determinant, Ui_NumSingleWindow(ans, self.func))
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
@@ -208,7 +210,8 @@ class Ui_SingleChoiceWindow(object):
         elif check == False:
             inverse.addSaved(True)
         # Passes method object to loading screen
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
+        self.window.setFixedSize(400, 150)
         self.ui = Ui_LoadingWindow(inverse, Ui_NonNumSingleWindow())
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
@@ -249,7 +252,8 @@ class Ui_SingleChoiceWindow(object):
             ans = solve.calc()
         solve.addSaved(True)
         # Passes method object to loading screen
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
+        self.window.setFixedSize(400, 150)
         self.ui = Ui_LoadingWindow(solve, Ui_NumSingleWindow(ans, self.func))
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
@@ -272,7 +276,8 @@ class Ui_SingleChoiceWindow(object):
         ans = e_value.calc()
         e_value.addSaved(True)
         # Passes method object to loading screen
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
+        self.window.setFixedSize(400, 150)
         self.ui = Ui_LoadingWindow(e_value, Ui_NumSingleWindow(ans, self.func))
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
@@ -295,7 +300,8 @@ class Ui_SingleChoiceWindow(object):
         e_vector.calc()
         e_vector.addSaved(True)
         # Passes method object to loading screen
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
+        self.window.setFixedSize(400, 150)
         self.ui = Ui_LoadingWindow(e_vector, Ui_NonNumSingleWindow())
         self.ui.setupUi(self.window)
         self.MainWindow.hide()

@@ -1,5 +1,8 @@
 from PyQt5 import QtGui, QtWidgets
 from os import listdir
+from PyQt5 import QtCore
+
+from PyQt5.QtCore import QRectF
 
 # Changes image shown by QGraphisView
 class Changer:
@@ -48,9 +51,17 @@ class Changer:
         # Adding first image on list to QGraphicsScene in QGraphicsView
         self.newscene.addPixmap(QtGui.QPixmap.fromImage(QtGui.QImage("images/{}".format(images[0]))))
 
+    # Changes to single image with all steps
+    def show_single(self):
+        self.newscene = QtWidgets.QGraphicsScene()
+        self.graphicsView.setScene(self.newscene)
+        # Adding single view image to QGraphicsScene in QGraphicsView
+        self.newscene.addPixmap(QtGui.QPixmap.fromImage(QtGui.QImage("images/{}".format("single.png"))))
+
     # Returns list of image names sorted in ascending order
     def imageList(self):
         images = listdir("images")
+        images.remove("single.png")
         images = sorted(images, key=self.getint)
         return images
 

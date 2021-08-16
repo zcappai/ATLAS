@@ -23,7 +23,7 @@ class Ui_EigenvalueCompareWindow(object):
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
         font = QtGui.QFont()
-        font.setPointSize(20)
+        font.setPointSize(30)
 
         # For getting image subfolder names
         methods = eigenvalue.getMethods()
@@ -45,17 +45,26 @@ class Ui_EigenvalueCompareWindow(object):
         # Next step button
         self.next_1 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.next_1.setObjectName("next_1")
+        self.next_1.setFont(font)
         self.gridLayout_2.addWidget(self.next_1, 2, 1, 1, 1)
 
         # Previous step button
         self.prev_1 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.prev_1.setObjectName("prev_1")
+        self.prev_1.setFont(font)
         self.gridLayout_2.addWidget(self.prev_1, 2, 0, 1, 1)
 
         # Show original matrix button
         self.original_1 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.original_1.setObjectName("original_1")
-        self.gridLayout_2.addWidget(self.original_1, 3, 0, 1, 2)
+        self.original_1.setFont(font)
+        self.gridLayout_2.addWidget(self.original_1, 3, 0, 1, 1)
+
+        # Viewing all steps button
+        self.viewAll_1 = QtWidgets.QPushButton(self.centralwidget)
+        self.viewAll_1.setObjectName("viewAll_1")
+        self.viewAll_1.setFont(font)
+        self.gridLayout_2.addWidget(self.viewAll_1, 3, 1, 1, 1)
 
         # GraphicsView for displaying contents of GraphicsScene
         self.characteristic = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
@@ -72,6 +81,7 @@ class Ui_EigenvalueCompareWindow(object):
         self.prev_1.clicked.connect(self.image_1.prev_image)
         self.next_1.clicked.connect(self.image_1.next_image)
         self.original_1.clicked.connect(self.image_1.show_matrix)
+        self.viewAll_1.clicked.connect(self.image_1.show_single)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -81,5 +91,6 @@ class Ui_EigenvalueCompareWindow(object):
         self.next_1.setText("Next Step")
         self.prev_1.setText("Previous Step")
         self.original_1.setText("Show Original Matrix")
+        self.viewAll_1.setText("View All Steps")
 
         QtCore.QMetaObject.connectSlotsByName(MainWindow)

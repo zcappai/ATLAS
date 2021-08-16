@@ -1,10 +1,12 @@
 import sympy as sp
+from sympy.core.symbol import var
 from eigenvalue import Characteristic
 from solving import GaussianElimination
 import text2image
 import compare_text2image
 from string import ascii_lowercase
 import saver
+from single_image import single_view
 
 # Eigenvector By Gaussian Elimination
 class Eigenvector:
@@ -127,6 +129,7 @@ class Eigenvector:
         for i in eigenvectors:
             self.saved.append((saver.names, sp.latex(sp.Symbol("lamda"))+"="+sp.latex(i[0])+", "+sp.latex(sp.Symbol("v"))+"="+sp.latex(i[1])))
             saver.names += 1
+        self.saved.append(single_view(self.saved))
         return eigenvectors
 
     # Adds steps from instance variable list to shared list
@@ -137,12 +140,12 @@ class Eigenvector:
     # Converts the matrices and expressions to images for single method
     def latex2img(self):
         for i in saver.saved:
-            text2image.formula_as_file(i[1], i[0])
+            text2image.convertLatex(i[1], i[0])
 
     # Converts the matrices and expressions to images for method comparison
     def compare_latex2img(self):
         for i in self.saved:
-            compare_text2image.formula_as_file(i[1], i[0], "Gaussian")
+            compare_text2image.convertLatex(i[1], i[0], "Gaussian")
 
 # Stores method class and name for subfolder
 def getMethods():

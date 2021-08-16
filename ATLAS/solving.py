@@ -3,6 +3,7 @@ import text2image
 import compare_text2image
 from determinant import naiveDeterminant
 import saver
+from single_image import single_view
 
 # Gaussian Elimination
 class GaussianElimination:
@@ -21,11 +22,15 @@ class GaussianElimination:
         if self.equations < self.unknowns:
             message = "\\text{There are infinite}$$$$\\text{or no solutions)}$$$$\\text{(this is an underdetermined system)}"
             self.saved.append((saver.names, message))
+            saver.names += 1
+            self.saved.append(single_view(self.saved))
             return False, ["No unique solutions"], None
         # More equations than unknowns (overdetermined system)
         elif self.equations > self.unknowns:
             message = "\\text{There are no solutions}$$$$\\text{(this is an overdetermined system)}"
             self.saved.append((saver.names, message))
+            saver.names += 1
+            self.saved.append(single_view(self.saved))
             return False, ["No unique solutions"], None
         # Equal numbers of equations and unknowns
         else:
@@ -46,6 +51,7 @@ class GaussianElimination:
                 self.saved.append((saver.names, "\\text{Since the rank of the augmented matrix is}$$$$\\text{larger than the rank of the coefficient matrix,}"
                 "$$$$\\text{the system of linear equations is}$$$$\\text{inconsistent and no solutions exist.}"))
                 saver.names += 1
+                self.saved.append(single_view(self.saved))
                 return False, ["No unique solutions"], None
             self.saved.append((saver.names, "\\text{Since the rank of the augmented matrix is}$$$$\\text{NOT larger than the rank of the coefficient matrix,}"
             +"$$$$\\text{the system of linear equations is consistent}"))
@@ -92,7 +98,7 @@ class GaussianElimination:
                         pass
                     else:
                         self.saved.append((saver.names, "\\text{Taking the ratio between }"+sp.latex(self.matrix.row(k).col(i)[0])+"\\text{ and }"+sp.latex(self.matrix.row(i).col(i)[0])
-                        +"\\text{ in }"+sp.latex(self.matrix.col(i))+"\\text{gives the ratio }"+sp.latex(c)))
+                        +"\\text{ in }"+sp.latex(self.matrix.col(i))+"$$$$\\text{gives the ratio }"+sp.latex(c)))
                         saver.names += 1
                         self.saved.append((saver.names, "\\text{This ratio is substracted from row }"+sp.latex(k+1)+"$$$$\\text{ by multiplying the ratio by values from row }"+sp.latex(i+1)))
                         saver.names += 1
@@ -148,6 +154,7 @@ class GaussianElimination:
                     saver.names += 1
             self.saved.append((saver.names, "\\text{Now the matrix is in the form}$$$$"+sp.latex(self.matrix)+"$$$$\\text{where }"+sp.latex(x)+"\\text{ are the solutions}"))
             saver.names += 1
+            self.saved.append(single_view(self.saved))
             return True, x, row_ech
 
     # Adds steps from instance variable list to shared list
@@ -182,11 +189,15 @@ class CramersRule:
         if self.equations < self.unknowns:
             message = "\\text{There are infinite}$$$$\\text{or no solutions)}$$$$\\text{(this is an underdetermined system)}"
             self.saved.append((saver.names, message))
+            saver.names += 1
+            self.saved.append(single_view(self.saved))
             return ["No unique solutions"]
         # More equations than unknowns (overdetermined system)
         elif self.equations > self.unknowns:
             message = "\\text{There are no solutions}$$$$\\text{(this is an overdetermined system)}"
             self.saved.append((saver.names, message))
+            saver.names += 1
+            self.saved.append(single_view(self.saved))
             return ["No unique solutions"]
         # Equal numbers of equations and unknowns
         else:
@@ -207,6 +218,7 @@ class CramersRule:
                 self.saved.append((saver.names, "\\text{Since the rank of the augmented matrix is}$$$$\\text{larger than the rank of the coefficient matrix,}"
                 "$$$$\\text{the system of linear equations is}$$$$\\text{inconsistent and no solutions exist.}"))
                 saver.names += 1
+                self.saved.append(single_view(self.saved))
                 return False, [], None
             self.saved.append((saver.names, "\\text{Since the rank of the augmented matrix is}$$$$\\text{NOT larger than the rank of the coefficient matrix,}"
             +"$$$$\\text{the system of linear equations is consistent}"))
@@ -227,6 +239,7 @@ class CramersRule:
             if det_mat_coeff == 0:
                 self.saved.append((saver.names, "\\text{Since the determinant is }"+sp.latex(det_mat_coeff)+",$$$$\\text{no solutions exist}"))
                 saver.names += 1
+                self.saved.append(single_view(self.saved))
                 return ["No solutions"]
             # Calculating solution for each variable
             for i in range(self.unknowns):
@@ -251,6 +264,7 @@ class CramersRule:
                 solutions.append(solution)
             self.saved.append((saver.names, "\\text{Therefore, the solutions are}$$$$"+sp.latex(solutions)))
             saver.names += 1
+            self.saved.append(single_view(self.saved))
             return solutions
 
     # Adds steps from instance variable list to shared list
@@ -283,11 +297,13 @@ class Cholesky:
         if self.equations < self.unknowns:
             message = "\\text{There are infinite}$$$$\\text{or no solutions)}$$$$\\text{(this is an underdetermined system)}"
             self.saved.append((saver.names, message))
+            saver.names += 1
             return False
         # More equations than unknowns (overdetermined system)
         elif self.equations > self.unknowns:
             message = "\\text{There are no solutions}$$$$\\text{(this is an overdetermined system)}"
             self.saved.append((saver.names, message))
+            saver.names += 1
             return False
         # Equal numbers of equations and unknowns
         else:
@@ -488,10 +504,14 @@ class Cholesky:
                     saver.names += 1
             self.saved.append((saver.names, "\\text{Therefore, the final matrix is}$$$$"+sp.latex(L)+"$$$$\\text{where }"+sp.latex(x)+"$$$$\\text{ are the solutions}"))
             saver.names += 1
+            self.saved.append(single_view(self.saved))
             return x
         # If matrix is not symmetric positive definite
         else:
-            return ["No solutions"]
+            self.saved.append((saver.names, "\\text{The system of linear equations is}$$$$\\text{not solvable by Cholesky Decomposition}"))
+            saver.names += 1
+            self.saved.append(single_view(self.saved))
+            return ["Not solvable by Cholesky Decomposition"]
 
     # Adds steps from instance variable list to shared list
     def addSaved(self, check):

@@ -36,7 +36,7 @@ class Ui_SolveInWindow(object):
                 self.matrix.setItem(j, i, QtWidgets.QTableWidgetItem('0'))
 
         font = QtGui.QFont()
-        font.setPointSize(20)
+        font.setPointSize(30)
         # Input information
         self.matrix_info = QtWidgets.QLabel(self.centralwidget)
         self.matrix_info.setFont(font)
@@ -46,8 +46,9 @@ class Ui_SolveInWindow(object):
 
         # Matrix input submit button
         self.submit = QtWidgets.QPushButton(self.centralwidget)
-        self.submit.setMinimumSize(QtCore.QSize(125, 50))
+        self.submit.setMinimumSize(QtCore.QSize(150, 75))
         self.submit.setObjectName("submit")
+        self.submit.setFont(font)
         self.submit.clicked.connect(self.sendMatrix)
         self.gridLayout.addWidget(self.submit, 3, 1, 1, 1, QtCore.Qt.AlignHCenter)
 
@@ -98,4 +99,4 @@ class Ui_SolveInWindow(object):
         self.ui = Ui_SingleCompWindow(arg, "solve")
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.show()
+        self.window.showMaximized()

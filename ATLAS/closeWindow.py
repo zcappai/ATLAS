@@ -8,9 +8,7 @@ class QMainWindow(QtWidgets.QMainWindow):
     # Constructor sets window to be maximised
     def __init__(self):
         super().__init__()
-        self.showMaximized()
-        sizeObject = QtWidgets.QDesktopWidget().screenGeometry(-1)
-        self.resize(sizeObject.width(), sizeObject.height())
+        self.setStyleSheet("QMainWindow {background-color: lightblue;} QPushButton {background-color: rgba(255, 0, 0, 25%);}")
 
     # Empties "images" folder when close or reset
     def closeEvent(self, event):
@@ -30,6 +28,6 @@ class QMainWindow(QtWidgets.QMainWindow):
             event.ignore()
         # Resets to main menu and empties "images" folder
         elif close == QtWidgets.QMessageBox.Reset:
-            main_screen.MainWindow.show()
+            main_screen.MainWindow.showMaximized()
             emptyimg.empty()
             saver.saved = []

@@ -18,7 +18,7 @@ class Ui_SolveSizeWindow(object):
         self.gridLayout.setObjectName("gridLayout")
 
         font = QtGui.QFont()
-        font.setPointSize(20)
+        font.setPointSize(30)
         # Size information
         self.mul_size_info = QtWidgets.QLabel(self.centralwidget)
         self.mul_size_info.setFont(font)
@@ -26,20 +26,18 @@ class Ui_SolveSizeWindow(object):
         self.mul_size_info.setObjectName("mul_size_info")
         self.gridLayout.addWidget(self.mul_size_info, 0, 0, 1, 5)
 
-        font1 = QtGui.QFont()
-        font1.setPointSize(30)
         # Matrix size spinbox
         self.equations = QtWidgets.QSpinBox(self.centralwidget)
-        self.equations.setMinimumSize(QtCore.QSize(125, 50))
-        self.equations.setFont(font1)
+        self.equations.setMinimumSize(QtCore.QSize(150, 75))
+        self.equations.setFont(font)
         self.equations.setAlignment(QtCore.Qt.AlignCenter)
         self.equations.setMaximum(10)
         self.equations.setObjectName("equations")
         self.gridLayout.addWidget(self.equations, 4, 1, 1, 1)
 
         self.unknowns = QtWidgets.QSpinBox(self.centralwidget)
-        self.unknowns.setMinimumSize(QtCore.QSize(125, 50))
-        self.unknowns.setFont(font1)
+        self.unknowns.setMinimumSize(QtCore.QSize(150, 75))
+        self.unknowns.setFont(font)
         self.unknowns.setAlignment(QtCore.Qt.AlignCenter)
         self.unknowns.setMaximum(10)
         self.unknowns.setObjectName("unknowns")
@@ -60,8 +58,7 @@ class Ui_SolveSizeWindow(object):
 
         # Size submit button
         self.submit = QtWidgets.QPushButton(self.centralwidget)
-        self.submit.setMinimumSize(QtCore.QSize(125, 50))
-        self.submit.setMaximumSize(QtCore.QSize(125, 16777215))
+        self.submit.setMinimumSize(QtCore.QSize(150, 75))
         self.submit.setObjectName("submit")
         self.submit.setFont(font)
         self.submit.clicked.connect(self.sendSize)
@@ -96,4 +93,4 @@ class Ui_SolveSizeWindow(object):
         self.ui = Ui_SolveInWindow(self.equations.value(), self.unknowns.value())
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.show()
+        self.window.showMaximized()

@@ -2,6 +2,7 @@ import sympy as sp
 import text2image
 import compare_text2image
 import saver
+from single_image import single_view
 
 # Standard Method
 class naiveMultiplication:
@@ -36,6 +37,7 @@ class naiveMultiplication:
                 saver.names += 1
         self.saved.append((saver.names, "\\text{The final matrix is}$$$$"+sp.latex(res)))
         saver.names += 1
+        self.saved.append(single_view(self.saved))
         return res
 
     # Adds steps from instance variable list to shared list
@@ -74,6 +76,7 @@ class Strassen:
         if self.leftmatrix.rows == 0 or self.rightmatrix.rows == 0:
             self.saved.append((saver.names, "\\text{Multiplying any matrix by an empty matrix}$$$\\text{results in an empty matrix}"+sp.latex(sp.Matrix([]))))
             saver.names += 1
+            self.saved.append(single_view(self.saved))
             return sp.Matrix([])
         self.saved.append((saver.names, "\\text{Padding is added in the form of a row or column}$$$$\\text{of zeros to matrices with odd dimensions.}"
         +"$$$$\\text{Therefore, a matrix with an odd number of rows}$$$$\\text{(and/or columns) would get a row (and/or column)}$$$$\\text{of zeros to ensure even dimensions.}"))
@@ -233,6 +236,7 @@ class Strassen:
             saver.names += 1
         self.saved.append((saver.names, "\\text{Therefore, the resultant matrix is}$$$$"+sp.latex(final_matrix)))
         saver.names += 1
+        self.saved.append(single_view(self.saved))
         return final_matrix
 
     # Adds steps from instance variable list to shared list
@@ -267,6 +271,7 @@ class Laderman:
         if self.leftmatrix.cols != 3 or self.leftmatrix.rows != 3 or self.rightmatrix.cols != 3 or self.rightmatrix.rows != 3:
             self.saved.append((saver.names, "\\text{Laderman method only multiplies 3x3}$$$$\\text{matrices, so it is not compatible}"))
             saver.names += 1
+            self.saved.append(single_view(self.saved))
             return []
         # Dealing with 3 x 3 matrices
         else:
@@ -424,6 +429,7 @@ class Laderman:
             final_matrix = sp.Matrix(self.leftmatrix.rows, self.leftmatrix.rows, C)
             self.saved.append((saver.names, "\\text{Therefore, the resultant matrix is}$$$$"+sp.latex(final_matrix)))
             saver.names += 1
+            self.saved.append(single_view(self.saved))
             return final_matrix
 
     # Adds steps from instance variable list to shared list

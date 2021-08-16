@@ -23,7 +23,7 @@ class Ui_SolveCompareWindow(object):
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
         font = QtGui.QFont()
-        font.setPointSize(20)
+        font.setPointSize(30)
 
         # For getting image subfolder names
         methods = solving.getMethods()
@@ -45,17 +45,26 @@ class Ui_SolveCompareWindow(object):
         # Next step button
         self.next_1 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.next_1.setObjectName("next_1")
+        self.next_1.setFont(font)
         self.gridLayout_2.addWidget(self.next_1, 2, 1, 1, 1)
 
         # Previous step button
         self.prev_1 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.prev_1.setObjectName("prev_1")
+        self.prev_1.setFont(font)
         self.gridLayout_2.addWidget(self.prev_1, 2, 0, 1, 1)
 
         # Show original matrix button
         self.original_1 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.original_1.setObjectName("original_1")
-        self.gridLayout_2.addWidget(self.original_1, 3, 0, 1, 2)
+        self.original_1.setFont(font)
+        self.gridLayout_2.addWidget(self.original_1, 3, 0, 1, 1)
+
+        # Viewing all steps button
+        self.viewAll_1 = QtWidgets.QPushButton(self.centralwidget)
+        self.viewAll_1.setObjectName("viewAll_1")
+        self.viewAll_1.setFont(font)
+        self.gridLayout_2.addWidget(self.viewAll_1, 3, 1, 1, 1)
 
         # GraphicsView for displaying contents of GraphicsScene
         self.gaussian = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
@@ -71,6 +80,7 @@ class Ui_SolveCompareWindow(object):
         self.prev_1.clicked.connect(self.image_1.prev_image)
         self.next_1.clicked.connect(self.image_1.next_image)
         self.original_1.clicked.connect(self.image_1.show_matrix)
+        self.viewAll_1.clicked.connect(self.image_1.show_single)
 
         # Cramer's Rule #
         # Label
@@ -82,17 +92,26 @@ class Ui_SolveCompareWindow(object):
         # Previous step button
         self.prev_2 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.prev_2.setObjectName("prev_2")
+        self.prev_2.setFont(font)
         self.gridLayout_2.addWidget(self.prev_2, 9, 0, 1, 1)
 
         # Next step button
         self.next_2 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.next_2.setObjectName("next_2")
+        self.next_2.setFont(font)
         self.gridLayout_2.addWidget(self.next_2, 9, 1, 1, 1)
 
         # Show original matrix button
         self.original_2 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.original_2.setObjectName("original_2")
-        self.gridLayout_2.addWidget(self.original_2, 10, 0, 1, 2)
+        self.original_2.setFont(font)
+        self.gridLayout_2.addWidget(self.original_2, 10, 0, 1, 1)
+
+        # Viewing all steps button
+        self.viewAll_2 = QtWidgets.QPushButton(self.centralwidget)
+        self.viewAll_2.setObjectName("viewAll_2")
+        self.viewAll_2.setFont(font)
+        self.gridLayout_2.addWidget(self.viewAll_2, 10, 1, 1, 1)
 
         # GraphicsView for displaying contents of GraphicsScene
         self.cramers = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
@@ -109,6 +128,7 @@ class Ui_SolveCompareWindow(object):
         self.prev_2.clicked.connect(self.image_2.prev_image)
         self.next_2.clicked.connect(self.image_2.next_image)
         self.original_2.clicked.connect(self.image_2.show_matrix)
+        self.viewAll_2.clicked.connect(self.image_2.show_single)
 
         # Cholesky Decomposition #
         # Label
@@ -120,17 +140,26 @@ class Ui_SolveCompareWindow(object):
         # Previous step button
         self.prev_3 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.prev_3.setObjectName("prev_3")
+        self.prev_3.setFont(font)
         self.gridLayout_2.addWidget(self.prev_3, 16, 0, 1, 1)
 
         # Next step button
         self.next_3 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.next_3.setObjectName("next_3")
+        self.next_3.setFont(font)
         self.gridLayout_2.addWidget(self.next_3, 16, 1, 1, 1)
 
         # Show original matrix button
         self.original_3 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.original_3.setObjectName("original_3")
-        self.gridLayout_2.addWidget(self.original_3, 17, 0, 1, 2)
+        self.original_3.setFont(font)
+        self.gridLayout_2.addWidget(self.original_3, 17, 0, 1, 1)
+
+        # Viewing all steps button
+        self.viewAll_3 = QtWidgets.QPushButton(self.centralwidget)
+        self.viewAll_3.setObjectName("viewAll_3")
+        self.viewAll_3.setFont(font)
+        self.gridLayout_2.addWidget(self.viewAll_3, 17, 1, 1, 1)
 
         # GraphicsView for displaying contents of GraphicsScene
         self.cholesky = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
@@ -147,6 +176,7 @@ class Ui_SolveCompareWindow(object):
         self.prev_3.clicked.connect(self.image_3.prev_image)
         self.next_3.clicked.connect(self.image_3.next_image)
         self.original_3.clicked.connect(self.image_3.show_matrix)
+        self.viewAll_3.clicked.connect(self.image_3.show_single)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -156,13 +186,18 @@ class Ui_SolveCompareWindow(object):
         self.next_1.setText("Next Step")
         self.prev_1.setText("Previous Step")
         self.original_1.setText("Show Original Matrices")
+        self.viewAll_1.setText("View All Steps")
+
         self.label_2.setText("Cramer's Rule")
         self.next_2.setText("Next Step")
         self.prev_2.setText("Previous Step")
         self.original_2.setText("Show Original Matrices")
+        self.viewAll_2.setText("View All Steps")
+
         self.label_3.setText("Cholesky Decomposition")
         self.next_3.setText("Next Step")
         self.prev_3.setText("Previous Step")
         self.original_3.setText("Show Original Matrices")
+        self.viewAll_3.setText("View All Steps")
 
         QtCore.QMetaObject.connectSlotsByName(MainWindow)

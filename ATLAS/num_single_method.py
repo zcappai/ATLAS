@@ -33,17 +33,26 @@ class Ui_NumSingleWindow(object):
         # Next step button
         self.next = QtWidgets.QPushButton(self.centralwidget)
         self.next.setObjectName("next")
+        self.next.setFont(font)
         self.gridLayout.addWidget(self.next, 2, 1, 1, 1)
 
         # Previous step button
         self.prev = QtWidgets.QPushButton(self.centralwidget)
         self.prev.setObjectName("prev")
+        self.prev.setFont(font)
         self.gridLayout.addWidget(self.prev, 2, 0, 1, 1)
 
         # Show original matrix button
         self.showMatrix = QtWidgets.QPushButton(self.centralwidget)
         self.showMatrix.setObjectName("showMatrix")
-        self.gridLayout.addWidget(self.showMatrix, 3, 0, 1, 2)
+        self.showMatrix.setFont(font)
+        self.gridLayout.addWidget(self.showMatrix, 3, 0, 1, 1)
+
+        # Viewing all steps button
+        self.viewAll = QtWidgets.QPushButton(self.centralwidget)
+        self.viewAll.setObjectName("viewAll")
+        self.viewAll.setFont(font)
+        self.gridLayout.addWidget(self.viewAll, 3, 1, 1, 1)
 
         # GraphicsView for displaying contents of GraphicsScene
         self.graphicsView = QtWidgets.QGraphicsView(self.centralwidget)
@@ -59,6 +68,7 @@ class Ui_NumSingleWindow(object):
         self.next.clicked.connect(self.image.next_image)
         self.prev.clicked.connect(self.image.prev_image)
         self.showMatrix.clicked.connect(self.image.show_matrix)
+        self.viewAll.clicked.connect(self.image.show_single)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -66,6 +76,8 @@ class Ui_NumSingleWindow(object):
         MainWindow.setWindowTitle("ATLAS")
         self.next.setText("Next Step")
         self.prev.setText("Previous Step")
+        self.showMatrix.setText("Show Original Matrix")
+        self.viewAll.setText("View All Steps")
         # Displaying solutions on QLabel depending on function
         if self.func == "det":
             self.answer.setText("Determinant: "+str(self.solution))
@@ -75,9 +87,8 @@ class Ui_NumSingleWindow(object):
                 message += str(i)
                 message += ", "
             if self.func == "solve":
-                self.answer.setText("Solution: "+str(message[:-2]))
+                self.answer.setText("Solutions: "+str(message[:-2]))
             elif self.func == "e_val":
                 self.answer.setText("Eigenvalues: \u03BB = "+str(message[:-2]))
-        self.showMatrix.setText("Show Original Matrix")
 
         QtCore.QMetaObject.connectSlotsByName(MainWindow)

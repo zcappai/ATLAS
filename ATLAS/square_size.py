@@ -22,8 +22,7 @@ class Ui_SquareSizeWindow(object):
         self.gridLayout.setObjectName("gridLayout")
 
         font = QtGui.QFont()
-        font.setPointSize(20)
-        font.setKerning(True)
+        font.setPointSize(30)
         # Size information
         self.size_info = QtWidgets.QLabel(self.centralwidget)
         self.size_info.setFont(font)
@@ -43,12 +42,10 @@ class Ui_SquareSizeWindow(object):
         self.size_info2.setObjectName("size_info2")
         self.gridLayout.addWidget(self.size_info2, 2, 0, 1, 1)
 
-        font1 = QtGui.QFont()
-        font1.setPointSize(30)
         # Matrix size spinbox
         self.size = QtWidgets.QSpinBox(self.centralwidget)
-        self.size.setMinimumSize(QtCore.QSize(125, 50))
-        self.size.setFont(font1)
+        self.size.setMinimumSize(QtCore.QSize(150, 75))
+        self.size.setFont(font)
         self.size.setAlignment(QtCore.Qt.AlignCenter)
         self.size.setCorrectionMode(QtWidgets.QAbstractSpinBox.CorrectToNearestValue)
         self.size.setMaximum(10)
@@ -57,7 +54,7 @@ class Ui_SquareSizeWindow(object):
 
         # Size submit button
         self.size_submit = QtWidgets.QPushButton(self.centralwidget)
-        self.size_submit.setMinimumSize(QtCore.QSize(125, 50))
+        self.size_submit.setMinimumSize(QtCore.QSize(150, 75))
         self.size_submit.setFont(font)
         self.size_submit.setMaximumSize(QtCore.QSize(125, 16777215))
         self.size_submit.setObjectName("size_submit")
@@ -101,4 +98,4 @@ class Ui_SquareSizeWindow(object):
         self.ui = Ui_SquareInWindow(self.size.value(), self.func)
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.show()
+        self.window.showMaximized()

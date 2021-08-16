@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtWidgets, QtCore
+from PyQt5 import QtCore, QtWidgets, QtCore, QtGui
 import time
 from closeWindow import QMainWindow
 from os import listdir
@@ -15,7 +15,6 @@ class Ui_LoadingWindow(object):
     def setupUi(self, MainWindow):
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(346, 126)
 
         # Parent widget
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -25,6 +24,8 @@ class Ui_LoadingWindow(object):
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
 
+        font = QtGui.QFont()
+        font.setPointSize(30)
         # Progress bar
         self.progressBar = QtWidgets.QProgressBar(self.centralwidget)
         self.progressBar.setProperty("value", 0)
@@ -32,6 +33,7 @@ class Ui_LoadingWindow(object):
         self.progressBar.setOrientation(QtCore.Qt.Horizontal)
         self.progressBar.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.progressBar.setObjectName("progressBar")
+        self.progressBar.setFont(font)
         self.gridLayout.addWidget(self.progressBar, 0, 0, 1, 1)
 
         # Generate solution button
@@ -45,6 +47,7 @@ class Ui_LoadingWindow(object):
         # Setting text for button and window
         MainWindow.setWindowTitle("ATLAS")
         self.start_button.setText("Generate Solution")
+        self.start_button.setFont(font)
 
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -69,7 +72,7 @@ class Ui_LoadingWindow(object):
             self.ui = self.view_screen
             self.ui.setupUi(self.window)
             self.MainWindow.hide()
-            self.window.show()
+            self.window.showMaximized()
 
 # Thread for generating images
 class ImageGen(QtCore.QThread):

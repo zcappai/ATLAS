@@ -10,7 +10,7 @@ class CompareChanger:
         self.subfolder = subfolder # Initialising subfolder
         images = self.imageList() # Gets list of images in subfolder
         # Adding initial image to QGraphicsScene in QGraphicsView
-        initialScene.addPixmap(QtGui.QPixmap.fromImage(QtGui.QImage("images/{}/{}".format(self.subfolder, images[self.cursor])))) ###################
+        initialScene.addPixmap(QtGui.QPixmap.fromImage(QtGui.QImage("images/{}/{}".format(self.subfolder, images[self.cursor]))))
 
     # Changes to next image
     def next_image(self):
@@ -47,9 +47,17 @@ class CompareChanger:
         # Adding first image on list to QGraphicsScene in QGraphicsView
         self.newscene.addPixmap(QtGui.QPixmap.fromImage(QtGui.QImage("images/{}/{}".format(self.subfolder, images[0]))))
 
+    # Changes to single image with all steps
+    def show_single(self):
+        self.newscene = QtWidgets.QGraphicsScene()
+        self.graphicsView.setScene(self.newscene)
+        # Adding single view image to QGraphicsScene in QGraphicsView
+        self.newscene.addPixmap(QtGui.QPixmap.fromImage(QtGui.QImage("images/{}/{}".format(self.subfolder, "single.png"))))
+
     # Returns list of image names sorted in ascending order
     def imageList(self):
         images = listdir("images/{}".format(self.subfolder))
+        images.remove("single.png")
         images = sorted(images, key=self.getint)
         return images
 

@@ -48,7 +48,7 @@ class Ui_MultInWindow(object):
                 self.matrixright.setItem(j, i, QtWidgets.QTableWidgetItem('0'))
 
         font = QtGui.QFont()
-        font.setPointSize(20)
+        font.setPointSize(30)
         # Matrix labels
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setFont(font)
@@ -71,7 +71,8 @@ class Ui_MultInWindow(object):
 
         # Matrix input submit button
         self.submit = QtWidgets.QPushButton(self.centralwidget)
-        self.submit.setMinimumSize(QtCore.QSize(125, 50))
+        self.submit.setMinimumSize(QtCore.QSize(150, 75))
+        self.submit.setFont(font)
         self.submit.setObjectName("submit")
         self.gridLayout.addWidget(self.submit, 7, 1, 1, 2, QtCore.Qt.AlignHCenter)
         self.submit.clicked.connect(self.sendMatrix)
@@ -131,4 +132,4 @@ class Ui_MultInWindow(object):
         self.ui = Ui_SingleCompWindow(arg, "mult")
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.show()
+        self.window.showMaximized()

@@ -11,6 +11,7 @@ import eigenvector
 from emptyimg import empty
 from closeWindow import QMainWindow
 import saver
+from closeWindow import QMainWindow
 
 # GUI for Choosing Single Method or Method Comparison
 class Ui_SingleCompWindow(object):
@@ -37,6 +38,7 @@ class Ui_SingleCompWindow(object):
         # Compare methods button
         self.comparison_button = QtWidgets.QPushButton(self.centralwidget)
         self.comparison_button.setFont(font)
+        self.comparison_button.setMinimumSize(QtCore.QSize(150, 75))
         self.comparison_button.setObjectName("comparison_button")
         self.comparison_button.clicked.connect(self.toCompare)
         self.gridLayout.addWidget(self.comparison_button, 4, 3, 1, 1)
@@ -44,15 +46,14 @@ class Ui_SingleCompWindow(object):
         # Single method button
         self.single_button = QtWidgets.QPushButton(self.centralwidget)
         self.single_button.setFont(font)
+        self.single_button.setMinimumSize(QtCore.QSize(150, 75))
         self.single_button.setObjectName("single_button")
         self.single_button.clicked.connect(self.toSingle)
         self.gridLayout.addWidget(self.single_button, 4, 1, 1, 1)
 
-        font1 = QtGui.QFont()
-        font1.setPointSize(20)
-        # Info button
+        # Info label
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setFont(font1)
+        self.label.setFont(font)
         self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setWordWrap(True)
@@ -93,7 +94,7 @@ class Ui_SingleCompWindow(object):
         self.ui = Ui_SingleChoiceWindow(self.arg, self.func)
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.show()
+        self.window.showMaximized()
 
     # For method comparison
     def toCompare(self):
@@ -124,7 +125,8 @@ class Ui_SingleCompWindow(object):
             current_method.calc()
             methodsToSend.append(current_method)
         # Loading screen generates step-by-step solutions
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
+        self.window.setFixedSize(400, 150)
         self.ui = Ui_CompLoadingWindow("mult", methodsToSend)
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
@@ -142,7 +144,8 @@ class Ui_SingleCompWindow(object):
             current_method.calc()
             methodsToSend.append(current_method)
         # Loading screen generates step-by-step solutions
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
+        self.window.setFixedSize(400, 150)
         self.ui = Ui_CompLoadingWindow("det", methodsToSend)
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
@@ -164,7 +167,8 @@ class Ui_SingleCompWindow(object):
                 pass
             methodsToSend.append(current_method)
         # Loading screen generates step-by-step solutions
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
+        self.window.setFixedSize(400, 150)
         self.ui = Ui_CompLoadingWindow("inv", methodsToSend)
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
@@ -183,7 +187,8 @@ class Ui_SingleCompWindow(object):
             current_method.calc()
             methodsToSend.append(current_method)
         # Loading screen generates step-by-step solutions
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
+        self.window.setFixedSize(400, 150)
         self.ui = Ui_CompLoadingWindow("solve", methodsToSend)
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
@@ -202,7 +207,8 @@ class Ui_SingleCompWindow(object):
             current_method.calc()
             methodsToSend.append(current_method)
         # Loading screen generates step-by-step solutions
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
+        self.window.setFixedSize(400, 150)
         self.ui = Ui_CompLoadingWindow("e_val", methodsToSend)
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
@@ -221,7 +227,8 @@ class Ui_SingleCompWindow(object):
             current_method.calc()
             methodsToSend.append(current_method)
         # Loading screen generates step-by-step solutions
-        self.window = QtWidgets.QMainWindow()
+        self.window = QMainWindow()
+        self.window.setFixedSize(400, 150)
         self.ui = Ui_CompLoadingWindow("e_vec", methodsToSend)
         self.ui.setupUi(self.window)
         self.MainWindow.hide()

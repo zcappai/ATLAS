@@ -18,7 +18,7 @@ class Ui_MultSizeWindow(object):
         self.gridLayout.setObjectName("gridLayout")
 
         font = QtGui.QFont()
-        font.setPointSize(20)
+        font.setPointSize(30)
         # Size information
         self.mul_size_info = QtWidgets.QLabel(self.centralwidget)
         self.mul_size_info.setFont(font)
@@ -38,47 +38,45 @@ class Ui_MultSizeWindow(object):
         self.mult_size_info3.setObjectName("mult_size_info3")
         self.gridLayout.addWidget(self.mult_size_info3, 2, 0, 1, 7)
 
-        font1 = QtGui.QFont()
-        font1.setPointSize(30)
         # Spinbox labels
         self.leftmatrixdim_label = QtWidgets.QLabel(self.centralwidget)
-        self.leftmatrixdim_label.setFont(font1)
+        self.leftmatrixdim_label.setFont(font)
         self.leftmatrixdim_label.setAlignment(QtCore.Qt.AlignCenter)
         self.leftmatrixdim_label.setObjectName("leftmatrixdim_label")
         self.gridLayout.addWidget(self.leftmatrixdim_label, 4, 1, 1, 1)
 
         self.shareddim_label = QtWidgets.QLabel(self.centralwidget)
-        self.shareddim_label.setFont(font1)
+        self.shareddim_label.setFont(font)
         self.shareddim_label.setAlignment(QtCore.Qt.AlignCenter)
         self.shareddim_label.setObjectName("shareddim_label")
         self.gridLayout.addWidget(self.shareddim_label, 4, 3, 1, 1)
 
         self.rightmatrixdim_label = QtWidgets.QLabel(self.centralwidget)
-        self.rightmatrixdim_label.setFont(font1)
+        self.rightmatrixdim_label.setFont(font)
         self.rightmatrixdim_label.setAlignment(QtCore.Qt.AlignCenter)
         self.rightmatrixdim_label.setObjectName("rightmatrixdim_label")
         self.gridLayout.addWidget(self.rightmatrixdim_label, 4, 5, 1, 1)
 
         # Matrix size spinbox
         self.leftmatrixdim = QtWidgets.QSpinBox(self.centralwidget)
-        self.leftmatrixdim.setMinimumSize(QtCore.QSize(125, 50))
-        self.leftmatrixdim.setFont(font1)
+        self.leftmatrixdim.setMinimumSize(QtCore.QSize(150, 75))
+        self.leftmatrixdim.setFont(font)
         self.leftmatrixdim.setMaximum(10)
         self.leftmatrixdim.setAlignment(QtCore.Qt.AlignCenter)
         self.leftmatrixdim.setObjectName("leftmatrixdim")
         self.gridLayout.addWidget(self.leftmatrixdim, 5, 1, 1, 1)
 
         self.shareddim = QtWidgets.QSpinBox(self.centralwidget)
-        self.shareddim.setMinimumSize(QtCore.QSize(125, 50))
-        self.shareddim.setFont(font1)
+        self.shareddim.setMinimumSize(QtCore.QSize(150, 75))
+        self.shareddim.setFont(font)
         self.shareddim.setMaximum(10)
         self.shareddim.setAlignment(QtCore.Qt.AlignCenter)
         self.shareddim.setObjectName("shareddim")
         self.gridLayout.addWidget(self.shareddim, 5, 3, 1, 1)
 
         self.rightmatrixdim = QtWidgets.QSpinBox(self.centralwidget)
-        self.rightmatrixdim.setMinimumSize(QtCore.QSize(125, 50))
-        self.rightmatrixdim.setFont(font1)
+        self.rightmatrixdim.setMinimumSize(QtCore.QSize(150, 75))
+        self.rightmatrixdim.setFont(font)
         self.rightmatrixdim.setMaximum(10)
         self.rightmatrixdim.setAlignment(QtCore.Qt.AlignCenter)
         self.rightmatrixdim.setObjectName("rightmatrixdim")
@@ -86,7 +84,7 @@ class Ui_MultSizeWindow(object):
 
         # Size submit button
         self.submit = QtWidgets.QPushButton(self.centralwidget)
-        self.submit.setMinimumSize(QtCore.QSize(125, 50))
+        self.submit.setMinimumSize(QtCore.QSize(150, 75))
         self.submit.setObjectName("submit")
         self.submit.setFont(font)
         self.submit.clicked.connect(self.sendSize)
@@ -130,4 +128,4 @@ class Ui_MultSizeWindow(object):
         self.ui = Ui_MultInWindow(self.leftmatrixdim.value(), self.shareddim.value(), self.rightmatrixdim.value())
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.show()
+        self.window.showMaximized()

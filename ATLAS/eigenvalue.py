@@ -3,6 +3,7 @@ import text2image
 import compare_text2image
 from determinant import naiveDeterminant
 import saver
+from single_image import single_view
 
 # Characteristic Equation
 class Characteristic:
@@ -48,6 +49,7 @@ class Characteristic:
                 amount -= 1
                 self.saved.append((saver.names, sp.latex(lamda)+"="+sp.latex(solution)))
                 saver.names += 1
+        self.saved.append(single_view(self.saved))
         return eigenvalues
 
     # Adds steps from instance variable list to shared list

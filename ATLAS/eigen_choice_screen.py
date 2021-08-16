@@ -34,11 +34,9 @@ class Ui_EigenChoiceWindow(object):
         self.eigenvalue_button.clicked.connect(self.toEigenvalueSize)
         self.gridLayout.addWidget(self.eigenvalue_button, 4, 1, 1, 1)
 
-        font1 = QtGui.QFont()
-        font1.setPointSize(20)
         # Options info
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setFont(font1)
+        self.label.setFont(font)
         self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setWordWrap(True)
@@ -79,7 +77,7 @@ class Ui_EigenChoiceWindow(object):
         self.ui = Ui_SquareSizeWindow("e_val")
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.show()
+        self.window.showMaximized()
 
     # Loads GUI for choosing eigenvector size
     def toEigenvectorSize(self):
@@ -87,4 +85,4 @@ class Ui_EigenChoiceWindow(object):
         self.ui = Ui_SquareSizeWindow("e_vec")
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.show()
+        self.window.showMaximized()

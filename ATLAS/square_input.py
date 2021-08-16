@@ -25,13 +25,13 @@ class Ui_SquareInWindow(object):
         self.gridLayout.setObjectName("gridLayout")
 
         font = QtGui.QFont()
-        font.setPointSize(20)
+        font.setPointSize(30)
         # Input information
         self.matrix_info = QtWidgets.QLabel(self.centralwidget)
         self.matrix_info.setFont(font)
         self.matrix_info.setWordWrap(True)
         self.matrix_info.setObjectName("matrix_info")
-        self.gridLayout.addWidget(self.matrix_info, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.matrix_info, 0, 0, 1, 3)
 
         # Table for inputting matrix
         self.matrix = QtWidgets.QTableWidget(self.centralwidget)
@@ -46,8 +46,8 @@ class Ui_SquareInWindow(object):
 
         # Matrix input submit button
         self.input_submit = QtWidgets.QPushButton(self.centralwidget)
-        self.input_submit.setMinimumSize(QtCore.QSize(125, 50))
         self.input_submit.setFont(font)
+        self.input_submit.setMinimumSize(QtCore.QSize(150, 75))
         self.input_submit.setObjectName("input_submit")
         self.input_submit.clicked.connect(self.sendMatrix)
         self.gridLayout.addWidget(self.input_submit, 3, 1, 1, 1, QtCore.Qt.AlignHCenter)
@@ -97,4 +97,4 @@ class Ui_SquareInWindow(object):
         self.ui = Ui_SingleCompWindow(arg, self.func)
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
-        self.window.show()
+        self.window.showMaximized()
