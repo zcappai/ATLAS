@@ -119,7 +119,6 @@ class Ui_SingleCompWindow(object):
         methodsToSend = []
         # Generating solution for each method
         for (i, j) in methods:
-            self.zero()
             mkdir("images/{}/".format(i))
             current_method = j(*self.arg)
             current_method.calc()
@@ -138,7 +137,6 @@ class Ui_SingleCompWindow(object):
         methodsToSend = []
         # Generating solution for each method
         for (i, j) in methods:
-            self.zero()
             mkdir("images/{}/".format(i))
             current_method = j(self.arg)
             current_method.calc()
@@ -157,7 +155,6 @@ class Ui_SingleCompWindow(object):
         methodsToSend = []
         # Generating solution for each method
         for (i, j) in methods:
-            self.zero()
             mkdir("images/{}/".format(i))
             current_method = j(self.arg)
             check_bool = current_method.check()
@@ -180,7 +177,6 @@ class Ui_SingleCompWindow(object):
         methodsToSend = []
         # Generating solution for each method
         for (i, j) in methods:
-            self.zero()
             mkdir("images/{}/".format(i))
             matrix = self.arg[:, :]
             current_method = j(matrix)
@@ -200,7 +196,6 @@ class Ui_SingleCompWindow(object):
         methodsToSend = []
         # Generating solution for each method
         for (i, j) in methods:
-            self.zero()
             mkdir("images/{}/".format(i))
             matrix = self.arg[:, :]
             current_method = j(matrix)
@@ -220,7 +215,6 @@ class Ui_SingleCompWindow(object):
         methodsToSend = []
         # Generating solution for each method
         for (i, j) in methods:
-            self.zero()
             mkdir("images/{}/".format(i))
             matrix = self.arg[:, :]
             current_method = j(matrix)
@@ -233,8 +227,3 @@ class Ui_SingleCompWindow(object):
         self.ui.setupUi(self.window)
         self.MainWindow.hide()
         self.window.show()
-
-    # Resets image saving objects
-    def zero(self):
-        saver.saved = []
-        saver.names = 0

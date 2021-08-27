@@ -86,7 +86,7 @@ class naiveInverse:
         self.saved.append((saver.names, "\\text{Next, to find the adjugate, we transpose}$$$$\\text{the matrix of cofactors}"))
         saver.names += 1
         # Calculating adjugate of matrix of cofactors
-        adjugate = matrix_cofactors.transpose()
+        adjugate = sp.transpose(matrix_cofactors)
         self.saved.append((saver.names, "\\text{Therefore, the adjugate is}$$$$"+sp.latex(adjugate)))
         saver.names += 1
         # Calculating determinant of input matrix

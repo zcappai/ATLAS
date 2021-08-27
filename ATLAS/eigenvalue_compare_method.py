@@ -67,17 +67,17 @@ class Ui_EigenvalueCompareWindow(object):
         self.gridLayout_2.addWidget(self.viewAll_1, 3, 1, 1, 1)
 
         # GraphicsView for displaying contents of GraphicsScene
-        self.characteristic = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
-        self.characteristic.setMinimumSize(QtCore.QSize(0, 700))
-        self.characteristic.setObjectName("characteristic")
-        self.gridLayout_2.addWidget(self.characteristic, 1, 0, 1, 2)
+        self.graphicsView_1 = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
+        self.graphicsView_1.setMinimumSize(QtCore.QSize(0, 700))
+        self.graphicsView_1.setObjectName("graphicsView_1")
+        self.gridLayout_2.addWidget(self.graphicsView_1, 1, 0, 1, 2)
 
         # GraphicsScene for viewing images of solution
         self.scene_1 = QtWidgets.QGraphicsScene()
-        self.characteristic.setScene(self.scene_1)
+        self.graphicsView_1.setScene(self.scene_1)
 
         # For changing the image shown
-        self.image_1 = CompareChanger(self.scene_1, self.characteristic, methods[0][0])
+        self.image_1 = CompareChanger(self.scene_1, self.graphicsView_1, methods[0][0])
         self.prev_1.clicked.connect(self.image_1.prev_image)
         self.next_1.clicked.connect(self.image_1.next_image)
         self.original_1.clicked.connect(self.image_1.show_matrix)

@@ -20,7 +20,6 @@ class Validator:
         else:
             # Invalid input is replaced with 0
             cell = self.matrix.currentIndex()
-            self.matrix.setCurrentCell(cell.row(), cell.column())
             self.matrix.setItem(cell.row(), cell.column(), QtWidgets.QTableWidgetItem('0'))
 
             sizeObject = QtWidgets.QDesktopWidget().screenGeometry(-1)

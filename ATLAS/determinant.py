@@ -11,7 +11,6 @@ class naiveDeterminant:
     def __init__(self, matrix):
         self.matrix = matrix
         self.size = self.matrix.rows
-        self.det = 0
     
     # Calculates the determinant of a matrix
     def calc(self):
@@ -22,24 +21,25 @@ class naiveDeterminant:
         if self.size == 0:
             naiveDeterminant.saved.append((saver.names, "\\text{A matrix of size 0 has}$$$$\\text{a determinant of 1}"))
             saver.names += 1
-            self.det = 1
+            det = 1
             for key, value in naiveDeterminant.saved:
                 if key == "single":
                     naiveDeterminant.saved.remove((key, value))
             naiveDeterminant.saved.append(single_view(naiveDeterminant.saved))
-            return self.det
+            return det
         # 1 x 1 matrix
         elif self.size == 1:
             naiveDeterminant.saved.append((saver.names, "\\text{A matrix of size 1 has a}$$$$\\text{determinant equal to its only value}"))
             saver.names += 1
-            self.det = self.matrix[0]
+            det = self.matrix[0]
             for key, value in naiveDeterminant.saved:
                 if key == "single":
                     naiveDeterminant.saved.remove((key, value))
             naiveDeterminant.saved.append(single_view(naiveDeterminant.saved))
-            return self.det
+            return det
         # 2 x 2 or larger matrix
         else:
+            det = 0
             naiveDeterminant.saved.append((saver.names, "\\text{Take the first row of the matrix}$$$$"+sp.latex(self.matrix[0,:])))
             saver.names += 1
             naiveDeterminant.saved.append((saver.names, "\\text{Take the minors of each element respectively}"))
@@ -73,48 +73,46 @@ class naiveDeterminant:
                 if neg_toggle % 2 == 0:
                     # For 1 x 1 submatrices
                     if self.size - 1 == 1:
-                        self.det += curr[i][0] * curr[i][1][0]
-                        self.final_equation += "+"+sp.latex(curr[i][0])+"*"+sp.latex(curr[i][1][0])
+                        det += curr[i][0] * curr[i][1][0]
+                        self.final_equation += "+"+sp.latex(curr[i][0])+"\\times"+sp.latex(curr[i][1][0])
                     # For submatrices larger than 1 x 1
                     else:
                         naiveDeterminant.saved.append((saver.names, "\\text{Take the determinant of the matrix}"))
                         saver.names += 1
                         # Calculating determinant of submatrix
-                        sub = naiveDeterminant(curr[i][1])
-                        sub_det = sub.calc()
-                        self.final_equation += "+"+sp.latex(curr[i][0])+"*"+sp.latex(sub_det)
+                        sub_det = naiveDeterminant(curr[i][1]).calc()
+                        self.final_equation += "+"+sp.latex(curr[i][0])+"\\times"+sp.latex(sub_det)
                         # Adding to current determinant value
-                        self.det += curr[i][0] * sub_det
+                        det += curr[i][0] * sub_det
                         naiveDeterminant.saved.append((saver.names, "\\text{The determinant of the minor}$$$$"+sp.latex(curr[i][1])+"\\text{ is }"+sp.latex(sub_det)))
                         saver.names += 1
                 # Deals with -ve parts of Laplace Expansion expression
                 elif neg_toggle % 2 == 1:
                     # For 1 x 1 submatrices
                     if self.size - 1 == 1:
-                        self.det -= curr[i][0] * curr[i][1][0]
-                        self.final_equation += "+"+sp.latex(curr[i][0])+"*"+sp.latex(curr[i][1][0])
+                        det -= curr[i][0] * curr[i][1][0]
+                        self.final_equation += "+"+sp.latex(curr[i][0])+"\\times"+sp.latex(curr[i][1][0])
                     # For submatrices larger than 1 x 1
                     else:
                         naiveDeterminant.saved.append((saver.names, "\\text{Take the determinant of the matrix}"))
                         saver.names += 1
                         # Calculating determinant of submatrix
-                        sub = naiveDeterminant(curr[i][1])
-                        sub_det = sub.calc()
-                        self.final_equation += "-"+sp.latex(curr[i][0])+"*"+sp.latex(sub_det)
+                        sub_det = naiveDeterminant(curr[i][1]).calc()
+                        self.final_equation += "-"+sp.latex(curr[i][0])+"\\times"+sp.latex(sub_det)
                         # Adding to current determinant value
-                        self.det -= curr[i][0] * sub_det
+                        det -= curr[i][0] * sub_det
                         naiveDeterminant.saved.append((saver.names, "\\text{The determinant of the minor}$$$$"+sp.latex(curr[i][1])+"\\text{ is }"+sp.latex(sub_det)))
                         saver.names += 1
                 neg_toggle += 1 # Alternating elements in expression have opposite sign
-            naiveDeterminant.saved.append((saver.names, "\\text{The expression becomes}$$$$"+self.final_equation[1:]+"$$$$\\text{giving a value of }"+sp.latex(self.det)))
+            naiveDeterminant.saved.append((saver.names, "\\text{The expression becomes}$$$$"+self.final_equation[1:]+"$$$$\\text{giving a value of }"+sp.latex(det)))
             saver.names += 1
-            naiveDeterminant.saved.append((saver.names, "\\text{Therefore, the determinant}$$$$\\text{of the matrix is }"+sp.latex(self.det)))
+            naiveDeterminant.saved.append((saver.names, "\\text{Therefore, the determinant}$$$$\\text{of the matrix is }"+sp.latex(det)))
             saver.names += 1
             for key, value in naiveDeterminant.saved:
                 if key == "single":
                     naiveDeterminant.saved.remove((key, value))
             naiveDeterminant.saved.append(single_view(naiveDeterminant.saved))
-            return self.det
+            return det
 
     # Adds steps from class variable list to shared list
     def addSaved(self, check):
@@ -140,7 +138,6 @@ class Sarrus:
         self.matrix = matrix
         self.size = self.matrix.rows
         self.saved = []
-        self.det = 0
 
     # Calculates the determinant of a matrix
     def calc(self):
@@ -196,14 +193,14 @@ class Sarrus:
             saver.names += 1
 
             # Calculating determinant of matrix
-            self.det = R - L
+            det = R - L
             self.saved.append((saver.names, "\\text{Finally, subtract the sum of the anti-diagonal}$$$$\\text{multiplications from the diagonal multiplications.}$$$$"
-            +"det=R-L="+sp.latex(R)+"-"+sp.latex(L)+"={}".format(self.det)))
+            +"det=R-L="+sp.latex(R)+"-"+sp.latex(L)+"={}".format(det)))
             saver.names += 1
-            self.saved.append((saver.names, "\\text{Therefore, the determinant is }"+sp.latex(self.det)))
+            self.saved.append((saver.names, "\\text{Therefore, the determinant is }"+sp.latex(det)))
             saver.names += 1
             self.saved.append(single_view(self.saved))
-            return self.det
+            return det
 
     # Adds steps from instance variable list to shared list
     def addSaved(self, check):
@@ -227,7 +224,6 @@ class LU:
         self.matrix = matrix
         self.size = self.matrix.rows
         self.saved = []
-        self.det = 0
 
     # Calculates the determinant of a matrix
     def calc(self):
@@ -306,15 +302,15 @@ class LU:
         self.saved.append((saver.names, "L="+sp.latex(L)+"\\rightarrow{}".format(L_det)+"$$$$U="+sp.latex(U)+"\\rightarrow{}".format(U_det)))
         saver.names += 1
         # Calculates determinant by multiplying leading diagonal products
-        self.det = L_det * U_det
+        det = L_det * U_det
         self.saved.append((saver.names, """\\text{The determinant of the matrix is calculated}$$$$
         \\text{from multiplying the 2 previous values}$$$$
-        \\text{det}={"""+sp.latex(L_det)+"}*{"+sp.latex(U_det)+"}={"+sp.latex(self.det)+"}"))
+        \\text{det}={"""+sp.latex(L_det)+"}*{"+sp.latex(U_det)+"}={"+sp.latex(det)+"}"))
         saver.names += 1
-        self.saved.append((saver.names, "\\text{Therefore, the determinant is }"+sp.latex(self.det)))
+        self.saved.append((saver.names, "\\text{Therefore, the determinant is }"+sp.latex(det)))
         saver.names += 1
         self.saved.append(single_view(self.saved))
-        return self.det
+        return det
 
     # Adds steps from instance variable list to shared list
     def addSaved(self, check):

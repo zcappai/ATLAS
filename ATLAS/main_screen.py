@@ -135,9 +135,11 @@ class Ui_MainWindow(object):
         self.MainWindow.hide()
         self.window.showMaximized()
 
-if __name__ == "main_screen":
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QMainWindow()
+# Defined outside of main() to load main menu from other parts of ATLAS
+app = QtWidgets.QApplication(sys.argv)
+MainWindow = QMainWindow()
+# Loads main menu of ATLAS
+def main():
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.showMaximized()

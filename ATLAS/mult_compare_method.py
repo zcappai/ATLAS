@@ -67,17 +67,17 @@ class Ui_MultCompareWindow(object):
         self.gridLayout_2.addWidget(self.viewAll_1, 3, 1, 1, 1)
 
         # GraphicsView for displaying contents of GraphicsScene
-        self.standard = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
-        self.standard.setMinimumSize(QtCore.QSize(0, 700))
-        self.standard.setObjectName("standard")
-        self.gridLayout_2.addWidget(self.standard, 1, 0, 1, 2)
+        self.graphicsView_1 = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
+        self.graphicsView_1.setMinimumSize(QtCore.QSize(0, 700))
+        self.graphicsView_1.setObjectName("graphicsView_1")
+        self.gridLayout_2.addWidget(self.graphicsView_1, 1, 0, 1, 2)
 
         # GraphicsScene for viewing images of solution
         self.scene_1 = QtWidgets.QGraphicsScene()
-        self.standard.setScene(self.scene_1)
+        self.graphicsView_1.setScene(self.scene_1)
 
         # For changing the image shown
-        self.image_1 = CompareChanger(self.scene_1, self.standard, methods[0][0])
+        self.image_1 = CompareChanger(self.scene_1, self.graphicsView_1, methods[0][0])
         self.prev_1.clicked.connect(self.image_1.prev_image)
         self.next_1.clicked.connect(self.image_1.next_image)
         self.original_1.clicked.connect(self.image_1.show_matrix)
@@ -115,17 +115,17 @@ class Ui_MultCompareWindow(object):
         self.gridLayout_2.addWidget(self.viewAll_2, 10, 1, 1, 1)
 
         # GraphicsView for displaying contents of GraphicsScene
-        self.strassen = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
-        self.strassen.setMinimumSize(QtCore.QSize(0, 700))
-        self.strassen.setObjectName("strassen")
-        self.gridLayout_2.addWidget(self.strassen, 7, 0, 1, 2)
+        self.graphicsView_2 = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
+        self.graphicsView_2.setMinimumSize(QtCore.QSize(0, 700))
+        self.graphicsView_2.setObjectName("graphicsView_2")
+        self.gridLayout_2.addWidget(self.graphicsView_2, 7, 0, 1, 2)
 
         # GraphicsScene for viewing images of solution
         self.scene_2 = QtWidgets.QGraphicsScene()
-        self.strassen.setScene(self.scene_2)
+        self.graphicsView_2.setScene(self.scene_2)
 
         # For changing the image shown
-        self.image_2 = CompareChanger(self.scene_2, self.strassen, methods[1][0])
+        self.image_2 = CompareChanger(self.scene_2, self.graphicsView_2, methods[1][0])
         self.prev_2.clicked.connect(self.image_2.prev_image)
         self.next_2.clicked.connect(self.image_2.next_image)
         self.original_2.clicked.connect(self.image_2.show_matrix)
@@ -163,17 +163,17 @@ class Ui_MultCompareWindow(object):
         self.gridLayout_2.addWidget(self.viewAll_3, 17, 1, 1, 1)
 
         # GraphicsView for displaying contents of GraphicsScene
-        self.laderman = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
-        self.laderman.setMinimumSize(QtCore.QSize(0, 700))
-        self.laderman.setObjectName("laderman")
-        self.gridLayout_2.addWidget(self.laderman, 13, 0, 1, 2)
+        self.graphicsView_3 = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
+        self.graphicsView_3.setMinimumSize(QtCore.QSize(0, 700))
+        self.graphicsView_3.setObjectName("graphicsView_3")
+        self.gridLayout_2.addWidget(self.graphicsView_3, 13, 0, 1, 2)
 
         # GraphicsScene for viewing images of solution
         self.scene_3 = QtWidgets.QGraphicsScene()
-        self.laderman.setScene(self.scene_3)
+        self.graphicsView_3.setScene(self.scene_3)
 
         # For changing the image shown
-        self.image_3 = CompareChanger(self.scene_3, self.laderman, methods[2][0])
+        self.image_3 = CompareChanger(self.scene_3, self.graphicsView_3, methods[2][0])
         self.prev_3.clicked.connect(self.image_3.prev_image)
         self.next_3.clicked.connect(self.image_3.next_image)
         self.original_3.clicked.connect(self.image_3.show_matrix)

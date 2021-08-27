@@ -315,7 +315,7 @@ class Cholesky:
             square = self.matrix[:, :]
             square.col_del(-1)
             # Transposed matrix of coefficients
-            transposed = square.T
+            transposed = sp.transpose(square)
             self.saved.append((saver.names, sp.latex(square)+"\\text{ is the matrix of coefficients}"))
             saver.names += 1
             self.saved.append((saver.names, sp.latex(transposed)+"\\text{ is the transposed matrix of coefficients}"))
@@ -373,7 +373,7 @@ class Cholesky:
 
             # Creates lower triangular matrix
             L = sp.Matrix(n, n, [0]*n*n)
-            self.saved.append((saver.names, "\\text{Now, create an empty }"+sp.latex(n)+"x"+sp.latex(n)
+            self.saved.append((saver.names, "\\text{Now, create an empty }"+sp.latex(n)+"\\times"+sp.latex(n)
             +"\\text{ matrix for the}$$$$\\text{lower triangular matrix formed by}$$$$\\text{Cholesky Decomposition}"))
             saver.names += 1
             self.saved.append((saver.names, sp.latex(L)))
@@ -388,34 +388,34 @@ class Cholesky:
             for i in range(n):
                 for k in range(i+1):
                     # Calculating sum within formula from j=1 to k
-                    # tmp_sum = sum from j=1 to k of l_ij*l_kj
-                    tmp_sum = sum(L.row(i).col(j)[0] * L.row(k).col(j)[0] for j in range(k))
+                    # sum_num = sum from j=1 to k of l_kj*l_ij
+                    sum_num = sum(L.row(i).col(j)[0] * L.row(k).col(j)[0] for j in range(k))
                     self.saved.append((saver.names, "\\text{For the element }l_{"+str(i+1)+str(k+1)+"""}, 
                     \\text{ the sum is }$$$$\sum_{j=1}^{"""+str(k)+"} l_{"+str(k+1)+"j}\cdot l_{"+str(i+1)+"j}"))
                     saver.names += 1
-                    self.saved.append((saver.names, "\\text{This gives a value of }"+sp.latex(tmp_sum)))
+                    self.saved.append((saver.names, "\\text{This gives a value of }"+sp.latex(sum_num)))
                     saver.names += 1
                     # Diagonal elements
                     if i == k:
                         # Using formula for diagonal elements
                         # l_ik = sqrt(a_ik - sum)
-                        L[i, k] = sp.sqrt(A.row(i).col(i)[0] - tmp_sum)
+                        L[i, k] = sp.sqrt(A.row(i).col(i)[0] - sum_num)
                         self.saved.append((saver.names, """\\text{For this diagonal element, the formula is } 
-                        $$$$l_{"""+str(i+1)+str(i+1)+"} = \sqrt{a_{"+str(i+1)+str(i+1)+"}-"+sp.latex(tmp_sum)+"}"))
+                        $$$$l_{"""+str(i+1)+str(i+1)+"} = \sqrt{a_{"+str(i+1)+str(i+1)+"}-"+sp.latex(sum_num)+"}"))
                         saver.names += 1
                         self.saved.append((saver.names, """\\text{Therefore, the value of the element is } 
-                        $$$$l_{"""+str(i+1)+str(i+1)+"} = \sqrt{"+sp.latex(A.row(i).col(i)[0])+"-"+sp.latex(tmp_sum)+"}="+sp.latex(L[i, k])))
+                        $$$$l_{"""+str(i+1)+str(i+1)+"} = \sqrt{"+sp.latex(A.row(i).col(i)[0])+"-"+sp.latex(sum_num)+"}="+sp.latex(L[i, k])))
                         saver.names += 1
                     # Non-diagonal elements
                     else:
                         # Using formula for non-diagonal elements
                         # l_ik = (a_ik - sum)/l_kk
-                        L[i, k] = (A.row(i).col(k)[0] - tmp_sum)/L.row(k).col(k)[0]
+                        L[i, k] = (A.row(i).col(k)[0] - sum_num)/L.row(k).col(k)[0]
                         self.saved.append((saver.names, """\\text{For this non-diagonal element, the formula is }
-                        $$$$l_{"""+str(i+1)+str(k+1)+"} = \\frac{a_{"+str(i+1)+str(k+1)+"}-"+sp.latex(tmp_sum)+"}{l_{"+str(k+1)+str(k+1)+"}}"))
+                        $$$$l_{"""+str(i+1)+str(k+1)+"} = \\frac{a_{"+str(i+1)+str(k+1)+"}-"+sp.latex(sum_num)+"}{l_{"+str(k+1)+str(k+1)+"}}"))
                         saver.names += 1
                         self.saved.append((saver.names, """\\text{Therefore, the value of the element is } 
-                        $$$$l_{"""+str(i+1)+str(k+1)+"} = \\frac{"""+sp.latex(A.row(i).col(i)[0])+"-"+sp.latex(tmp_sum)+"}{"+sp.latex(L.row(k).col(k)[0])+"}="+sp.latex(L[i, k])))
+                        $$$$l_{"""+str(i+1)+str(k+1)+"} = \\frac{"""+sp.latex(A.row(i).col(i)[0])+"-"+sp.latex(sum_num)+"}{"+sp.latex(L.row(k).col(k)[0])+"}="+sp.latex(L[i, k])))
                         saver.names += 1
                     self.saved.append((saver.names, "\\text{The lower triangular matrix is }$$$$"+sp.latex(L)+"$$$$\\text{so far}"))
                     saver.names += 1
@@ -462,7 +462,7 @@ class Cholesky:
                 saver.names += 1
 
             # Transposing lower triangular matrix of coefficients
-            pre_change_L = pre_change_L.T
+            pre_change_L = sp.transpose(pre_change_L)
             # Inserting forward substitution solutions as column of constants
             L = pre_change_L.col_insert(n+1,sp.Matrix(n, 1, x))
             self.saved.append((saver.names, """\\text{The matrix of coefficients of the}

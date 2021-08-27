@@ -23,6 +23,7 @@ class Ui_EigenChoiceWindow(object):
         # Eigenvector button
         self.eigenvector_button = QtWidgets.QPushButton(self.centralwidget)
         self.eigenvector_button.setFont(font)
+        self.eigenvector_button.setMinimumSize(QtCore.QSize(150, 75))
         self.eigenvector_button.setObjectName("eigenvector_button")
         self.eigenvector_button.clicked.connect(self.toEigenvectorSize)
         self.gridLayout.addWidget(self.eigenvector_button, 4, 3, 1, 1)
@@ -30,6 +31,7 @@ class Ui_EigenChoiceWindow(object):
         # Eigenvalue button
         self.eigenvalue_button = QtWidgets.QPushButton(self.centralwidget)
         self.eigenvalue_button.setFont(font)
+        self.eigenvalue_button.setMinimumSize(QtCore.QSize(150, 75))
         self.eigenvalue_button.setObjectName("eigenvalue_button")
         self.eigenvalue_button.clicked.connect(self.toEigenvalueSize)
         self.gridLayout.addWidget(self.eigenvalue_button, 4, 1, 1, 1)

@@ -22,7 +22,6 @@ class naiveMultiplication:
         # Iterates through each element of resultant matrix
         for i in range(self.leftmatrix.rows):
             for j in range(self.rightmatrix.cols):
-                res[i, j] = 0
                 self.saved.append((saver.names, "\\text{The resultant matrix so far is}$$$$"+sp.latex(sp.Matrix(res))))
                 saver.names += 1
                 # Adding product of 2 elements to resultant matrix
@@ -74,7 +73,7 @@ class Strassen:
         saver.names += 1
         # Dealing with empty matrix
         if self.leftmatrix.rows == 0 or self.rightmatrix.rows == 0:
-            self.saved.append((saver.names, "\\text{Multiplying any matrix by an empty matrix}$$$\\text{results in an empty matrix}"+sp.latex(sp.Matrix([]))))
+            self.saved.append((saver.names, "\\text{Multiplying any matrix by an empty matrix}$$$$\\text{results in an empty matrix}"))
             saver.names += 1
             self.saved.append(single_view(self.saved))
             return sp.Matrix([])

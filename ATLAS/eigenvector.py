@@ -1,5 +1,4 @@
 import sympy as sp
-from sympy.core.symbol import var
 from eigenvalue import Characteristic
 from solving import GaussianElimination
 import text2image
@@ -8,8 +7,8 @@ from string import ascii_lowercase
 import saver
 from single_image import single_view
 
-# Eigenvector By Gaussian Elimination
-class Eigenvector:
+# Eigenvector By Characteristic Polynomial + Gaussian Elimination
+class CharGauss:
     # Constructor takes a square matrix as argument
     def __init__(self, matrix):
         self.matrix = matrix
@@ -121,6 +120,7 @@ class Eigenvector:
                         saver.names += 1
                         subbed = subbed.subs(j, 0)
                     self.saved.append((saver.names, "\\text{For the eigenvalue }"+sp.latex(e_value)+",$$$$\\text{the eigenvector is }"+sp.latex(subbed)))
+                    saver.names += 1
                     eigenvectors.append((e_value, subbed))
                     saver.names += 1
         self.saved.append((saver.names, "\\text{Therefore, the eigenvalues and eigenvectors for}$$$$"+sp.latex(self.matrix)+"$$$$\\text{are}"))
@@ -150,5 +150,5 @@ class Eigenvector:
 # Stores method class and name for subfolder
 def getMethods():
     methods = []
-    methods.append(("Gaussian", Eigenvector))
+    methods.append(("Gaussian", CharGauss))
     return methods

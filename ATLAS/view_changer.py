@@ -1,8 +1,5 @@
 from PyQt5 import QtGui, QtWidgets
 from os import listdir
-from PyQt5 import QtCore
-
-from PyQt5.QtCore import QRectF
 
 # Changes image shown by QGraphisView
 class Changer:

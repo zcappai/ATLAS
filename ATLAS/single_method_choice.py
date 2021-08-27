@@ -8,7 +8,7 @@ from determinant import naiveDeterminant, Sarrus, LU
 from inverse import naiveInverse, CayleyHamilton
 from solving import Cholesky, GaussianElimination, CramersRule
 from eigenvalue import Characteristic
-from eigenvector import Eigenvector
+from eigenvector import CharGauss
 from closeWindow import QMainWindow
 
 # GUI for Choosing Single Method
@@ -296,7 +296,7 @@ class Ui_SingleChoiceWindow(object):
     def eigenvectorCall(self):
         empty()
         if self.gaussian.isChecked() == True:
-            e_vector = Eigenvector(self.arg)
+            e_vector = CharGauss(self.arg)
         e_vector.calc()
         e_vector.addSaved(True)
         # Passes method object to loading screen

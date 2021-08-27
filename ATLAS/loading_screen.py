@@ -58,11 +58,11 @@ class Ui_LoadingWindow(object):
         self.thread1.start()
         # Thread 2 updates progress bar as images are generated
         self.thread2 = ProgressUpdate()
-        self.thread2.change_value.connect(self.setProgressVal)
+        self.thread2.new_value.connect(self.setPercentage)
         self.thread2.start()
 
     # Sets new progress bar value
-    def setProgressVal(self, val):
+    def setPercentage(self, val):
         self.progressBar.setValue(val)
         # Terminates threads and loads solution viewing GUI
         if val == 100:
@@ -87,7 +87,7 @@ class ImageGen(QtCore.QThread):
 
 # Thread for calculating percentage completion
 class ProgressUpdate(QtCore.QThread):
-    change_value = QtCore.pyqtSignal(int)
+    new_value = QtCore.pyqtSignal(int)
     # Runs thread for calculating progress
     def run(self):
         percent = 0
@@ -103,4 +103,4 @@ class ProgressUpdate(QtCore.QThread):
             if new_percent > percent:
                 time.sleep(0.3)
                 percent = new_percent
-                self.change_value.emit(percent)
+                self.new_value.emit(percent)
