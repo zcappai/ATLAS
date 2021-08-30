@@ -3,7 +3,7 @@ from determinant import naiveDeterminant, Sarrus, LU
 from multiplication import naiveMultiplication, Strassen, Laderman
 from inverse import CayleyHamilton, naiveInverse
 from solving import GaussianElimination, CramersRule, Cholesky
-from eigenvalue import Eigenvalue
+from eigenvalue import Characteristic
 from eigenvector import Eigenvector
 
 ## Solving Systems of Linear Equations - Cholesky Decomposition ##
@@ -232,24 +232,23 @@ from eigenvector import Eigenvector
 # test3 = sp.Matrix([[6,-1],[2,3]])
 # test4 = sp.Matrix([[2,0,0],[1,2,1],[-1,0,1]])
 # test5 = sp.Matrix([[1,2,1],[6,-1,0],[-1,-2,-1]])
-# test6 = sp.Matrix([[4/5,-3/5,0],[3/5,4/5,0],[1,2,2]])
+# test6 = sp.Matrix([[3,4,4],[4,8,5],[9,5,8]])
 # test7 = sp.Matrix([[4,-6,-7],[-2,3,2],[2,-6,-5]])
 # test8 = sp.Matrix([[2,-1,-1,0],[-1,3,-1,-1],[-1,-1,3,-1],[0,-1,-1,2]])
 # test9 = sp.Matrix([[1,2,1,0,0],[2,1,2,0,0],[1,1,2,0,0],[0,0,0,0,2],[0,0,0,2,0]])
+# test10 = sp.Matrix([[4,7,4],[8,4,8],[4,74,4]])
 
-# tests = [test1,test2,test3,test4,test5,test6,test7,test8,test9]
-# passed = 0
-
-# mat = test9
+# mat = test1
 
 # results = mat.eigenvects()
+# print("Expected")
 # for i in results:
 #     sp.pprint(i[2])
 # print()
 # actual = Eigenvector(mat).calc()
+# print("Actual")
 # for i in actual:
-#     sp.pprint(i[1])
-#     print()
+#     sp.pprint(i)
 
 ## Eigenvalues - Standard Method ##
 
@@ -258,12 +257,13 @@ from eigenvector import Eigenvector
 # test3 = sp.Matrix([[6,-1],[2,3]])
 # test4 = sp.Matrix([[2,0,0],[1,2,1],[-1,0,1]])
 # test5 = sp.Matrix([[1,2,1],[6,-1,0],[-1,-2,-1]])
-# test6 = sp.Matrix([[4/5, -3/5, 0],[3/5, 4/5, 0],[1, 2, 2]])
+# test6 = sp.Matrix([[3,4,4],[4,8,5],[9,5,8]])
 # test7 = sp.Matrix([[4,-6,-7],[-2,3,2],[2,-6,-5]])
 # test8 = sp.Matrix([[2,-1,-1,0],[-1,3,-1,-1],[-1,-1,3,-1],[0,-1,-1,2]])
 # test9 = sp.Matrix([[1,2,1,0,0],[2,1,2,0,0],[1,1,2,0,0],[0,0,0,0,2],[0,0,0,2,0]])
+# test10 = sp.Matrix([[4,7,4],[8,4,8],[4,74,4]])
 
-# tests = [test1,test2,test3,test4,test5,test6,test7,test8,test9]
+# tests = [test1,test2,test3,test4,test5,test6,test7,test8,test9,test10]
 # passed = 0
 
 # for i in range(len(tests)):
@@ -281,7 +281,7 @@ from eigenvector import Eigenvector
 #     except:
 #         pass
 #     print(expected)
-#     actual = Eigenvalue(tests[i]).calc()
+#     actual = Characteristic(tests[i]).calc()
 #     print("Test {} Actual Result".format(i+1))
 #     try:
 #         actual.sort()
@@ -368,7 +368,7 @@ from eigenvector import Eigenvector
 #             print("Test {} Failed!".format(i+1))
 #     except:
 #         print("No inverse exists!")
-#         check = naiveInverse(tests[i]).check()[0]
+#         check = naiveInverse(tests[i]).check()
 #         if check == False:
 #             print("Test {} Passed!".format(i+1))
 #             passed += 1

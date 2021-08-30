@@ -3,13 +3,14 @@ import emptyimg
 import main_screen
 import saver
 
+# Modifying QMainWindow to add exit dialog
 class QMainWindow(QtWidgets.QMainWindow):
+    # Constructor sets window to be maximised
     def __init__(self):
         super().__init__()
-        self.showMaximized()
-        sizeObject = QtWidgets.QDesktopWidget().screenGeometry(-1)
-        self.resize(sizeObject.width(), sizeObject.height())
+        self.setStyleSheet("QMainWindow {background-color: lightblue;} QPushButton {background-color: rgba(255, 0, 0, 25%);}")
 
+    # Empties "images" folder when close or reset
     def closeEvent(self, event):
         close = QtWidgets.QMessageBox()
         close.setWindowTitle("ATLAS")
@@ -18,12 +19,15 @@ class QMainWindow(QtWidgets.QMainWindow):
         close.setIcon(QtWidgets.QMessageBox.Question)
         close = close.exec()
 
+        # Closes and empties "images" folder
         if close == QtWidgets.QMessageBox.Yes:
             event.accept()
             emptyimg.empty()
+        # No action taken
         elif close == QtWidgets.QMessageBox.No:
             event.ignore()
+        # Resets to main menu and empties "images" folder
         elif close == QtWidgets.QMessageBox.Reset:
-            main_screen.MainWindow.show()
+            main_screen.MainWindow.showMaximized()
             emptyimg.empty()
             saver.saved = []

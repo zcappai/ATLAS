@@ -9,8 +9,8 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from os import listdir
-from functools import partial
+# from os import listdir
+# from functools import partial
 from view_changer import Changer
 from closeWindow import QMainWindow
 

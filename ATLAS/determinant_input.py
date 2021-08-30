@@ -10,8 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sympy as sp
-from determinant import naiveDeterminant
-from emptyimg import empty
+# from determinant import naiveDeterminant
+# from emptyimg import empty
 from validator import Validator
 from closeWindow import QMainWindow
 from single_comparison import Ui_SingleCompWindow

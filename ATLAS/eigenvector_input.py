@@ -11,10 +11,10 @@
 from functools import partial
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sympy as sp
-from eigenvector import Eigenvector
+# from eigenvector import Eigenvector
 from single_comparison import Ui_SingleCompWindow
 from validator import Validator
-from emptyimg import empty
+# from emptyimg import empty
 from closeWindow import QMainWindow
 
 
