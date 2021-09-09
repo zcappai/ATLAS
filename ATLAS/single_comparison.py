@@ -10,8 +10,6 @@ import eigenvalue
 import eigenvector
 from emptyimg import empty
 from closeWindow import QMainWindow
-import saver
-from closeWindow import QMainWindow
 
 # GUI for Choosing Single Method or Method Comparison
 class Ui_SingleCompWindow(object):

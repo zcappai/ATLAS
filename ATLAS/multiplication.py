@@ -425,7 +425,7 @@ class Laderman:
 
             # Constructing resultant matrix
             C = [C11,C12,C13,C21,C22,C23,C31,C32,C33]
-            final_matrix = sp.Matrix(self.leftmatrix.rows, self.leftmatrix.rows, C)
+            final_matrix = sp.Matrix(self.leftmatrix.rows, self.rightmatrix.cols, C)
             self.saved.append((saver.names, "\\text{Therefore, the resultant matrix is}$$$$"+sp.latex(final_matrix)))
             saver.names += 1
             self.saved.append(single_view(self.saved))

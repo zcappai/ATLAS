@@ -118,6 +118,7 @@ class naiveDeterminant:
     def addSaved(self, check):
         if check == True:
             saver.saved += naiveDeterminant.saved
+        naiveDeterminant.saved = []
 
     # Converts the matrices and expressions to images for single method
     def latex2img(self):

@@ -4,7 +4,7 @@ from multiplication import naiveMultiplication, Strassen, Laderman
 from inverse import CayleyHamilton, naiveInverse
 from solving import GaussianElimination, CramersRule, Cholesky
 from eigenvalue import Characteristic
-from eigenvector import Eigenvector
+from eigenvector import CharGauss
 
 ## Solving Systems of Linear Equations - Cholesky Decomposition ##
 
@@ -34,10 +34,13 @@ from eigenvector import Eigenvector
 #     sp.pprint(expected)
 #     actual = Cholesky(tests[i])
 #     if actual.check() == True:
-#         ans = actual.calc()[0]
+#         ans = actual.calc()
 #         print("Test {} Actual Result".format(i+1))
-#         sp.pprint(ans)
-#         if expected == ans:
+#         new_ans = []
+#         for j in ans:
+#             new_ans.append(float(j))
+#         sp.pprint(new_ans)
+#         if expected == new_ans:
 #             print("Test {} Passed!".format(i+1))
 #             passed += 1
 #     else:
@@ -151,7 +154,7 @@ from eigenvector import Eigenvector
 #             print("Test {} Failed!".format(i+1))
 #     except:
 #         print("No inverse exists!")
-#         check = CayleyHamilton(tests[i]).check()[0]
+#         check = CayleyHamilton(tests[i]).check()
 #         if check == False:
 #             print("Test {} Passed!".format(i+1))
 #             passed += 1
@@ -238,14 +241,14 @@ from eigenvector import Eigenvector
 # test9 = sp.Matrix([[1,2,1,0,0],[2,1,2,0,0],[1,1,2,0,0],[0,0,0,0,2],[0,0,0,2,0]])
 # test10 = sp.Matrix([[4,7,4],[8,4,8],[4,74,4]])
 
-# mat = test1
+# mat = test9
 
 # results = mat.eigenvects()
 # print("Expected")
 # for i in results:
-#     sp.pprint(i[2])
+#     sp.pprint(i[2][0].evalf())
 # print()
-# actual = Eigenvector(mat).calc()
+# actual = CharGauss(mat).calc()
 # print("Actual")
 # for i in actual:
 #     sp.pprint(i)
@@ -274,7 +277,7 @@ from eigenvector import Eigenvector
 #         solution = k[0]
 #         amount = k[1]
 #         while amount > 0:
-#             expected.append(solution)
+#             expected.append(solution.evalf())
 #             amount -= 1
 #     try:
 #         expected.sort()

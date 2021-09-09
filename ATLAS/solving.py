@@ -219,7 +219,7 @@ class CramersRule:
                 "$$$$\\text{the system of linear equations is}$$$$\\text{inconsistent and no solutions exist.}"))
                 saver.names += 1
                 self.saved.append(single_view(self.saved))
-                return False, [], None
+                return ["No unique solutions"]
             self.saved.append((saver.names, "\\text{Since the rank of the augmented matrix is}$$$$\\text{NOT larger than the rank of the coefficient matrix,}"
             +"$$$$\\text{the system of linear equations is consistent}"))
             saver.names += 1
@@ -462,7 +462,7 @@ class Cholesky:
                 saver.names += 1
 
             # Transposing lower triangular matrix of coefficients
-            pre_change_L = sp.transpose(pre_change_L)
+            pre_change_L = sp.transpose(pre_change_L).as_mutable()
             # Inserting forward substitution solutions as column of constants
             L = pre_change_L.col_insert(n+1,sp.Matrix(n, 1, x))
             self.saved.append((saver.names, """\\text{The matrix of coefficients of the}

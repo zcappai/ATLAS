@@ -73,12 +73,12 @@ class CharGauss:
                 row_ech.col_del(self.size)
                 # Creating list of variables
                 atoms = list(ascii_lowercase)
-                # Generating eigenvector of variables
-                vars = sp.Matrix(self.size, 1, atoms[:self.size])
-                # Product of row echelon matrix and eigenvector
-                prod = row_ech*vars
+                # Generating vector of unknown variables
+                unknowns = sp.Matrix(self.size, 1, atoms[:self.size])
+                # Product of row echelon matrix and vector
+                prod = row_ech*unknowns
                 self.saved.append((saver.names, "\\text{The matrix in row echelon form is multiplied}$$$$\\text{by a column vector of unknown variables}$$$$"
-                +sp.latex(row_ech)+"*"+sp.latex(vars)+"="+sp.latex(prod)))
+                +sp.latex(row_ech)+"*"+sp.latex(unknowns)+"="+sp.latex(prod)))
                 saver.names += 1
                 solutions = [] # List for eigenvector values
                 # Solving each expression within product eigenvector
@@ -90,13 +90,16 @@ class CharGauss:
                         solutions.append(sp.solve(i))
                 # Substituting each solution into eigenvector of variables
                 for i in solutions:
-                    for key, value in i[0].items():
-                        self.saved.append((saver.names, "\\text{Substituting }"+sp.latex(key)+"="+sp.latex(value)+"$$$$\\text{back into column vector of unknowns}"
-                        +"$$$$\\text{such that }"+sp.latex(vars)+"\\rightarrow"+sp.latex(vars.subs(key, value))))
-                        saver.names += 1
-                        vars = vars.subs(key, value)
+                    try:
+                        for key, value in i[0].items():
+                            self.saved.append((saver.names, "\\text{Substituting }"+sp.latex(key)+"="+sp.latex(value)+"$$$$\\text{back into column vector of unknowns}"
+                            +"$$$$\\text{such that }"+sp.latex(unknowns)+"\\rightarrow"+sp.latex(unknowns.subs(key, value))))
+                            saver.names += 1
+                            unknowns = unknowns.subs(key, value)
+                    except:
+                        pass
                 # Finding all unknowns in eigenvector of variables
-                free = list(vars.free_symbols)
+                free = list(unknowns.free_symbols)
                 self.saved.append((saver.names, "\\text{For the free variables }"+sp.latex(free)+",$$$$\\text{each variable is set to 1 and the others are set to 0,}"
                 +"$$$$\\text{allowing the different eigenvectors to be calculated}"))
                 saver.names += 1
@@ -109,10 +112,10 @@ class CharGauss:
                     self.saved.append((saver.names, "\\text{The remaining variables }"+sp.latex(rem)+"\\text{ are set to 0}"))
                     saver.names += 1
                     self.saved.append((saver.names, "\\text{Substituting }"+sp.latex(variable)+"="+"1$$$$\\text{gives }"
-                    +sp.latex(vars)+"\\rightarrow"+sp.latex(vars.subs(variable, 1))))
+                    +sp.latex(unknowns)+"\\rightarrow"+sp.latex(unknowns.subs(variable, 1))))
                     saver.names += 1
                     # Substituting 1 for 1st unknown
-                    subbed = vars.subs(variable, 1)
+                    subbed = unknowns.subs(variable, 1)
                     # Substituting 0 for remaining unknowns 
                     for j in rem:
                         self.saved.append((saver.names, "\\text{Substituting }"+sp.latex(j)+"="+"0$$$$\\text{gives }"
@@ -145,10 +148,10 @@ class CharGauss:
     # Converts the matrices and expressions to images for method comparison
     def compare_latex2img(self):
         for i in self.saved:
-            compare_text2image.convertLatex(i[1], i[0], "Gaussian")
+            compare_text2image.convertLatex(i[1], i[0], "CharGauss")
 
 # Stores method class and name for subfolder
 def getMethods():
     methods = []
-    methods.append(("Gaussian", CharGauss))
+    methods.append(("CharGauss", CharGauss))
     return methods

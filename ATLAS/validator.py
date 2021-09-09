@@ -12,7 +12,7 @@ class Validator:
         # Gets current table input
         input_text = self.matrix.currentItem().text()
         # Rule for validating table input
-        validation_rule = QtGui.QDoubleValidator(-1000, 1000, 10)
+        validation_rule = QtGui.QDoubleValidator(-1000000, 1000000, 10)
         # If input is valid, do nothing
         if validation_rule.validate(input_text, 0)[0] == QtGui.QValidator.Acceptable:
             pass
