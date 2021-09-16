@@ -45,7 +45,7 @@
 %% the authors and their affiliations.
 \author[1]{Akhilesh Pai}[%
 %orcid=0000-0002-0877-7063,
-email=abp43@bath.ac.uk,
+email=akhilesh.pai@bath.edu,
 %url=https://yamadharma.github.io/,
 ]
 \address[1]{University of Bath, Bath BA2 7AY, UK}
@@ -97,16 +97,17 @@ The Symbolic Math Toolbox (SMT) by MathWorks \cite{smt} is a toolkit that works 
 
 \cite{matlab} conducted a study about the use of MATLAB to teach 23 university students linear algebra with the aim to understand the perception of students about whether a software like MATLAB could be used to supplement the learning in their course. In general, he found that his students enjoyed using MATLAB to supplement their learning. As part of the study, students were given 3 MATLAB-based tasks to complete: use of Gaussian elimination and inverse computing methods on a $20\times20$ matrix, solving systems of linear equations using Cramer's rule and using the SVD method for image compression. The students were also given examples of how small scale versions of those problems could be solved using MATLAB. The results for this study were primarily collected through surveys asking whether the students liked MATLAB, whether it helped them understand linear algebra and whether they like to use MATLAB for their homework. The results of the study show that students who usually earned lower grades preferred MATLAB to students who usually earned higher grades, as they found it helped them with solving larger problems and seeing the answer to a problem without having to work it out using pen and paper. A student also remarked that it helped them understand linear algebra without needing to understand the algebraic minutiae of the method involved. However, for the students who were displeased with MATLAB, some said that they did not like MATLAB because they are "not good at computers", but the most important feedback was that a student remarked that MATLAB simply gives the answer to a problem without any explanations of the procedure. This highlights, as previously stated, a fundamental flaw within MATLAB and many similar systems, which is that providing the answer to a problem is not sufficient for teaching students the method. In the context of this study, the highly achieving students do well because they usually understand the method that leads to the answer, whereas the low achieving students are happy to just get the answer right. This is further exemplified by a 'C' grade student commenting "Can we use this to do our final exam?", as they would be able to input the problem and get an immediate answer without concerning themselves with the method. So high achievers want an explanation provided to them so that they can understand how MATLAB went from the initial problem to the final solution. Also, for the students who are "not good at computers", it is important to realise that not all students who are using these programs will be familiar with computers or programming. So, in cases where the student is expected to learn an entirely new programming language that they have not seen before to utilise the functionality of MATLAB or any other system, it can be off putting for them.
 
-\section{State of ATLAS}
-As of paper submission, the ATLAS system supports the calculation of determinants, inverses, eigenvectors and eigenvalues, in addition to providing the capability of matrix multiplication and solving systems of linear equations. In the case of calculating determinants, Laplace expansion, Sarrus' method and LU decomposition are supported, allowing users to compare all 3 methods adjacent to each other and view each step of each solution simultaneously. This is also true of matrix multiplication, which supports dot product and Strassen's method, and calculation of inverses using both the Cramer's rule and the Cayley-Hamilton theorem. Whilst the program has not yet reached a state of completion, once complete, multiple methods will also be included for the remaining 3 functions to allow comparison of methods.
+\section{State of ATLAS \& Its Future}
+As of paper submission, the ATLAS system supports the calculation of determinants, inverses, eigenvectors and eigenvalues, in addition to providing the capability of matrix multiplication and solving systems of linear equations. In the case of calculating determinants, Laplace Expansion, Sarrus' method and LU Decomposition are supported, allowing users to compare all 3 methods adjacent to each other and view each steps of each solution simultaneously. This is also true of matrix multiplication, which supports the standard method and Strassen's method, and the calculation of inverses using both the Cramer's Rule and the Cayley-Hamilton Theorem. Whilst the current development of ATLAS has been concluded, the development of ATLAS is expected to continue with the addition of multiple new linear algebra methods, such as the QR algorithm for the calculation of eigenvectors and eigenvalues.
 
-Currently, unit testing has been carried out on individual, isolated components of ATLAS to ensure that all inputs are handled correctly, including erroneous inputs and edge cases, with bug fixes applied where necessary. Neither comprehensive integration testing nor user testing has been carried out as of yet, but this will be carried out in greater depth as the program nears completion, with 10 users already gathered for user testing to be conducted.
+During the project, ATLAS underwent several stages of testing including unit testing, integration testing and user testing. Each stage of testing served a unique purpose in producing a working end product. The unit testing was carried out on individual, isolated components of ATLAS to ensure that all inputs are handled correctly, including all edge cases, with bug fixes applied where necessary. Integration testing, on the other hand, ensured that the individual components worked with each other correctly and smoothly so that all paths through ATLAS could be taken without being presented with any errors. Both of these testing stages identified numerous errors of varying sizes and complexities, such as problems with the implementation of certain linear algebra methods and incorrect communications between successive screens within ATLAS. The final testing stage was arguably the most important stage, which was user testing. This involved using 10 participants and asking them to fill out a questionnaire containing a variety of different questions about the usability of ATLAS. Participants generally reacted positively towards ATLAS with some saying that they would use it in the future for their linear algebra needs. However, some problems were pointed out repeatedly, such as the time taken to generate step-by-step solutions, which was seen to be far too long. Participants also expressed concerns regarding the dependencies required for ATLAS to run, which led to the suggestion of creating a web-based equivalent for ATLAS.
 
 There is an aspiration to extend the system beyond the current suite of capabilities to look at and compare methods that are considered numerically good or bad. The purpose of this extension would be to understand which methods are superior to others when dealing with floating point numbers within matrices. This is because, there are cases where certain methods can lead to drastically incorrect results when given specific inputs due to the manner in which the method operates. Therefore, by implementing this functionality, users could be given a greater insight into the effectiveness of different methods.
 
 Any future plans for ATLAS would revolve around the idea of implementing more non-standard methods, especially those that are newly developed to ensure that users have access to the newest and most efficient (or numerically most stable) methods available. 
 
-Additionally, there is a desire to improve the portability of ATLAS by creating a web-based equivalent that can be accessed from anywhere without the need to transfer the files of the program. The development of CoCalc out of SageMath illustrates this. This development would help to increase the reach of ATLAS not only because it would be accessible from anywhere, but also because less computational power would be needed to run the program. 
+Additionally, as previously mentioned, there is a desire to improve the portability of ATLAS by creating a web-based equivalent that can be accessed from anywhere without the need to transfer the files of the program. The development of CoCalc out of SageMath illustrates this. This development would help to increase the reach of ATLAS not only because it would be accessible from anywhere, but also because less computational power would be needed to run the program. 
+
 \section{Pedagogical Application}
 Even the simplest algorithm with non-na\"\i{}ve complexity, the Strassen--Winograd multiplication algorithm, is hard to understand and motivate. This outline is how the second author does it.
 \begin{enumerate}
@@ -127,8 +128,11 @@ $$
 (and three analogues).
 \item This is tedious by hand, but easy with this tool.
 \end{enumerate}
-\section{Demonstration}
-A demonstration of this tool, the main way of seeing it, can be found at \hfil\break\url{https://drive.google.com/drive/folders/1lBbcWdRd7VwVb8il3HHZgZO8njOx64Pb}.
+
+% \section{Demonstration}
+% A demonstration of this tool, the main way of seeing it, can be found at \hfil\break\url{https://drive.google.com/drive/folders/1lBbcWdRd7VwVb8il3HHZgZO8njOx64Pb}.
+
+
 
 \section{Conclusion}
 The development of ATLAS was started with the aim of aiding students with learning various different linear algebra methods through active examples, in addition to allowing people such as researchers to obtain a broader linear algebra toolkit to apply for more complex problems for which standard methods would prove to be too inefficient or laborious. ATLAS aims to address several problems identified during the literature survey, such as the inability to compare multiple methods simultaneously and, in many cases, produce step-by-step solutions for a problem. Whilst step-by-step solutions are available within the popular computer algebra system Maple, the functionality is limited to a small subset of methods. These problems have been successfully addressed within ATLAS to create a linear algebra system with a simple and easy to use interface.
@@ -178,7 +182,7 @@ numbered.
 
 %%
 %% Define the bibliography file to be used
-\bibliography{../references}
+\bibliography{Bibliography}
 
 %%
 %% If your work has an appendix, this is the place to put it.
